@@ -181,4 +181,23 @@ export default {
     }
   }
 }
+@media screen and (max-width:1280px){
+  .container{
+    .main{
+      padding:0 .32rem;
+      width: 100%;
+      .cell{
+        &:nth-child(2){
+          flex-direction: column;
+          .col{
+            width: 100%;
+          }
+          .col-2{
+            margin-top: .12rem;
+          }
+        }
+      }
+    }
+  }
+}
 </style>

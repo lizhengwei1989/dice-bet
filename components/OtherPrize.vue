@@ -53,4 +53,9 @@
             height: .55rem;
         }
     }
+    @media screen and (max-width:1280px){
+        .other-prize{
+            width: 100%;
+        }
+    }
 </style>

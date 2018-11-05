@@ -212,4 +212,18 @@
         }
 
     }
+    @media screen and (max-width:1280px){
+        .rank{
+            .last{
+                width: 6.66rem;
+                padding: 0 .12rem;
+                //width: calc(100% - 0.2rem);
+                .cell{
+                    &:nth-child(2), &:nth-child(3) {
+                        width: 1.86rem;
+                    }
+                }
+            }
+        }
+    }
 </style>

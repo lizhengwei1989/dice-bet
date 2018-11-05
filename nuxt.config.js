@@ -82,12 +82,35 @@ module.exports = {
     */
     extend(config, ctx) {
       // Run ESLint on save
-      if (ctx.isDev && ctx.isClient) {
-        config.module.rules.concat([{
-          test: /\.sass$/,
-          loaders: ['style', 'css', 'sass']
-        }])
-      }
+      // if (ctx.isDev && ctx.isClient) {
+      //   config.module.rules.concat([{
+      //     test: /\.sass$/,
+      //     loaders: ['style', 'css', 'sass']
+      //   }])
+      // }
+        // const sassResourcesLoader = {
+        //     loader: 'sass-resources-loader',
+        //     options: {
+        //         resources: [
+        //             'assets/css/variable.scss'
+        //         ]
+        //     }
+        // }
+        // // 遍历nuxt定义的loader配置，向里面添加新的配置。
+        // config.module.rules.forEach((rule) => {
+        //     if (rule.test.toString() === '/\\.vue$/') {
+        //         // rule.options={};
+        //         // rule.options.loaders={};
+        //         // rule.options.loaders.sass = [];
+        //         // rule.options.loaders.scss = [];
+        //         // rule.options.loaders.sass.push(sassResourcesLoader)
+        //         // rule.options.loaders.scss.push(sassResourcesLoader)
+        //     }
+        //     if (['/\\.sass$/', '/\\.scss$/'].indexOf(rule.test.toString()) !== -1) {
+        //         rule.use=[];
+        //         rule.use.push(sassResourcesLoader)
+        //     }
+        // })
     }
   }
 }

@@ -190,5 +190,13 @@
       }
     }
   }
+  @media screen and (max-width:1280px){
+    .my-nav{
+      .inner{
+        width: 100%;
+        overflow: hidden;
+      }
+    }
+  }
 
 </style>

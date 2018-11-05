@@ -65,4 +65,9 @@
             border-radius: 19px;
         }
     }
+    @media screen and (max-width:1280px){
+        .select{
+
+        }
+    }
 </style>

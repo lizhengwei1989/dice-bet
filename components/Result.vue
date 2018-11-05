@@ -386,4 +386,17 @@
       }
     }
   }
+  @media screen and (max-width:1280px){
+    .result{
+      table{
+        tr{
+           th,td{
+             &:nth-child(3), &:nth-child(4){
+               display: none;
+             }
+           }
+        }
+      }
+    }
+  }
 </style>

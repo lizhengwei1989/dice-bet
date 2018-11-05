@@ -1,5 +1,5 @@
 {
-  "name": "TronDice",
+  "name": "DiceBet",
   "title": "Three or Six | Win Your Lucky Prize",
   "version": "1.0.0",
   "description": "TRONGAME was developed based on TRON blockchain technology, aiming to build a fair, just, and open blockchain lottery gaming platform. We make use of the features of blockchain and smart contract technology to ensure every single result of the game is random, encrypted and secure.",
@@ -21,6 +21,8 @@
     "node-sass": "^4.9.3",
     "nuxt": "^2.0.0",
     "sass-loader": "^7.1.0",
+    "scss": "^0.2.4",
+    "scss-loader": "^0.0.1",
     "tronweb": "^2.0.15",
     "vue-i18n": "^8.1.0",
     "vue-loading-template": "^1.3.0",

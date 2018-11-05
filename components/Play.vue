@@ -51,7 +51,7 @@
             {{$t('Play.WinRate')}}
           </div>
           <div class="c">
-            {{number-1}}
+            {{number-1}}%
           </div>
         </div>
       </div>
@@ -63,6 +63,8 @@
           <div class="cell" data-after="50"></div>
           <div class="cell" data-after="75"></div>
           <div class="cell" data-after="100"></div>
+          <div class="win" ref="win">{{random}}</div>
+          <div class="lose" ref="lose">{{random}}</div>
         </div>
       </div>
       <div class="row-3">
@@ -114,6 +116,7 @@
                 this.animate('balance',n,o);
             },
             myBetsLength(n,o){
+                console.log(n,o,this.number);
                 if(o!=0){
                     clearInterval(this.timer);
                     clearInterval(this.rolling);
@@ -123,6 +126,11 @@
                         this.r = '';
                     },3000)
                     this.watchBalance();
+                    if(this.r>=this.number){
+                      this.$refs.lose.style.display = 'block';
+                    }else{
+                      this.$refs.win.style.display = 'block';
+                    }
                 }
             }
         },
@@ -177,6 +185,8 @@
                 })
                 if(!transactionId)return;
                 let tmp = 0;
+                this.$refs.win.style.display = 'none';
+                this.$refs.lose.style.display = 'none';
                 this.rolling = setInterval(_=>{
                       this.r = Math.ceil(Math.random()*100);
                 },50);
@@ -187,7 +197,6 @@
                         // const random = res2[3].toString();
                         // clearInterval(rolling);
                         // clearInterval(timer);
-
                         //this.saveMyBets(res[0],res2);
                     }else{
                         tmp++;
@@ -387,15 +396,41 @@
           height: .2rem;
           width: 5.68rem;
           top:.74rem;
+          .win,.lose{
+            position: absolute;
+            width: .54rem;
+            height: .22rem;
+            line-height: .22rem;
+            background-repeat: no-repeat;
+            background-position: -0.02rem center;
+            background-size:auto 110%;
+            border-radius: .11rem;
+            padding-left:.22rem;
+            top: .08rem;
+            margin-top: 0;
+            margin-left:-.24rem;
+            display: none;
+            font-size: .24rem;
+          }
+          .win{
+            background-image: url('../assets/images/win.png');
+            left: calc(25% - .15rem);
+            background-color: #64e1f6;
+          }
+          .lose{
+            background-image: url('../assets/images/lose.png');
+            background-color: #fc495b;
+            left: calc(75% - .15rem);
+          }
           .cell {
             position: absolute;
             display: flex;
             flex-direction: column;
             align-items: center;
-            width: 30px;
+            width: .3rem;
             font-size: .16rem;
             &:nth-child(1) {
-              left: -5px;
+              left: -.05rem;
             }
             &:nth-child(2) {
               left: calc(25% - .15rem);
@@ -416,7 +451,7 @@
             }
             &:after {
               color: #fff;
-              margin-top: 4px;
+              margin-top: .04rem;
               content: attr(data-after);
             }
           }
@@ -436,6 +471,17 @@
           border:none;
           color: #fff;
           cursor: pointer;
+        }
+      }
+    }
+  }
+  @media screen and (max-width:1280px){
+    .play{
+      .show{
+        .row-2{
+          .line{
+            width: 6.32rem;
+          }
         }
       }
     }
