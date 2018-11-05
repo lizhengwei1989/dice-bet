@@ -146,7 +146,7 @@ export default {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background-color: #131258;
+  background-color: #303357;
   color: #fff;
   a {
     color: #b3a6ff;
@@ -173,13 +173,14 @@ export default {
           justify-content: space-between;
         }
         .col.col-2 {
-          background-image: linear-gradient(
-              142deg,
-              #28297c 0%,
-              #21236e 50%,
-              #191c60 100%
-            ),
-            linear-gradient(#242572, #242572);
+          // background-image: linear-gradient(
+          //     142deg,
+          //     #28297c 0%,
+          //     #21236e 50%,
+          //     #191c60 100%
+          //   ),
+          //   linear-gradient(#242572, #242572);
+          background-color: #474fab;
           background-blend-mode: normal, normal;
           border-radius: 10px;
           border: solid 1px #64e1f5;

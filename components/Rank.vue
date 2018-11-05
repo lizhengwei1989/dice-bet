@@ -305,13 +305,14 @@ export default {
 .rank {
   width: 100%;
   height: 5.7rem;
-  background-image: linear-gradient(
-      142deg,
-      #2b2c80 0%,
-      #222470 62%,
-      #191c60 100%
-    ),
-    linear-gradient(#242572, #242572);
+  //   background-image: linear-gradient(
+  //       142deg,
+  //       #2b2c80 0%,
+  //       #222470 62%,
+  //       #191c60 100%
+  //     ),
+  //     linear-gradient(#242572, #242572);
+  background-color: #474fab;
   background-blend-mode: normal, normal;
   border-radius: 0.2rem;
   display: flex;
@@ -352,7 +353,7 @@ export default {
     thead {
       th {
         height: 0.4rem;
-        color: #a8abe4;
+        color: #9fa5ff;
         font-size: 0.12rem;
       }
     }
@@ -372,7 +373,7 @@ export default {
               width: 0.34rem;
               height: 0.34rem;
               border-radius: 100%;
-              background-color: #262778;
+              background-color: #262c7f;
               border: 0.01rem solid #363995;
               display: inline-block;
               line-height: 0.3rem;
@@ -389,7 +390,7 @@ export default {
       height: 3.4rem;
       overflow: auto;
       border-radius: 0.1rem;
-      background-color: #131258;
+      background-color: #262c7f;
       &::-webkit-scrollbar {
         width: 0.05rem;
         border-radius: 0.04rem;

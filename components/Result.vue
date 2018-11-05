@@ -219,13 +219,14 @@ export default {
 <style scoped lang="scss">
 .result {
   height: 7.29rem;
-  background-image: linear-gradient(
-      142deg,
-      #28297c 0%,
-      #21236e 50%,
-      #191c60 100%
-    ),
-    linear-gradient(#242572, #242572);
+  // background-image: linear-gradient(
+  //     142deg,
+  //     #28297c 0%,
+  //     #21236e 50%,
+  //     #191c60 100%
+  //   ),
+  //   linear-gradient(#242572, #242572);
+  background-color: #474fab;
   background-blend-mode: normal, normal;
   border-radius: 0.1rem;
   .tab {
@@ -242,7 +243,7 @@ export default {
       padding: 0 0.3rem;
       font-size: 0.18rem;
       margin-left: 0.15rem;
-      color: #9fa2db;
+      color: #9fa5ff;
       //background: rgba(48,41,95,0.9);
       //border: .01rem solid #7064B3;
       border-bottom: none;
@@ -362,7 +363,7 @@ export default {
           }
         }
         th {
-          background-color: #191c61;
+          background-color: #262c7f;
           height: 0.46rem;
           line-height: 0.46rem;
         }
@@ -398,12 +399,12 @@ export default {
 
     .win {
       td {
-        color: #0ff;
+        color: #44ff85;
       }
     }
     .lose {
       td {
-        color: #fc495b;
+        color: #ff54ad;
       }
     }
   }
