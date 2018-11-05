@@ -5,6 +5,17 @@
         <img :src="require('../assets/images/logo.png')">
       </a>
       <div class="nav">
+        <!-- 幸运抽奖触发 -->
+        <el-button  @click="drawDialog = true">{{$t('LuckyDraw.btn')}}</el-button>
+        <!-- 幸运抽奖组件 -->
+        <lucky-draw v-if="drawDialog" :visible.sync="drawDialog"></lucky-draw>
+        <!-- vip等级 -->
+        <el-button  @click="vipDialog.visible = true">{{$t('vip.button')}}</el-button>
+        <vip v-if="vipDialog.visible" :vipDialog="vipDialog"></vip>
+        <!-- 邀请 -->
+        <el-button  @click="inviteDialog.visible = true">{{$t('invite.button')}}</el-button>
+        <invite v-if="inviteDialog.visible" :inviteDialog="inviteDialog"></invite>
+        
         <el-button class="how" @click="dialogHow = true">{{$t('HowToPlay')}}</el-button>
         <el-dialog
                 :title="$t('HowToPlay')"
@@ -53,150 +64,177 @@
 </template>
 
 <script>
-    import {mapState} from 'vuex';
-    export default {
-      name: "MyNav",
-      props:["languageGroup"],
-      data(){
-        return {
-          txt: "",
-          icon: "",
-          show:false,
-          dialogHow:false,
-          luckyList:[{area:'0-100',prize:0.2},{area:'101-999',prize:2},{area:'1000-4999',prize:20},{area:'5000-9999',prize:200},{area:'10000',prize:1000}]
+import { mapState } from "vuex";
+import Vip from "./Vip";
+import Invite from "./Invite";
+/* 幸运抽奖 */
+import LuckyDraw from "./LuckDraw.vue";
+export default {
+  name: "MyNav",
+  props: ["languageGroup"],
+  components: {
+    LuckyDraw,
+    Vip,
+    Invite
+  },
+  data() {
+    return {
+      txt: "",
+      icon: "",
+      show: false,
+      dialogHow: false,
+      luckyList: [
+        { area: "0-100", prize: 0.2 },
+        { area: "101-999", prize: 2 },
+        { area: "1000-4999", prize: 20 },
+        { area: "5000-9999", prize: 200 },
+        { area: "10000", prize: 1000 }
+      ],
+      vipDialog: {
+        visible: false,
+        data: {
+          grade: 0,
+          prize: 0
         }
       },
-      created(){
-        this.languageGroup.forEach(v=>{
-          if(v.lng === this.locale){
-            this.txt = this.$t(v.txt);
-          }
-        })
-      },
-      watch:{
-        address:{
-            handler(n,o){
-              //window.location.reload()
-            },
-            deep:true
+      inviteDialog: {
+        visible: false,
+        data: {
+          prize: "",
+          table: []
         }
-
       },
-      mounted(){},
-      computed:{
-          ...mapState(['address','locale','dialogLogin'])
-      },
-      methods:{
-        selectLanguage(){
-          this.show = !this.show;
-        },
-        location(lng){
-          window.location = '/'+lng;
-        }
+      drawDialog: false
+    };
+  },
+  created() {
+    this.languageGroup.forEach(v => {
+      if (v.lng === this.locale) {
+        this.txt = this.$t(v.txt);
       }
-
+    });
+  },
+  watch: {
+    address: {
+      handler(n, o) {
+        //window.location.reload()
+      },
+      deep: true
     }
+  },
+  mounted() {},
+  computed: {
+    ...mapState(["address", "locale", "dialogLogin"])
+  },
+  methods: {
+    selectLanguage() {
+      this.show = !this.show;
+    },
+    location(lng) {
+      window.location = "/" + lng;
+    }
+  }
+};
 </script>
 
 <style scoped lang="scss">
-  .my-nav{
-    height:.7rem;
-    background-color: #332C66;
-    .inner{
-      width: 12rem;
+.my-nav {
+  height: 0.7rem;
+  background-color: #332c66;
+  .inner {
+    width: 12rem;
+    height: 100%;
+    margin: auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    .logo {
+      display: flex;
+      justify-content: flex-start;
+      img {
+        width: 1.76rem;
+        height: 0.39rem;
+      }
+    }
+    .nav {
       height: 100%;
-      margin: auto;
+      flex: 1;
       display: flex;
       flex-direction: row;
+      justify-content: flex-end;
       align-items: center;
-      justify-content: center;
-      .logo{
+      .account {
+        margin-left: 0.3rem;
+        letter-spacing: 0.01rem;
+        font-size: 0.16rem;
         display: flex;
-        justify-content: flex-start;
-        img{
-          width: 1.76rem;
-          height: .39rem;
-        }
-      }
-      .nav{
-        height: 100%;
-        flex:1;
-        display: flex;
-        flex-direction: row;
-        justify-content: flex-end;
         align-items: center;
-        .account{
-          margin-left:.3rem;
-          letter-spacing: .01rem;
-          font-size: .16rem;
-          display: flex;
-          align-items: center;
-          color: #B3A6FF;
+        color: #b3a6ff;
+      }
+      .language {
+        position: relative;
+        z-index: 10;
+        height: 100%;
+        margin-left: 0.3rem;
+        padding-right: 20px;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        color: #b3a6ff;
+        transition: opacity 0.2s ease-in-out;
+        &:hover {
+          & > span {
+            opacity: 0.5;
+          }
+          & > .group {
+            display: block;
+          }
         }
-        .language{
-          position: relative;
-          z-index:10;
-          height: 100%;
-          margin-left:.3rem;
-          padding-right:20px;
-          display: flex;
-          align-items: center;
-          cursor: pointer;
-          color: #B3A6FF;
-          transition:opacity .2s ease-in-out;
-          &:hover{
-            &>span{
-              opacity: .5;
+        &:after {
+          content: "";
+          position: absolute;
+          top: 0.34rem;
+          right: 0.05rem;
+          width: 0;
+          height: 0;
+          border-top: 0.04rem solid #b3a6ff;
+          border-bottom: 0.04rem solid transparent;
+          border-left: 0.04rem solid transparent;
+          border-right: 0.04rem solid transparent;
+        }
+        .group {
+          display: none;
+          position: absolute;
+          right: 0;
+          top: 100%;
+          width: 1.2rem;
+          background: rgba(53, 58, 62, 0.85);
+          .item {
+            height: 0.4rem;
+            border-top: 0.01rem solid #4e4e4e;
+            padding: 0 0.2rem;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            &:first-child {
+              border: none;
             }
-            &>.group{
-              display: block;
-            }
-          }
-          &:after{
-            content:"";
-            position: absolute;
-            top:.34rem;
-            right:.05rem;
-            width: 0;
-            height: 0;
-            border-top:.04rem solid #B3A6FF;
-            border-bottom:.04rem solid transparent;
-            border-left:.04rem solid transparent;
-            border-right:.04rem solid transparent;
-          }
-          .group{
-            display: none;
-            position: absolute;
-            right: 0;
-            top:100%;
-            width:1.2rem;
-            background: rgba(53,58,62,0.85);
-            .item{
-              height: .4rem;
-              border-top:.01rem solid #4e4e4e;
-              padding:0 .20rem;
-              display: flex;
-              align-items: center;
-              cursor: pointer;
-              &:first-child{
-                border:none;
-              }
-              &:hover{
-                background-color: #50555A;
-              }
+            &:hover {
+              background-color: #50555a;
             }
           }
         }
       }
     }
   }
-  @media screen and (max-width:1280px){
-    .my-nav{
-      .inner{
-        width: 100%;
-        overflow: hidden;
-      }
+}
+@media screen and (max-width:1280px){
+  .my-nav{
+    .inner{
+      width: 100%;
+      overflow: hidden;
     }
   }
-
+}
 </style>
