@@ -7,19 +7,19 @@
         <Select />
       </div>
       <div class="cell">
+        <div class="col col-2">
+          <Play />
+        </div>
         <div class="col col-1">
           <Rank :contractAddress="contractAddress" />
           <other-prize />
-        </div>
-        <div class="col col-2">
-          <Play />
         </div>
       </div>
       <div class="cell">
         <Result :contractAddress="contractAddress" />
       </div>
     </div>
-    <!--<Footer />-->
+    <Footer />
   </div>
 </template>
 

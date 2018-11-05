@@ -28,7 +28,23 @@
             </tbody>
           </table>
         </el-row>
-        <el-row class="">
+        <el-row class="record">
+            <el-col :span="3">
+                <img :src="require('../assets/images/user-1.png')" class="user-img">
+            </el-col>
+            <el-col :span="18" class="prize">
+                <div>{{$t('LuckyDraw.rewardText')}}<span>{{balance + ' TRX'}}</span></div>
+                
+            </el-col>
+            <el-col :span="3">
+                <button class="with-draw" @click="withdraw" v-loading="isLoading"
+            element-loading-text="loading..."
+            element-loading-spinner="el-icon-loading"
+            element-loading-background="rgba(0, 0, 0, 0.6)">
+                  {{$t('LuckyDraw.withdraw')}}
+                </button>
+            </el-col>
+
 
         </el-row>
         <!-- 抽奖 -->
@@ -47,7 +63,7 @@
             </button>
           </el-col>
           <!-- 奖金 -->
-          <el-col
+          <!-- <el-col
             :span="8"
             v-loading="isLoading"
             element-loading-text="loading..."
@@ -57,7 +73,7 @@
             <div>{{$t('LuckyDraw.rewardText')}}</div>
             <span>{{balance + ' TRX'}}</span>
             <a @click="withdraw" class="withdraw" href="javascript:;">{{$t('LuckyDraw.withdraw')}}</a>
-          </el-col>
+          </el-col> -->
         </el-row>
         <!-- 补充说明 -->
         <el-row class="supplement">
@@ -245,6 +261,35 @@ export default {
   100% {
     opacity: 1;
   }
+}
+
+.record {
+  width: 100%;
+  height: 0.54rem;
+  background-color: #f5f6fa;
+  border-radius: 0.08rem;
+  margin-top: 0.1rem;
+  padding: 0.12rem 0.21rem;
+  .user-img {
+    width: 0.32rem;
+    height: 0.32rem;
+  }
+
+  font-size: 0.14rem;
+  font-weight: normal;
+  font-stretch: normal;
+  color: #4648bf;
+  .prize {
+    line-height: 0.32rem;
+  }
+
+  .with-draw {
+    height: 0.28rem;
+    background-color: #4648bf;
+    border-radius: 0.08rem;
+    color: #fff;
+  }
+  margin-bottom: 0.1rem;
 }
 
 .root {

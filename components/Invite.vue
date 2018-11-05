@@ -3,11 +3,17 @@
   <el-dialog
     :title="$t('invite.title')"
     :visible.sync="inviteDialog.visible"
-    center width="760px" class="inviteDialog"
+    center class="inviteDialog"
     top="10vh"
     >
     <p class="center">{{$t('invite.desc')}}</p>
-    <el-row class="message">
+    <el-row class="invite-url">
+      <p class="url">{{inviteUrl}}</p>
+      <button @click="copy" class="copyContent" :data-clipboard-text="inviteUrl">
+            {{$t('invite.copyButton')}}
+      </button>
+    </el-row>
+    <!-- <el-row class="message">
       <el-input placeholder="请输入内容" v-model="inviteUrl" >
         <template slot="append"   >
           <el-button @click="copy" class="copyContent" :data-clipboard-text="inviteUrl">
@@ -15,7 +21,7 @@
           </el-button>
         </template>
       </el-input>
-    </el-row>
+    </el-row> -->
     <el-row>
       <div class="title">{{$t('invite.prize')}}
 
@@ -221,16 +227,69 @@ export default {
 <style lang="scss">
 .inviteDialog {
   .el-dialog {
-    background: #000;
-    color: #fff;
+    background: #fff;
+    color: #0a0a30;
   }
-  .el-dialog__title,
-  .el-dialog__body {
-    color: #fff;
+  .el-dialog__title {
+    font-family: PingFangSC-Medium;
+    font-size: 0.2755rem;
+    font-weight: normal;
+    font-stretch: normal;
+    color: #0a0a30;
   }
   .center {
     text-align: center;
+    font-family: PingFangSC-Regular;
+    font-size: 0.18rem;
+    font-weight: normal;
+    font-stretch: normal;
+    line-height: 0.48rem;
+    color: #0a0a30;
   }
+  .invite-url {
+    height: 1.61rem;
+    background-color: #eaebed;
+    border-radius: 0.1rem;
+    padding: 0.23rem;
+    box-sizing: border-box;
+    text-align: center;
+    position: relative;
+
+    .url {
+      height: 36px;
+      font-family: PingFangSC-Regular;
+      font-size: 0.17rem;
+      font-weight: normal;
+      font-stretch: normal;
+      height: 0.595rem;
+      letter-spacing: -0.4px;
+      color: #7f8084;
+      word-break: break-all;
+      text-align: left;
+    }
+    .copyContent {
+      margin-top: 0.2rem;
+      position: absolute;
+      bottom: 0.15rem;
+      left: 0;
+      right: 0;
+      margin: auto;
+      color: #fff;
+      padding: 0.1rem 0.15rem;
+      width: 2.23rem;
+      height: 0.41rem;
+      background-image: linear-gradient(
+          -25deg,
+          #7341ca 0%,
+          #7854e5 50%,
+          #7c67ff 100%
+        ),
+        linear-gradient(#4648bf, #4648bf);
+      background-blend-mode: normal, normal;
+      border-radius: 0.1rem;
+    }
+  }
+
   .message {
     height: 60px;
     line-height: 60px;
