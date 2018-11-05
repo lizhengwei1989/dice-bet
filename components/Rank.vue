@@ -75,13 +75,8 @@
     .rank{
         width: 100%;
         height: 5.7rem;
-        background-image: linear-gradient(142deg,
-                #2b2c80 0%,
-                #222470 62%,
-                #191c60 100%),
-        linear-gradient(
-                        #242572,
-                        #242572);
+        background-image: linear-gradient(142deg, #2b2c80 0%, #222470 62%, #191c60 100%),
+        linear-gradient(#242572, #242572);
         background-blend-mode: normal,
         normal;
         border-radius: .2rem;

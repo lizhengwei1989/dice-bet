@@ -116,7 +116,6 @@
                 this.animate('balance',n,o);
             },
             myBetsLength(n,o){
-                console.log(n,o,this.number);
                 if(o!=0){
                     clearInterval(this.timer);
                     clearInterval(this.rolling);
@@ -399,18 +398,18 @@
           .win,.lose{
             position: absolute;
             width: .54rem;
-            height: .22rem;
-            line-height: .22rem;
+            height: .24rem;
+            line-height: .24rem;
             background-repeat: no-repeat;
             background-position: -0.02rem center;
             background-size:auto 110%;
             border-radius: .11rem;
             padding-left:.22rem;
-            top: .08rem;
+            top: .06rem;
             margin-top: 0;
             margin-left:-.24rem;
             display: none;
-            font-size: .24rem;
+            text-align: center;
           }
           .win{
             background-image: url('../assets/images/win.png');
