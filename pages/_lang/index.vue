@@ -3,8 +3,8 @@
     <my-nav :languageGroup="languageGroup" />
     <Loading :isLoading="showLoading"/>
     <div class="main">
-      <div class="cell">
-        <Select />
+      <div class="cell" style="margin-top:0.4rem;">
+        <!-- <Select /> -->
       </div>
       <div class="cell">
         <div class="col col-2">
@@ -12,7 +12,7 @@
         </div>
         <div class="col col-1">
           <Rank :contractAddress="contractAddress" />
-          <other-prize />
+          <!-- <other-prize /> -->
         </div>
       </div>
       <div class="cell">

@@ -6,15 +6,15 @@
       </a>
       <div class="nav">
         <!-- 幸运抽奖触发 -->
-        <el-button  @click="drawDialog = true">{{$t('LuckyDraw.btn')}}</el-button>
+        <!-- <el-button  @click="drawDialog = true">{{$t('LuckyDraw.btn')}}</el-button> -->
         <!-- 幸运抽奖组件 -->
-        <lucky-draw v-if="drawDialog" :visible.sync="drawDialog"></lucky-draw>
+        <!-- <lucky-draw v-if="drawDialog" :visible.sync="drawDialog"></lucky-draw> -->
         <!-- vip等级 -->
-        <el-button  @click="vipDialog.visible = true">{{$t('vip.button')}}</el-button>
-        <vip v-if="vipDialog.visible" :vipDialog="vipDialog"></vip>
+        <!-- <el-button  @click="vipDialog.visible = true">{{$t('vip.button')}}</el-button> -->
+        <!-- <vip v-if="vipDialog.visible" :vipDialog="vipDialog"></vip> -->
         <!-- 邀请 -->
-        <el-button  @click="inviteDialog.visible = true">{{$t('invite.button')}}</el-button>
-        <invite v-if="inviteDialog.visible" :inviteDialog="inviteDialog"></invite>
+        <!-- <el-button  @click="inviteDialog.visible = true">{{$t('invite.button')}}</el-button> -->
+        <!-- <invite v-if="inviteDialog.visible" :inviteDialog="inviteDialog"></invite> -->
         
         <el-button class="how" @click="dialogHow = true">{{$t('HowToPlay')}}</el-button>
         <el-dialog
@@ -22,14 +22,14 @@
                 :visible.sync="dialogHow"
                 width="5.8rem"
                 custom-class="how-dialog">
-          <p v-html="$t('Rule.P1')"></p>
-          <p v-html="$t('Rule.P2')"></p>
-          <p v-html="$t('Rule.P3')"></p>
-          <p v-html="$t('Rule.P4')"></p>
-          <p v-html="$t('Rule.P5')"></p>
-          <p v-html="$t('Rule.P6')"></p>
-          <p v-html="$t('Rule.P7')"></p>
-          <p v-html="$t('Rule.RuleTip')"></p>
+          <p v-html="$t('Rule.p1')"></p>
+          <p v-html="$t('Rule.p2')"></p>
+          <p v-html="$t('Rule.p3')"></p>
+          <p v-html="$t('Rule.p4')"></p>
+          <p v-html="$t('Rule.p5')"></p>
+          <p v-html="$t('Rule.p6')"></p>
+          <p v-html="$t('Rule.p7')"></p>
+          <!-- <p v-html="$t('Rule.RuleTip')"></p> -->
           <span slot="footer" class="dialog-footer">
             <el-button type="primary" @click="dialogHow = false">{{$t('Confirm')}}</el-button>
           </span>

@@ -6,7 +6,8 @@
       </div>
       <div class="input-group">
         <div class="input">
-          <input type="text" :value="stake" @input="handleInput" name="" id="" />
+          <!-- <input type="text" :value="stake" @input="handleInput" name="" id="" /> -->
+          <input type="text" :value="stake" @input="handleInput" @blur="handleBlur" name="" id="" />
         </div>
         <div class="percentage" ref="percentage">
           <span @click="handlePercentage(0.25,0)">25%</span>
@@ -152,9 +153,15 @@ export default {
       let v = e.target.value;
       v = v.replace(/\D/g, "");
       v = Math.min(v, Math.ceil(this.balance), this.limit.max);
-      v = v < 10 ? 10 : v;
+      v = v ? v : "";
       e.target.value = v;
       this.stake = v;
+    },
+    handleBlur(e) {
+      if (e.target.value < 10) {
+        e.target.value = 10;
+        this.stake = 10;
+      }
     },
     handlePercentage(p, index) {
       const cells = this.$refs["percentage"].getElementsByTagName("span");

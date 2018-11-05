@@ -304,7 +304,8 @@ export default {
 <style scoped lang="scss">
 .rank {
   width: 100%;
-  height: 5.7rem;
+  //   height: 5.7rem;
+  height: 100%;
   //   background-image: linear-gradient(
   //       142deg,
   //       #2b2c80 0%,
@@ -387,7 +388,8 @@ export default {
         }
       }
       display: block;
-      height: 3.4rem;
+      //   height: 3.4rem;
+      height: 4.3rem;
       overflow: auto;
       border-radius: 0.1rem;
       background-color: #262c7f;

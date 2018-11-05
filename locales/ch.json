@@ -1,59 +1,58 @@
 {
+  "RankTitle": "排行榜",
+  "Order": "排名",
+  "Player": "玩家",
+  "TotalMount": "总投注额",
+  "Prize": "奖励",
+  "OtherPrize": {
+    "Txt1": "下注可获得：",
+    "Txt2": "现在投注可获得投注货币 100% DICE"
+  },
+  "Play": {
+    "Bet": {
+      "Title": "投注",
+      "Left": "可用"
+    },
+    "WinTitle": "赢取",
+    "WinRate": "中奖概率",
+    "PayOut": "赔率",
+    "Less": "小于该数获胜",
+    "Roll": "掷骰子"
+  },
+  "Result": {
+    "AllBets": "所有投注",
+    "MyBets": "我的投注",
+    "Time": "时间",
+    "Player": "玩家",
+    "Select": "小于该数获胜",
+    "Input": "投注",
+    "Result": "开奖号码",
+    "Output": "奖励"
+  },
   "HowToPlay": "规则",
-  "Chinese": "简体中文",
+  "Chinese": "中文",
   "English": "英文",
   "WinRate": "胜率",
-  "PayOut": "赔率",
-  "Prize": "奖金",
   "extract": "提现",
-  "Range": "选择投注区间",
-  "RangeTip": "最终骰子点数在投注区间范围内，即可获胜",
-  "InputCount": "输入投注数量",
-  "InputCountTip": "·单次投注数量不可超过您的钱包余额<br>·单次投注数量最大不可超过1万",
-  "InputMoney": "输入金额",
-  "Balance": "您的钱包余额：",
-  "LuckyValue": "幸运值",
-  "LuckyValueTip": "1. 幸运值是连续失败的次数。当获胜或者连续失败次数达到6时，会归零。<br>2. 失败时会把投注金的10%加入到幸运池中。当获胜或者连续失败次数达到6时，幸运池金额会归零。<br>3. 幸运值为3时，会奖励此时幸运池一倍金额给奖金池；幸运值为6时，会奖励此时幸运池两倍金额给奖金池。",
-  "LuckyPool": "幸运池",
-  "Roll": "掷骰子",
-  "Withdraw": "提现",
-  "TRX": "TRX",
-  "AllBets": "所有历史",
-  "MyBets": "我的历史",
-  "LuckyPrize": "幸运大奖",
-  "Player": "玩家",
-  "Select": "选择",
-  "Input": "投注",
-  "Result": "结果",
-  "Output": "奖金",
-  "Time": "时间",
-  "ServiceItem": "服务条款",
-  "Telegram": "Telegram",
+  "PayOut": "赔率",
   "Rule": {
-    "P1": "1. 确保您有一个TRON Chrome插件钱包。点击安装<a target='_blank' href='https://goo.gl/Yb4NRU'>TRONLINK</a>钱包",
-    "P2": "2. 确保您的钱包账户拥有一定数量的TRX，这是参与游戏必需的基础数字加密货币。",
-    "P3": "3. 您可以选择不同的投注区间，相应的胜率，赔率和奖金都将自动调整。",
-    "P4": "4. 设置投注数量，也就是您要下注的TRX数量。",
-    "P5": "5. 点击掷骰子按钮开始游戏。智能合约随后将从 1 - 6 之间生成一个随机点数。",
-    "P6": "6. 如果骰子点数在您的预测区间内，您就获胜。",
-    "P7": "如果胜利，您将获得相应奖金到奖金池，奖金池余额可以提现到钱包。<br>如果失败，您同样有机会赢取幸运大奖。",
-    "RuleTip": "仍然还有疑问？欢迎加入我们的<a target='_blank' href='https://t.me/joinchat/JUyvA1KP9kU2qfwtESfvpg'>电报组</a>，我们非常乐意为您提供帮助！"
+    "p1": "1. 确保您有一个TRONLink钱包。点击下载<a target='_blank' href='https://goo.gl/Yb4NRU'>TRONLINK</a>钱包",
+    "p2": "2. 要参与游戏您必须拥有TRX，这是为TRON网络提供动力的基础加密货币。",
+    "p3": "3. 设置您的投注额度，也就是您要下注的TRX数量。",
+    "p4": "4. 您可以调整滑块至您想要的预测编号范围。移动滑块时，您可赢得的总金额、胜率、奖励倍数都将自动调整。",
+    "p5": "5. 点击滚动按钮开始游戏。智能合约随后将从1-100之间随机生成一个幸运数字。",
+    "p6": "6. 如果幸运数字在您的预测范围之内，您就赢了！",
+    "p7": "仍然还有疑问？欢迎加入我们的<a href='https://t.me/TRONDice'>电报组</a>，我们非常乐意为您提供帮助！"
   },
-  "Service": {
-    "P1": "本网站提供TRON区块链上的智能合约页面。它会根据外部因素接收TRX并转账不同数量的TRX。",
-    "P2": "我们无法验证各辖区内服务的合法性，也不能为您提供任何法律意见。您应当按照上述方式遵守您所在司法管辖区内有关使用TRX的任何相关法律、政策和法规，并由您个人完全承担相关责任。",
-    "P3": "玩基于智能合约的游戏可能会使玩家获得或损失TRX。我们对所提供游戏的结果不承担任何责任。",
-    "P4": "我们保留修改网站及其服务以及这些条款的权利，恕不另行通知。"
-  },
-  "Confirm": "确定",
-  "LoginTipTitle": "请登录您的TRON Chrome插件钱包",
-  "LoginTipContent": "如果您没有安装相关钱包，建议您访问<a href='https://goo.gl/Yb4NRU' target='_blank'>https://goo.gl/Yb4NRU</a>并下载chrome扩展程序。",
+  "Confirm": "确认",
+  "LoginTipTitle": "请登录您的Chrome钱包",
+  "LoginTipContent": "如果您没有安装TRON钱包，请访问<a target='_blank' href='https://goo.gl/Yb4NRU'>https://goo.gl/Yb4NRU</a>并下载chrome扩展程序。",
   "Login": "登录",
   "BalanceNotEnough": {
-    "Title": "钱包余额不足",
-    "Content": "请检查您的投注金额，或将奖金池余额全部提现至钱包。"
+    "Title": "Insufficient wallet balance",
+    "Content": "Please check your betting amount or withdraw the funds in the prize pool to your wallet."
   },
-  "PleaseInput": "请输入投注数量！",
+  "PleaseInput": "请输入投注金额",
   "LuckyDraw": {
     "btn": "幸运抽奖",
     "title": "幸运抽奖",
@@ -82,7 +81,7 @@
       "amount": "累计投注额",
       "prize": "奖励"
     },
-    "remainingBet": "只需投注 {trx} TRX 即可成为VIP",
+    "remainingBet": "只需投注 {trx} TRX 即可成为VIP{level}",
     "copyRight": "* 活动最终解释权归 TRONDICE.ORG 所有"
   },
   "invite": {

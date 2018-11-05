@@ -1,33 +1,33 @@
 {
-  "RankTitle": "今日排行榜",
-  "Order": "排名",
-  "Player": "投注者",
-  "TotalMount": "总投注额",
-  "Prize": "奖励",
+  "RankTitle": "Weekly Rankings",
+  "Order": "Rank",
+  "Player": "Player",
+  "TotalMount": "Total Wager",
+  "Prize": "Prize",
   "OtherPrize": {
     "Txt1": "下注可获得：",
     "Txt2": "现在投注可获得投注货币 100% DICE"
   },
   "Play": {
     "Bet": {
-      "Title": "投注",
-      "Left": "可用"
+      "Title": "Bet",
+      "Left": "Available"
     },
-    "WinTitle": "赢取",
-    "WinRate": "中奖概率",
-    "PayOut": "赔率",
-    "Less": "小于该数获胜",
-    "Roll": "掷骰子"
+    "WinTitle": "Win",
+    "WinRate": "Win Chance",
+    "PayOut": "Payout",
+    "Less": "Roll Under to Win",
+    "Roll": "Roll"
   },
   "Result": {
-    "AllBets": "所有投注",
-    "MyBets": "我的投注",
-    "Time": "时间",
-    "Player": "投注者",
-    "Select": "小于该号码获胜",
-    "Input": "投注",
-    "Result": "开奖号码",
-    "Output": "奖金"
+    "AllBets": "All Bets",
+    "MyBets": "My Bets",
+    "Time": "Time",
+    "Player": "Player",
+    "Select": "Roll Under",
+    "Input": "Bet",
+    "Result": "Roll",
+    "Output": "Prize"
   },
   "HowToPlay": "Rules",
   "Chinese": "Chinese",
@@ -53,24 +53,16 @@
   "Select": "Choose",
   "Input": "Bet",
   "Output": "Prize",
-
   "ServiceItem": "Terms of Service",
   "Telegram": "Telegram",
   "Rule": {
-    "P1": "1. Make sure you have a TRON Chrome Wallet. Click and install <a target='_blank' href='https://goo.gl/Yb4NRU'>TronLink Wallet</a>.",
-    "P2": "2. Make sure there is a certain amount of TRX in it and TRX is the prerequisite to joining the game.",
-    "P3": "3. You can choose different betting ranges, and the corresponding winning rate, losing rate, and prize will change accordingly.",
-    "P4": "4. Set the betting amount, which is the amount of TRX you would like to bet.",
-    "P5": "5. Click on the 'Roll the Dice' button to start the game and the smart contract will generate a random number from 1 to 6.",
-    "P6": "6. If the number generated falls in your betting range, you win.",
-    "P7": " If you win, you will receive a certain amount of prize in your prize pool and the prize can be withdrawn to your wallet.<br>If you lose, you still have the opportunity to win the lucky prize.",
-    "RuleTip": "Got questions? You are welcome to join our <a target='_blank' href='https://t.me/joinchat/JUyvA1KP9kU2qfwtESfvpg'>Telegram Group</a> and we are more than happy to help you!"
-  },
-  "Service": {
-    "P1": "The website provides the smart contract page based on TRON blockchain. It will receive TRX and transfer different amount of TRX according to external factors.",
-    "P2": "We cannot verify the legitimacy of service in all areas of jurisdiction, neither can we provide any legal advice for you. Please follow the instructions above and obey the laws, policies, and regulations related to TRX usage in your area of jurisdiction. Please notice that you will take full responsibility for yourself.",
-    "P3": "Players may gain or lose TRX in games based on smart contracts. We do not bear any responsibility for the result of the game that we provide.",
-    "P4": "We reserve the right to modify the website, its services, and these terms without notice."
+    "p1": "1. Make sure you have a TronLink wallet. Click to download the <a target='_blank' href='https://goo.gl/Yb4NRU'>TronLink</a> wallet",
+    "p2": "2. To participate in the game you must own TRX, the underlying cryptocurrency that powers the TRON network.",
+    "p3": "3. Set your bet amount, that is, the number of TRX you want to bet on.",
+    "p4": "4. You can adjust the slider to the predicted number range you want. When moving the slider, you can win the total amount, win rate, reward multiple will be automatically adjusted.",
+    "p5": "5. Click the scroll button to start the game. The smart contract will then randomly generate a lucky number from 1 to 100.",
+    "p6": "6. If the lucky number is within your range, you win!",
+    "p7": "Still questions? Welcome to join our <a href='https://t.me/TRONDice'>telegram group</a>, we are glad to help you!"
   },
   "Confirm": "Confirm",
   "LoginTipTitle": "Please log in to your TRON Chrome Wallet.",
