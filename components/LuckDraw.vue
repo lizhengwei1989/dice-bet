@@ -2,7 +2,7 @@
   <article v-if="visible" class="root">
     <div class="mask">
       <div class="content">
-        <i class="el-icon-close" @click="close"></i>
+        <i class="el-icon-close" @click="close" style="color:grey"></i>
         <!-- 标题 -->
         <el-row>
           <h1 class="title">{{$t('LuckyDraw.title')}}</h1>
@@ -56,10 +56,10 @@
             </div>
           </el-col>
           <!-- 抽奖触发 -->
-          <el-col :span="8" style="text-align: center;">
+          <el-col :span="8" style="text-align: center;margin-bottom:0.1rem">
             
             <button @click="getLuckyNum" class="roll">
-              {{times+''+ $t('LuckyDraw.times')}}
+              {{times+' '+ $t('LuckyDraw.times')}}
             </button>
           </el-col>
           <!-- 奖金 -->

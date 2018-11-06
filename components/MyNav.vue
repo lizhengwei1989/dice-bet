@@ -6,15 +6,15 @@
       </a>
       <div class="nav">
         <!-- 幸运抽奖触发 -->
-        <!-- <el-button  @click="drawDialog = true">{{$t('LuckyDraw.btn')}}</el-button> -->
+        <el-button  @click="drawDialog = true" type="text">{{$t('LuckyDraw.btn')}}</el-button>
         <!-- 幸运抽奖组件 -->
-        <!-- <lucky-draw v-if="drawDialog" :visible.sync="drawDialog"></lucky-draw> -->
+        <lucky-draw v-if="drawDialog" :visible.sync="drawDialog"></lucky-draw>
         <!-- vip等级 -->
-        <!-- <el-button  @click="vipDialog.visible = true">{{$t('vip.button')}}</el-button> -->
-        <!-- <vip v-if="vipDialog.visible" :vipDialog="vipDialog"></vip> -->
+        <el-button  @click="vipDialog.visible = true" type="text">{{$t('vip.button')}}</el-button>
+        <vip v-if="vipDialog.visible" :vipDialog="vipDialog"></vip>
         <!-- 邀请 -->
-        <!-- <el-button  @click="inviteDialog.visible = true">{{$t('invite.button')}}</el-button> -->
-        <!-- <invite v-if="inviteDialog.visible" :inviteDialog="inviteDialog"></invite> -->
+        <el-button  @click="inviteDialog.visible = true" type="text">{{$t('invite.button')}}</el-button>
+        <invite v-if="inviteDialog.visible" :inviteDialog="inviteDialog"></invite>
         
         <el-button class="how" @click="dialogHow = true">{{$t('HowToPlay')}}</el-button>
         <el-dialog
@@ -141,6 +141,10 @@ export default {
 .my-nav {
   height: 0.7rem;
   background-color: #332c66;
+  .el-button--text {
+    color: #fff;
+    margin-right: 0.2rem;
+  }
   .inner {
     width: 12rem;
     height: 100%;
