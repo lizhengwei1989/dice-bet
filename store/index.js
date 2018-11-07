@@ -3,7 +3,7 @@ import { getUserInfo } from "~/api/user";
 import Cookies from "js-cookie";
 
 export const state = () => ({
-  locales: ["en", "ch"],
+  locales: ["en", "ch", "rus" ,"kor"],
   locale: "en",
   address: {},
   balance: 0,

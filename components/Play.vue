@@ -6,7 +6,7 @@
       </div>
       <div class="input-group">
         <div class="input">
-          <input type="text" :value="stake" @input="handleInput" name="" id="" />
+          <input type="text" :value="stake" @input="handleInput" @blur="handleBlur" name="" id="" />
         </div>
         <div class="percentage" ref="percentage">
           <span @click="handlePercentage(0.25,0)">25%</span>
@@ -92,6 +92,7 @@ export default {
         min: 10,
         max: 10000
       },
+      transactionId:'',
       r: "",
       rolling: null,
       timer: null
@@ -125,6 +126,21 @@ export default {
           this.r = "";
         }, 3000);
         this.watchBalance();
+          //添加交易
+          let data = {
+              dappId: this.dapp,
+              contractAddress: this.contractAddress,
+              trxHash: this.transactionId,
+              amount: Number(window.tronWeb.toSun(this.stake)),
+              userAddress: this.address.base58 || "",
+              status: 1
+          };
+          addTransition(data);
+        if(this.r >= this.number){
+            this.$refs.lose.style.display="block";
+        }else{
+            this.$refs.win.style.display="block";
+        }
       }
     }
   },
@@ -154,9 +170,16 @@ export default {
       let v = e.target.value;
       v = v.replace(/\D/g, "");
       v = Math.min(v, Math.ceil(this.balance), this.limit.max);
-      v = v < 10 ? 10 : v;
+      v = v ? v : '';
+      //v = v < 10 ? 10 : v;
       e.target.value = v;
       this.stake = v;
+    },
+    handleBlur(e){
+        if(e.target.value < 10){
+            e.target.value = 10;
+            this.stake = 10;
+        }
     },
     handlePercentage(p, index) {
       const cells = this.$refs["percentage"].getElementsByTagName("span");
@@ -189,24 +212,17 @@ export default {
           this.disabled = false;
         });
       if (!transactionId) return;
+      this.transactionId = transactionId;
       let tmp = 0;
       this.rolling = setInterval(_ => {
         this.r = Math.ceil(Math.random() * 100);
       }, 50);
       if (!transactionId) return;
+      this.$refs.win.style.display="none";
+      this.$refs.lose.style.display="none";
       this.timer = setInterval(async _ => {
         const res = await window.tronWeb.getEventByTransacionID(transactionId);
         if (res.length > 0) {
-          //添加交易
-          let data = {
-            dappId: this.dapp,
-            contractAddress: this.contractAddress,
-            trxHash: transactionId,
-            amount: Number(window.tronWeb.toSun(this.stake)),
-            userAddress: this.address.base58 || "",
-            status: 1
-          };
-          addTransition(data);
           // const random = res2[3].toString();
           // clearInterval(rolling);
           // clearInterval(timer);
@@ -294,7 +310,7 @@ export default {
   .input-group {
     height: 0.6rem;
     border-radius: 0.1rem;
-    border: 0.03rem solid #262c7f;
+    border: 0.03rem solid #131258;
     .input {
       position: relative;
       padding: 0 0.68rem 0 0.76rem;
@@ -328,8 +344,8 @@ export default {
       display: flex;
       .input {
         width: 3.74rem;
-        background-color: #262c7f;
-        background-image: url("../assets/images/icon-bet.png");
+        background-color: #131258;
+        background-image: url("../assets/images/icons/icon-bet.png");
         background-repeat: no-repeat;
         background-position: 0.12rem center;
         background-size: auto 70%;
@@ -362,8 +378,8 @@ export default {
     .input-group {
       .input {
         height: 100%;
-        background-color: #262c7f;
-        background-image: url("../assets/images/icon-win.png");
+        background-color: #131258;
+        background-image: url("../assets/images/icons/icon-win.png");
         background-repeat: no-repeat;
         background-position: 0.12rem center;
         background-size: auto 70%;
@@ -402,37 +418,7 @@ export default {
         }
       }
     }
-    .row-2 {
-      flex: 1;
-      display: flex;
-      position: relative;
-      border-bottom: 0.01rem solid #383a90;
-      padding: 0 0.25rem;
-      align-items: center;
-      .line {
-        position: absolute;
-        height: 0.2rem;
-        width: 5.68rem;
-        top: 0.74rem;
-        .cell {
-          position: absolute;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          width: 30px;
-          font-size: 0.16rem;
-          &:nth-child(1) {
-            left: -5px;
-          }
-          &:nth-child(2) {
-            left: calc(25% - 0.15rem);
-          }
-          &:nth-child(3) {
-            left: calc(50% - 0.15rem);
-          }
-        }
-      }
-      .row-2{
+    .row-2{
         flex: 1;
         display: flex;
         position: relative;
@@ -481,16 +467,16 @@ export default {
               left: -.05rem;
             }
             &:nth-child(2) {
-              left: calc(25% - .15rem);
+              left: calc(25% - 0.15rem);
             }
             &:nth-child(3) {
-              left: calc(50% - .15rem);
+              left: calc(50% - 0.15rem);
             }
             &:nth-child(4) {
-              left: calc(75% - .15rem);
+              left: calc(75% - 0.15rem);
             }
             &:nth-child(5) {
-              left: calc(100% - .2rem);
+              left: calc(100% - 0.2rem);
             }
             &:before {
               font-size: .12rem;
@@ -505,7 +491,6 @@ export default {
           }
         }
       }
-    }
     .row-3 {
       flex: 1;
       display: flex;

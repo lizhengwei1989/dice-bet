@@ -20,7 +20,7 @@ module.exports = {
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:image", content: "/images/share.png" }
     ],
-    link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],
+    link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" },{rel:"stylesheet",href:"//at.alicdn.com/t/font_905800_0qi6hlgu8tz.css"}],
     script: [{ src: "/js/rem.js" }]
   },
 
@@ -34,7 +34,7 @@ module.exports = {
   },
 
   generate: {
-    routes: ["/", "/ch", "/en"]
+    routes: ["/", "/ch", "/en",'/kor','/rus']
   },
 
   /*

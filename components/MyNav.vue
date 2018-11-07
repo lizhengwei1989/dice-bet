@@ -1,22 +1,39 @@
 <template>
   <div class="my-nav">
     <div class="inner">
-      <a  class="logo" href="javascript:window.location.reload();">
+      <span class="menu iconfont icon-menu" @click="showMenus"></span>
+      <a class="logo" href="javascript:window.location.reload();">
         <img :src="require('../assets/images/logo.png')">
       </a>
-      <div class="nav">
-        <!-- 幸运抽奖触发 -->
-        <el-button  @click="drawDialog = true">{{$t('LuckyDraw.btn')}}</el-button>
-        <!-- 幸运抽奖组件 -->
-        <lucky-draw v-if="drawDialog" :visible.sync="drawDialog"></lucky-draw>
-        <!-- vip等级 -->
-        <el-button  @click="vipDialog.visible = true">{{$t('vip.button')}}</el-button>
-        <vip v-if="vipDialog.visible" :vipDialog="vipDialog"></vip>
+      <div class="nav" ref="nav">
         <!-- 邀请 -->
-        <el-button  @click="inviteDialog.visible = true">{{$t('invite.button')}}</el-button>
+        <a href="javascript:;" @click="inviteDialog.visible = true">{{$t('invite.button')}}</a>
+
+        <!-- 玩法介绍 -->
+        <a class="how" @click="dialogHow = true">{{$t('HowToPlay')}}</a>
+
+        <!-- 红利 -->
+        <a class="how" @click="dialogHow = true">{{$t('Nav.HongLi')}}</a>
+
+        <!-- vip等级 -->
+        <a href="javascript:;" @click="vipDialog.visible = true">{{$t('vip.button')}}</a>
+
+        <!-- 幸运抽奖触发 -->
+        <a class="lucky" href="javascript:;" @click="drawDialog = true">{{$t('LuckyDraw.btn')}}</a>
+        <!-- 幸运抽奖组件 -->
+
+        <div class="language-mobile">
+          <div class="cell" :class="item.lng === locale?'focus':''" v-for="item of languageGroup" @click="location(item.lng)">
+            <img :src="icon?`/images/icon-${item.icon}.png`:''">
+            <span>{{item.txt}}</span>
+          </div>
+        </div>
+
+        <!--弹层 -->
+
+        <!--邀请-->
         <invite v-if="inviteDialog.visible" :inviteDialog="inviteDialog"></invite>
-        
-        <el-button class="how" @click="dialogHow = true">{{$t('HowToPlay')}}</el-button>
+        <!--玩法介绍-->
         <el-dialog
                 :title="$t('HowToPlay')"
                 :visible.sync="dialogHow"
@@ -34,31 +51,38 @@
             <el-button type="primary" @click="dialogHow = false">{{$t('Confirm')}}</el-button>
           </span>
         </el-dialog>
-        <div v-if="address && address.base58" class="account">
-          {{address.base58}}
-        </div>
-        <el-button v-else class="how" style="margin-left:.3rem" @click="$store.commit('SET_DIALOG_LOGIN',true)">
-          {{$t('Login')}}
-        </el-button>
-        <el-dialog
-                :title="$t('LoginTipTitle')"
-                :visible.sync="dialogLogin"
-                width="3.8rem"
-                custom-class="how-dialog">
-          <p v-html="$t('LoginTipContent')"></p>
-          <span slot="footer" class="dialog-footer">
+        <!--vip-->
+        <vip v-if="vipDialog.visible" :vipDialog="vipDialog"></vip>
+        <!--抽奖-->
+        <lucky-draw v-if="drawDialog" :visible.sync="drawDialog"></lucky-draw>
+
+      </div>
+      <div v-if="address && address.base58" class="account">
+        {{address.base58 | hiddenAddress}}
+      </div>
+      <el-button v-else class="how" style="margin-left:.3rem" @click="$store.commit('SET_DIALOG_LOGIN',true)">
+        {{$t('Login')}}
+      </el-button>
+      <el-dialog
+              :title="$t('LoginTipTitle')"
+              :visible.sync="dialogLogin"
+              width="3.8rem"
+              custom-class="how-dialog">
+        <p v-html="$t('LoginTipContent')"></p>
+        <span slot="footer" class="dialog-footer">
             <el-button type="primary" @click="$store.commit('SET_DIALOG_LOGIN',false)">{{$t('Confirm')}}</el-button>
           </span>
-        </el-dialog>
-        <div class="language" @click="selectLanguage">
-          <span>{{txt}}</span>
-          <div class="group">
-            <div v-for="item of languageGroup" class="item" @click="location(item.lng)">
-              <span>{{$t(item.txt)}}</span>
-            </div>
+      </el-dialog>
+      <div class="language">
+        <img :src="icon?`/images/icon-${icon}.png`:''">
+        <span>{{txt}}</span>
+        <div class="group">
+          <div v-for="item of languages" class="item" @click="location(item.lng)">
+            <img :src="`/images/icon-${item.icon}.png`"><span>{{$t(item.txt)}}</span>
           </div>
         </div>
       </div>
+
     </div>
   </div>
 </template>
@@ -104,13 +128,21 @@ export default {
           table: []
         }
       },
-      drawDialog: false
+      drawDialog: false,
+      languages:[]
     };
   },
   created() {
+    let languageGroup = this.languageGroup.filter(v=>{
+        if(v.lng  !== this.locale){
+            return v;
+        }
+    });
+    this.languages = languageGroup;
     this.languageGroup.forEach(v => {
       if (v.lng === this.locale) {
         this.txt = this.$t(v.txt);
+        this.icon = v.icon;
       }
     });
   },
@@ -132,6 +164,14 @@ export default {
     },
     location(lng) {
       window.location = "/" + lng;
+    },
+    showMenus(){
+        const nav = this.$refs.nav;
+        if(nav.className.match(/show/g)){
+            nav.classList.remove('show');
+        }else{
+            nav.classList.add('show');
+        }
     }
   }
 };
@@ -139,9 +179,10 @@ export default {
 
 <style scoped lang="scss">
 .my-nav {
-  height: 0.7rem;
-  background-color: #332c66;
+  height: 0.6rem;
+  border-bottom:.03rem solid #242572;
   .inner {
+    .menu{display: none}
     width: 12rem;
     height: 100%;
     margin: auto;
@@ -164,76 +205,244 @@ export default {
       flex-direction: row;
       justify-content: flex-end;
       align-items: center;
-      .account {
-        margin-left: 0.3rem;
-        letter-spacing: 0.01rem;
-        font-size: 0.16rem;
-        display: flex;
-        align-items: center;
-        color: #b3a6ff;
-      }
-      .language {
-        position: relative;
-        z-index: 10;
-        height: 100%;
-        margin-left: 0.3rem;
-        padding-right: 20px;
-        display: flex;
-        align-items: center;
-        cursor: pointer;
-        color: #b3a6ff;
-        transition: opacity 0.2s ease-in-out;
-        &:hover {
-          & > span {
-            opacity: 0.5;
-          }
-          & > .group {
-            display: block;
+      a{
+        color: #fff;
+        font-size: .16rem;
+        margin-left:.4rem;
+        &:nth-child(5){
+          position: relative;
+          padding:0 .2rem 0 .36rem;
+          height: .31rem;
+          line-height: .31rem;
+          background-color: #2babf5;
+          border-radius: .08rem;
+          &:before{
+            content: '';
+            position: absolute;
+            left:0.15rem;
+            width: .3rem;
+            height: .3rem;
+            background-image: url('../assets/images/icons/icon-prize.png');
+            background-position:left center;
+            background-repeat:no-repeat;
+            background-size:auto 60%;
+
           }
         }
-        &:after {
-          content: "";
-          position: absolute;
-          top: 0.34rem;
-          right: 0.05rem;
+      }
+      a.lucky{}
+    }
+    .account {
+      margin-left: 0.3rem;
+      letter-spacing: 0.01rem;
+      font-size: 0.16rem;
+      display: flex;
+      align-items: center;
+      color: #fff;
+    }
+    .language {
+      position: relative;
+      z-index: 10;
+      margin-left: .1rem;
+      padding-left: .1rem;
+      padding-right: .2rem;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      color: #b3a6ff;
+      transition: opacity 0.2s ease-in-out;
+      border:.02rem solid #383a90;
+      height: .3rem;
+      border-radius:.15rem;
+      img{
+        width: .2rem;
+      }
+      span{
+        margin-left: .04rem;
+      }
+      &:hover {
+        & > span {
+          opacity: 0.5;
+        }
+        & > .group {
+          display: block;
+        }
+      }
+      &:after {
+        content: "";
+        position: absolute;
+        top: 0.12rem;
+        right: 0.05rem;
+        width: 0;
+        height: 0;
+        border-top: 0.04rem solid #b3a6ff;
+        border-bottom: 0.04rem solid transparent;
+        border-left: 0.04rem solid transparent;
+        border-right: 0.04rem solid transparent;
+      }
+      .group {
+        display: none;
+        position: absolute;
+        right: 0;
+        top: .3rem;
+        width: 1.2rem;
+        background:#a8abe4;
+        padding:0.01rem;
+        border-radius:.08rem;
+        &:after{
+          content:'';
           width: 0;
           height: 0;
-          border-top: 0.04rem solid #b3a6ff;
-          border-bottom: 0.04rem solid transparent;
-          border-left: 0.04rem solid transparent;
-          border-right: 0.04rem solid transparent;
-        }
-        .group {
-          display: none;
           position: absolute;
-          right: 0;
-          top: 100%;
-          width: 1.2rem;
-          background: rgba(53, 58, 62, 0.85);
-          .item {
-            height: 0.4rem;
-            border-top: 0.01rem solid #4e4e4e;
-            padding: 0 0.2rem;
-            display: flex;
-            align-items: center;
-            cursor: pointer;
-            &:first-child {
-              border: none;
-            }
-            &:hover {
-              background-color: #50555a;
-            }
+          border-bottom:.06rem solid #a8abe4;
+          border-left:.06rem solid transparent;
+          border-top:.06rem solid transparent;
+          border-right:.06rem solid transparent;
+          top: -0.12rem;
+          right: 0.1rem;
+        }
+        .item {
+          height: 0.36rem;
+          padding: 0 0.2rem;
+          display: flex;
+          align-items: center;
+          cursor: pointer;
+          color: #131258;
+          &:hover {
+            background-color: #9599e1;
+          }
+          &:first-child {
+            border-radius: .08rem .08rem 0 0;
+          }
+          &:last-child {
+            border-radius:0 0 .08rem .08rem;
           }
         }
       }
+    }
+    .language-mobile{
+      display: none;
     }
   }
 }
 @media screen and (max-width:1280px){
   .my-nav{
+    position: fixed;
+    z-index:1000;
+    height: 1rem;
+    width: 100%;
+    background-color: #131258;
     .inner{
+      padding:0  .2rem;
       width: 100%;
       overflow: hidden;
+      justify-content: space-between;
+      .menu{
+        cursor: pointer;
+        display: block;
+        font-size: .6rem;
+      }
+      .account{
+        margin-left: 0;
+        width: .8rem;
+        text-indent:-1.2rem;
+      }
+      .nav{
+        transition:all .3s ease-in-out;
+        overflow:hidden;
+        height: 0rem;
+        position: fixed;
+        z-index:1;
+        width: 100%;
+        padding:0 .4rem;
+        left:0;
+        top: 1rem;
+        background-color: #131258;
+        box-shadow: -0.2px 11px 46px 0px
+        rgba(14, 13, 62, 0.52);
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-start;
+        a{
+          margin-left: 0;
+          height: 1rem;
+          width: 100%;
+          display: flex;
+          font-size: .28rem;
+          align-items: center;
+          &:nth-child(1){
+            order:2;
+          }
+          &:nth-child(2){
+            order:3;
+          }
+          &:nth-child(3){
+            order:4;
+          }
+          &:nth-child(4){
+            order:5;
+            border-bottom:0.01rem solid #39387b;
+          }
+          &:nth-child(5){
+            margin-top: .2rem;
+            order:1;
+            width: auto;
+            height: .6rem;
+            font-size: .3rem;
+            line-height: .6rem;
+            padding-left:.6rem;
+            padding-right:.2rem;
+            background-image: linear-gradient(142deg,
+                    #2babf5 0%,
+                    #4786f9 50%,
+                    #6260fd 100%),
+            linear-gradient(
+                            #de5cff,
+                            #de5cff);
+            background-blend-mode: normal,
+            normal;
+            border-radius: .1rem;
+            &:before{
+              width: .4rem;
+              height: .4rem;
+              background-size:auto 100%;
+              top: .1rem;
+            }
+          }
+        }
+        .language-mobile{
+          order:6;
+          height: 1rem;
+          width: 100%;
+          top:5.9rem;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          .cell{
+            display: flex;
+            align-items: center;
+            padding:.12rem;
+            border:.01rem solid #39387b;
+            border-radius:.28rem;
+            img{
+              width: .32rem;
+            }
+            span{
+              margin-left: .04rem;
+            }
+          }
+          .cell.focus{
+            border-color:#64e1f5;
+          }
+        }
+      }
+      .nav.show{
+        height: 6rem;
+      }
+      .language{
+        display: none;
+      }
+
     }
   }
 }

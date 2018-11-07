@@ -34,9 +34,9 @@
             <td>{{item.time}}</td>
             <td>{{item.player | hiddenAddress}}</td>
             <td>{{item.select}}</td>
-            <td>{{item.input}}</td>
+            <td>{{item.input}}TRX</td>
             <td>{{item.result}}</td>
-            <td>{{item.output}}</td>
+            <td>{{item.output?item.output+'TRX':''}}</td>
           </tr>
         </tbody>
         <tbody v-else>
@@ -86,9 +86,9 @@
           <td>{{item.time}}</td>
           <td>{{item.player | hiddenAddress}}</td>
           <td>{{item.select}}</td>
-          <td>{{item.input}}</td>
+          <td>{{item.input}}TRX</td>
           <td>{{item.result}}</td>
-          <td>{{item.output}}</td>
+          <td>{{item.output?item.output+'TRX':''}}</td>
         </tr>
         </tbody>
       </table>

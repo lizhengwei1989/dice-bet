@@ -57,8 +57,10 @@ export default {
       contractInstance: null,
       contractAddress: "",
       languageGroup: [
-        { lng: "en", txt: "English" },
-        { lng: "ch", txt: "Chinese" }
+        { lng: "en", txt: "English",icon:'england' },
+        { lng: "ch", txt: "Chinese",icon:'china' },
+        { lng: "rus", txt: "Russian",icon:'russia' },
+        { lng: "kor", txt: "Korean",icon:'korea' },
       ]
     };
   },
@@ -85,8 +87,6 @@ export default {
         .at(contractAddress);
       this.contractInstance = contractInstance;
       this.$store.commit("SET_CONTRACT_INSTANCE", contractInstance);
-      //const myBets = localStorage.my ? JSON.parse(localStorage.my): [];
-      //this.$store.commit('SET_MY_BETS',myBets);
     } else {
       this.checkLogin();
     }
@@ -194,7 +194,7 @@ export default {
 @media screen and (max-width:1280px){
   .container{
     .main{
-      padding:0 .32rem;
+      padding:1rem .32rem 0;
       width: 100%;
       .cell{
         &:nth-child(2){
