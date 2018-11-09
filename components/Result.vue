@@ -141,7 +141,7 @@ export default {
     },
     getAllBets(address,diceAddress) {
       let oDate = new Date();
-      let timestamp = oDate.getTime() - 24 * 3600 * 1000;
+      let timestamp = oDate.getTime() - 6 * 3600 * 1000;
       setInterval(async () => {
         let txid = [];
         const success = window.tronWeb.getEventResult(

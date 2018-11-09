@@ -24,7 +24,7 @@
       </div>
       <div class="input-group">
         <div class="input" :data-after="unit">
-          <input type="text" name="" :value="Math.floor(stake * odds * 100)/100" readonly />
+          <input type="text" name="" :value="Math.floor(stake * odds * 1000)/1000" readonly />
         </div>
       </div>
     </div>
@@ -124,7 +124,6 @@ export default {
         this.animate("balance", n, o);
     },
     myBetsLength(n, o) {
-      console.log(n, o);
       if (n != 0) {
         if(o != 0){
             this.r = this.$store.state.random;
@@ -174,15 +173,16 @@ export default {
     ])
   },
   mounted() {
+    const odds = getOdds(this.number);
     this.my = localStorage.my ? JSON.parse(localStorage.my) : [];
     const tip = document.querySelector(".el-slider__button-wrapper");
     tip.setAttribute("data-before", this.number);
-    this.odds = getOdds(this.number);
+    this.odds = Math.floor(odds * 10000) / 10000;
   },
   methods: {
     changeState(num) {
       const odds = getOdds(num);
-      this.odds = Math.floor(odds * 100) / 100;
+      this.odds = Math.floor(odds * 10000) / 10000;
     },
     handleInput(e) {
       let v = e.target.value;
@@ -193,9 +193,9 @@ export default {
       this.$store.commit('SET_STAKE',v);
     },
     handleBlur(e){
-        if(e.target.value < 10){
-            e.target.value = 10;
-            this.$store.commit('SET_STAKE',10);
+        if(e.target.value < this.limit[this.dbToken].min){
+            e.target.value = this.limit[this.dbToken].min;
+            this.$store.commit('SET_STAKE',this.limit[this.dbToken].min);
         }
     },
     handlePercentage(p, index) {
@@ -206,14 +206,15 @@ export default {
       }
       cells[index].classList.add("green");
       if(p === 'half'){
-          v = Math.floor(this.stake / 2);
+          v = this.stake / 2;
       }else if(p ==='double'){
           v = this.stake * 2;
       }else{
-          v = Math.floor(this.balance)
+          v = this.balance;
       }
       v = Math.min(v, this.limit[this.dbToken].max ,this.balance);
       v = Math.max(v, this.limit[this.dbToken].min);
+      v = Math.floor(v);
       this.$store.commit('SET_STAKE',v);
     },
     async roll() {

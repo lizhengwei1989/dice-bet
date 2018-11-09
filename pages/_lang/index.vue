@@ -108,12 +108,12 @@ export default {
           } else {
             setTimeout(() => {
               this.$store.commit("SET_SHOW_LOADING", false);
-              isTronWebLoaded = false;
+              isTronWebLoaded = true;
               resolve(isTronWebLoaded);
               clearInterval(oTimer);
             }, 3000);
           }
-        }, 500);
+        }, 1200);
       });
     },
     checkLogin() {
@@ -127,9 +127,9 @@ export default {
     checkEnv() {
       const server =  (typeof window.tronWeb.eventServer).toUpperCase() === 'OBJECT'?window.tronWeb.eventServer.host:window.tronWeb.eventServer;
       if (server === "https://api.shasta.trongrid.io") {
-        contractAddress = "TDfe6EJiQ5mvQmbky9mdhNbvX8rWsuaNoc";
+        contractAddress = "TT1Y6SAsYsoQfhk666vqcqAttsgMXdPqpQ";
         activityAddress = "TSYuKXyV6pPcxcMJfaqZzt4KUBtncPPPC5";
-        diceAddress = "TH6xJY8uhkXNRpRrY65mSDu2dNvcfGaubS";
+        diceAddress = "TQJRRMRpGAZEUEjqBZ6UJXvf2DhMYc52fs";
       } else {
         contractAddress = "TDVJZ53EowTzWnyknSeDqRGSJjoibExZWh";
         activityAddress = "";
