@@ -35,7 +35,8 @@ const formatTime = (ns) => {
 
 const getBalance = async address=>{
     let tronWeb = window.tronWeb;
-    let {data} = await xhr.post(`${tronWeb.eventServer}/wallet/getaccount`,{
+    const server = (typeof tronWeb.eventServer).toUpperCase() === 'OBJECT'? tronWeb.eventServer.host : tronWeb.eventServer;
+    let {data} = await xhr.post(`${server}/wallet/getaccount`,{
         address : address
     })
     if(Object.keys(data).length==0){
@@ -49,4 +50,17 @@ const getRanks = async (address,time) => {
     return data;
 }
 
-export { getOdds,formatTime,getPoint,getBalance,getRanks}
+
+
+function noDebug(address){
+    var threshold=160;
+    if(window){
+        setInterval(function(){
+            if(window.outerWidth-window.innerWidth>threshold || window.outerHeight-window.innerHeight>threshold){
+                //throw new Error('error');
+            }
+        })
+    }
+}
+
+export { getOdds,formatTime,getPoint,getBalance,getRanks,noDebug}

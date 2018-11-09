@@ -32,10 +32,11 @@ import OtherPrize from "~/components/OtherPrize.vue";
 import Play from "~/components/Play.vue";
 import Result from "~/components/Result.vue";
 import Loading from "~/components/loading.vue";
-import { getBalance, noDebug, getWeeklyRank } from "~/assets/js/common";
+import { getBalance, noDebug, getWeeklyRank } from "~/static/js/Util";
 
 let contractAddress = ""; //测试网
-let activityAddress = "TSYuKXyV6pPcxcMJfaqZzt4KUBtncPPPC5";
+let activityAddress = "";
+let diceAddress = "";
 export default {
   components: {
     MyNav,
@@ -54,7 +55,6 @@ export default {
       tronWeb: null,
       rollBtnDisabled: false,
       lastRollNum: null,
-      contractInstance: null,
       contractAddress: "",
       languageGroup: [
         { lng: "en", txt: "English",icon:'england' },
@@ -68,7 +68,7 @@ export default {
     this.$store.dispatch("getToken");
   },
   computed: {
-    ...mapState(["showLoading"])
+    ...mapState(["showLoading","address","contractInstance"])
   },
   async mounted() {
     noDebug();
@@ -80,13 +80,16 @@ export default {
       if (!this.checkLogin()) return;
       this.checkEnv();
       this.$store.commit("SET_ADDRESS", this.tronWeb.defaultAddress);
-      const balance = await getBalance(this.$store.state.address.hex);
+      const balance = await getBalance(this.address.hex);
       this.$store.commit("SET_BALANCE", this.tronWeb.fromSun(balance));
       const contractInstance = await this.tronWeb
         .contract()
         .at(contractAddress);
-      this.contractInstance = contractInstance;
+      const diceContractInstance = await this.tronWeb
+          .contract()
+          .at(diceAddress);
       this.$store.commit("SET_CONTRACT_INSTANCE", contractInstance);
+      this.$store.commit("SET_DICE_CONTRACT_INSTANCE", diceContractInstance);
     } else {
       this.checkLogin();
     }
@@ -122,15 +125,19 @@ export default {
       }
     },
     checkEnv() {
-      if (window.tronWeb.eventServer == "https://api.shasta.trongrid.io") {
-        contractAddress = "TWhEuRncFxDfBxQcSyf96aEqWvYUduUTKP";
+      const server =  (typeof window.tronWeb.eventServer).toUpperCase() === 'OBJECT'?window.tronWeb.eventServer.host:window.tronWeb.eventServer;
+      if (server === "https://api.shasta.trongrid.io") {
+        contractAddress = "TDfe6EJiQ5mvQmbky9mdhNbvX8rWsuaNoc";
         activityAddress = "TSYuKXyV6pPcxcMJfaqZzt4KUBtncPPPC5";
+        diceAddress = "TH6xJY8uhkXNRpRrY65mSDu2dNvcfGaubS";
       } else {
         contractAddress = "TDVJZ53EowTzWnyknSeDqRGSJjoibExZWh";
         activityAddress = "";
+        diceAddress="";
       }
       this.$store.commit("SET_CONTRACT_ADDRESS", contractAddress);
-      this.$store.commit("SET_ACTIVITYADDRESS", activityAddress);
+      this.$store.commit("SET_ACTIVITY_ADDRESS", activityAddress);
+      this.$store.commit("SET_DICE_ADDRESS", diceAddress);
     },
     timeout(ms) {
       return new Promise(resolve => {

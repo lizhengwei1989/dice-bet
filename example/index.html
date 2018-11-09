@@ -12,8 +12,16 @@
             const fullNode = new HttpProvider('https://api.shasta.trongrid.io');
             const solidityNode = new HttpProvider('https://api.shasta.trongrid.io');
             const eventServer = 'https://api.shasta.trongrid.io';
-            const privateKey = '52ca9ac4b1ec3c8c4bfbde90dc0796a747f6c179707f9f10c8371a3d3c908f16';
-            const contract_address = 'TWhEuRncFxDfBxQcSyf96aEqWvYUduUTKP';
+            const privateKey = '2f7fb77412adff0cb522e275d591cbcd1ae5c7f7adb2bc31c09b527fecb59892';
+            const contract_address = 'TDfe6EJiQ5mvQmbky9mdhNbvX8rWsuaNoc';
+
+
+
+            const dicePrivateKey = '6f52e931cb32701fb4fb53f735622c996973196bd4a6b674b65cd242025c66e0';
+            const diceTokenPrivateKey = 'c9fed84875e52cda338c93d18b9909bd885e31b02398adcc28d727d4344fb340';
+            const dice_contract_address = 'TH6xJY8uhkXNRpRrY65mSDu2dNvcfGaubS';
+            const dice_token_contract_address = 'TEAU9x6XjE5mwTKPEioJdSDTALmmJjsrNL';
+
             const tronWeb = new TronWeb(
                 fullNode,
                 solidityNode,
@@ -21,22 +29,12 @@
                 privateKey
             );
 
-            /* const HttpProvider = TronWeb.providers.HttpProvider;
-             const fullNode = new HttpProvider('https://api.trongrid.io');
-             const solidityNode = new HttpProvider('https://api.trongrid.io');
-             const eventServer = 'https://api.trongrid.io';
-             //const privateKey = 'D909FA65A355D86C25DF567769639192FF40332EBFBF91CAC357624E133EE44C';
-             const privateKey = 'D11A793D1F57944CFB377058835CC2676FA0353FA4606400F91238FE2DF834D8';//用来部署合约
-
-
-             const contract_address = 'TZ8yoregbxgLHziyCBnohb3eunS1aZUUFq';
-             const tronWeb = new TronWeb(
-                 fullNode,
-                 solidityNode,
-                 eventServer,
-                 privateKey
-             );*/
-            //console.log(window.tronWeb);
+            const tronWeb2 = new TronWeb(
+                fullNode,
+                solidityNode,
+                eventServer,
+                dicePrivateKey
+            );
             function timeout(ms) {
                 return new Promise((resolve) => {
                     setTimeout(resolve, ms);
@@ -44,99 +42,59 @@
             }
 
             let contractInstance;
+            let diceContractInstance;
+            let diceTokenContractInstance;
             //获取合约
             async function getContractInstance() {
                 //if (localStorage.contractAddress) {
                     contractInstance = await tronWeb.contract().at(contract_address);
+                    diceContractInstance = await tronWeb2.contract().at(dice_contract_address);
+                    diceTokenContractInstance = await tronWeb.contract().at(dice_token_contract_address);
                 //}
             }
             await getContractInstance();
-
-
-            /* async function getAndTriggerContract (){
-                 //获取contract实例
-                 const newContract = await tronWeb.contract().at(contract_address);
-                 //console.log(newContract);
-                 /!*  事件部分待确认
-                 newContract.events(event=>{
-                     console.log(event.name);
-                 }).start(err=>{
-                     if(err) return'err';
-                     console.log('event listener started');
-                 })
-                 return;
-                 *!/
-
-                 /!*、
-                 *
-                 * 如果shouldPollResponse设置为false，将不会去soliditynode 上查，反之会去soliditynode上去轮询是否交易已经确认
-                 * *!/
-                 const transactionId=await newContract.fibonacciNotify(105).send({
-                     callValue:0,
-                     shouldPollResponse:false  //是否等待响应
-                 });
-
-
-
-
-
-                 let timer = setInterval(()=>{
-                     tronWeb.getEventByTransacionID(transactionId, (err, events) => {
-                         if(err)
-                             return console.error(err);
-
-                         console.group('Specific event result');
-                         console.log('Transaction: 32d7efe5f70c044bcd831f21f911209a7abf4ed0d5934b2c1b804e108008cd43');
-                         console.log('- Events:\n' + JSON.stringify(events, null, 2), '\n');
-                         console.groupEnd();
-                     });
-                     setTimeout(()=>{
-                         clearInterval(timer);
-                     },6000)
-                 },3000)
-
-
-
-                 /!*tronWeb.trx.getTransactionInfo('dc8c2a38a13fa37b9eef20309bf1e28398889dff4c21ac2fb4de6b1ab78865e4').then(transaction => {
-                     console.group('Transaction');
-                     console.log('- Hash:', transaction.txID);
-                     console.log('- Transaction:\n' + JSON.stringify(transaction, null, 2), '\n');
-                     console.groupEnd();
-                 }).catch(err => console.error(err));*!/
-
-
-                 /!* newContract.Notify().watch((err,event)=>{
-                      console.log(event)
-                      if(err)
-                          return console.error('Error with "Notify" event:',err);
-                      if(transactionId == event.transaction){
-                          console.log('event',event);
-                           $('#eventResult').val(event.result);
-                      }
-                  })
-  *!/
-
-             }*/
             let timer;
+            let timer2;
             async function triggerRtu(){
                 await contractInstance.rtu(new Date().getTime()).send();
             }
-            $('#btn_start').on('click',async ()=>{
-
-                //let res = await contractInstance.stat().call();
-                //let arr = res.toString().split(',');
+            async function triggerDiceRtu(){
+                const r = Math.ceil(Math.random() * 100);
+                //console.log(r);
+                //const r = 10;
+                await diceContractInstance.diceRtu(r).send();
+            }
+            $('#btn_start_trx').on('click',async ()=>{
                 await triggerRtu();
                 timer = setInterval(async()=>{
                     await triggerRtu();
                 },1000)
 
             })
+            $('#btn_start_dice').on('click',async ()=>{
+                await triggerDiceRtu();
+                timer2 = setInterval(async()=>{
+                    await triggerDiceRtu();
+                },1000)
+
+            })
             $('#btn_end').on('click',()=>{
                 clearInterval(timer);
+                clearInterval(timer2);
             })
 
+            $('#inputDice').on('click',async ()=>{
+                //tronWeb.setPrivateKey(diceTokenPrivateKey);
+                //await diceContractInstance.transfer(tronWeb.address.toHex(dice_contract_address).replace('/^41/','0x'),1000000).send()
+                const a = await diceTokenContractInstance.balanceOf(tronWeb.address.toHex(dice_contract_address).replace('/^41/','0x')).call();
+                console.log(a.toString())
+            })
 
-
+            $('#getDice').on('click',async ()=>{
+                const v = $("#addr").val();
+                const a = await diceContractInstance.getBalanceOf(tronWeb.address.toHex(v).replace('/^41/','0x')).call();
+                console.log(a.toString())
+            })
 
 
 
@@ -150,8 +108,13 @@
     <h1>基础操作</h1>
     <h2>我的账号</h2>
     <h3 id="curAccount"></h3>
-    <input type="button" id="btn_start" value="开始">
+    <input type="button" id="btn_start_trx" value="开始 trx game">
+    <input type="button" id="btn_start_dice" value="开始 dice game">
+    <input type="button" id="inputDice" value="打dice">
     <input type="button" id="btn_end" value="结束">
+    <hr>
+    <input type="text" id="addr" value="TJVVo2Yfzih4sAYNC35haFoXxryTAUX39c" style="width:300px" />
+    <input type="button" id="getDice" value="获取dice余额" />
 </div>
 
 </body>

@@ -1,11 +1,11 @@
 <template>
-    <div class="other-prize">
+    <div class="other-prize" v-if="dbToken==0">
         <div class="desc">
             <div class="r1">
-                {{$t('OtherPrize.Txt1')}}3.5454 DICE
+                {{$t('OtherPrize.Txt1')}}{{stake * convert}} DICE
             </div>
             <div class="r2">
-                {{$t('OtherPrize.Txt2')}}
+                {{$t('OtherPrize.Txt2')}} {{convert}}x DICE
             </div>
         </div>
         <img :src="require('../assets/images/other-prize.png')" alt="" />
@@ -13,8 +13,12 @@
 </template>
 
 <script>
+    import { mapState } from "vuex";
     export default {
-        name: "OtherPrize"
+        name: "OtherPrize",
+        computed: {
+            ...mapState(["stake","dbToken","convert"])
+        },
     }
 </script>
 
@@ -22,6 +26,7 @@
     .other-prize{
         width: 6.2rem;
         height: .8rem;
+        margin-top: .1rem;
         background-image: linear-gradient(91deg,
                 #5b60d6 0%,
                 #5b37b6 100%),

@@ -18,7 +18,7 @@
                 </th>
             </tr>
             </thead>
-            <tbody>
+            <tbody :style="'height:'+(dbToken==0?'3.4':'4.3')+'rem'">
                 <tr v-for="(item,index) of ranks">
                     <td><img v-if="index < 3" :src="require('../assets/images/order'+(index+1)+'.png')"><span v-else>{{index+1}}</span></td>
                     <td>{{item.player|hiddenAddress}}</td>
@@ -55,7 +55,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["contractAddress"])
+    ...mapState(["contractAddress","dbToken"])
   },
   watch: {
     async contractAddress(n) {
@@ -304,7 +304,8 @@ export default {
 <style scoped lang="scss">
 .rank {
   width: 100%;
-  height: 5.7rem;
+  /*height: 5.7rem;*/
+  flex:1;
   background-image: linear-gradient(
       142deg,
       #2b2c80 0%,

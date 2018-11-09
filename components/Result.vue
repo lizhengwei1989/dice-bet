@@ -34,9 +34,9 @@
             <td>{{item.time}}</td>
             <td>{{item.player | hiddenAddress}}</td>
             <td>{{item.select}}</td>
-            <td>{{item.input}}TRX</td>
+            <td>{{item.input}} {{item.token==0?'TRX':'DICE'}}</td>
             <td>{{item.result}}</td>
-            <td>{{item.output?item.output+'TRX':''}}</td>
+            <td>{{item.output?item.output+(item.token==0?'TRX':'DICE'):''}}</td>
           </tr>
         </tbody>
         <tbody v-else>
@@ -86,7 +86,7 @@
           <td>{{item.time}}</td>
           <td>{{item.player | hiddenAddress}}</td>
           <td>{{item.select}}</td>
-          <td>{{item.input}}TRX</td>
+          <td>{{item.input}} {{item.token==0?'TRX':'DICE'}}</td>
           <td>{{item.result}}</td>
           <td>{{item.output?item.output+'TRX':''}}</td>
         </tr>
@@ -110,11 +110,11 @@ export default {
     };
   },
   computed: {
-    ...mapState(["contractAddress", "contractInstance", "address"])
+    ...mapState(["contractAddress", "contractInstance", "address",'diceAddress'])
   },
   watch: {
     contractAddress(n) {
-      this.getAllBets(n);
+      this.getAllBets(n,this.diceAddress);
     },
     my(n, o) {
       this.myLen = n.length;
@@ -139,11 +139,11 @@ export default {
         }
       }
     },
-    getAllBets(address) {
+    getAllBets(address,diceAddress) {
       let oDate = new Date();
       let timestamp = oDate.getTime() - 24 * 3600 * 1000;
       setInterval(async () => {
-        let txid = "";
+        let txid = [];
         const success = window.tronWeb.getEventResult(
           address,
           timestamp,
@@ -156,8 +156,27 @@ export default {
           "UserLose",
           0
         );
-        Promise.all([success, fail]).then(logs => {
-          logs = logs[0].concat(logs[1]);
+        const dice_success = window.tronWeb.getEventResult(
+          diceAddress,
+          timestamp,
+          "UserWinDice",
+          0
+        );
+        const dice_fail = window.tronWeb.getEventResult(
+          diceAddress,
+          timestamp,
+          "UserLoseDice",
+          0
+        );
+
+        Promise.all([success, fail,dice_success,dice_fail]).then(logs => {
+          let trxLogs = [],diceLogs = [];
+          trxLogs = logs[0].concat(logs[1]);
+          diceLogs = logs[2].concat(logs[3]);
+          diceLogs.forEach(v=>{
+              v.token = 1;
+          })
+          logs = trxLogs.concat(diceLogs);
           logs.sort((o1, o2) => {
             if (o1.timestamp > o2.timestamp) {
               return -1;
@@ -166,10 +185,10 @@ export default {
             }
           });
           logs = logs.filter(v => {
-            if (v.transaction != txid) {
-              txid = v.transaction;
-              return v;
-            }
+              if (txid.indexOf(v.transaction)==-1) {
+                  txid.push(v.transaction);
+                  return v;
+              }
           });
           let a = [],
             b = [];
@@ -180,11 +199,10 @@ export default {
             const select = v.result["_point"];
             const result = v.result["_random"];
             const input = window.tronWeb.fromSun(v.result["_amount"]);
-            const output = v.result["_W"]
-              ? window.tronWeb.fromSun(v.result["_W"])
-              : "";
+            const output = v.result["_W"] ? window.tronWeb.fromSun(v.result["_W"]) : "";
             const time = formatTime(v.timestamp);
-            a.push({ select, result, player, input, output, time });
+            const token = v.token ? v.token : 0;
+            a.push({ select, result, player, input, output, time,token });
           });
           this.all = a;
           logs = logs.filter(v => {
@@ -202,11 +220,10 @@ export default {
             const select = v.result["_point"];
             const result = v.result["_random"];
             const input = window.tronWeb.fromSun(v.result["_amount"]);
-            const output = v.result["_W"]
-              ? window.tronWeb.fromSun(v.result["_W"])
-              : "";
+            const output = v.result["_W"] ? window.tronWeb.fromSun(v.result["_W"]) : "";
             const time = formatTime(v.timestamp);
-            b.push({ select, result, player, input, output, time });
+            const token = v.token ? v.token : 0;
+            b.push({ select, result, player, input, output, time, token});
           });
           this.my = b;
         });

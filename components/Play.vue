@@ -5,17 +5,17 @@
         {{$t('Play.Bet.Title')}}
       </div>
       <div class="input-group">
-        <div class="input">
+        <div class="input" :data-after="unit">
           <input type="text" :value="stake" @input="handleInput" @blur="handleBlur" name="" id="" />
         </div>
         <div class="percentage" ref="percentage">
-          <span @click="handlePercentage(0.25,0)">25%</span>
-          <span @click="handlePercentage(0.5,1)">50%</span>
-          <span @click="handlePercentage(1,2)">100%</span>
+          <span @click="handlePercentage('half',0)">1/2</span>
+          <span @click="handlePercentage('double',1)">2X</span>
+          <span @click="handlePercentage('all',2)">MAX</span>
         </div>
       </div>
       <div class="desc">
-        {{$t('Play.Bet.Left')}}&nbsp;<span ref="balance"></span>&nbsp;TRX
+        {{$t('Play.Bet.Left')}}&nbsp;<span ref="balance"></span>&nbsp;{{unit}}
       </div>
     </div>
     <div class="win">
@@ -23,7 +23,7 @@
         {{$t('Play.WinTitle')}}
       </div>
       <div class="input-group">
-        <div class="input">
+        <div class="input" :data-after="unit">
           <input type="text" name="" :value="Math.floor(stake * odds * 100)/100" readonly />
         </div>
       </div>
@@ -86,19 +86,22 @@ export default {
     return {
       number: 50,
       disabled: false,
-      stake: 10,
       odds: 2,
-      limit: {
-        min: 10,
-        max: 10000
-      },
       transactionId:'',
       r: "",
       rolling: null,
-      timer: null
+      timer: null,
+      unit:'TRX'
     };
   },
   watch: {
+    dbToken(n){
+        if(n==0){
+            this.unit = 'TRX';
+        }else if(n==1){
+            this.unit = 'DICE';
+        }
+    },
     number(newVal, oldVal) {
       const tip = document.querySelector(".el-slider__button-wrapper");
       if (newVal <= 2) {
@@ -114,32 +117,43 @@ export default {
       this.changeState(this.number);
     },
     balance(n, o) {
-      this.animate("balance", n, o);
+        let v = this.stake;
+        v = Math.min(v, this.limit[this.dbToken].max ,Math.floor(n));
+        v = Math.max(v, this.limit[this.dbToken].min);
+        this.$store.commit('SET_STAKE',v);
+        this.animate("balance", n, o);
     },
     myBetsLength(n, o) {
-      if (o != 0) {
+      console.log(n, o);
+      if (n != 0) {
+        if(o != 0){
+            this.r = this.$store.state.random;
+        }
         clearInterval(this.timer);
         clearInterval(this.rolling);
         this.disabled = false;
-        this.r = this.$store.state.random;
         setTimeout(() => {
           this.r = "";
         }, 3000);
         this.watchBalance();
-          //添加交易
-          let data = {
-              dappId: this.dapp,
-              contractAddress: this.contractAddress,
-              trxHash: this.transactionId,
-              amount: Number(window.tronWeb.toSun(this.stake)),
-              userAddress: this.address.base58 || "",
-              status: 1
-          };
-          addTransition(data);
-        if(this.r >= this.number){
-            this.$refs.lose.style.display="block";
-        }else{
-            this.$refs.win.style.display="block";
+        //添加交易
+        if(this.transactionId){
+            if(this.dbToken==0){
+                let data = {
+                    dappId: this.dapp,
+                    contractAddress: this.contractAddress,
+                    trxHash: this.transactionId,
+                    amount: Number(window.tronWeb.toSun(this.stake)),
+                    userAddress: this.address.base58 || "",
+                    status: 1
+                };
+                addTransition(data);
+            }
+            if(this.r >= this.number){
+                this.$refs.lose.style.display="block";
+            }else{
+                this.$refs.win.style.display="block";
+            }
         }
       }
     }
@@ -152,7 +166,11 @@ export default {
       "random",
       "myBetsLength",
       "contractAddress",
-      "dapp"
+      "dapp",
+      "dbToken",
+      "stake",
+      "limit",
+      "diceContractInstance"
     ])
   },
   mounted() {
@@ -169,59 +187,81 @@ export default {
     handleInput(e) {
       let v = e.target.value;
       v = v.replace(/\D/g, "");
-      v = Math.min(v, Math.ceil(this.balance), this.limit.max);
+      v = Math.min(v, Math.ceil(this.balance), this.limit[this.dbToken].max);
       v = v ? v : '';
-      //v = v < 10 ? 10 : v;
       e.target.value = v;
-      this.stake = v;
+      this.$store.commit('SET_STAKE',v);
     },
     handleBlur(e){
         if(e.target.value < 10){
             e.target.value = 10;
-            this.stake = 10;
+            this.$store.commit('SET_STAKE',10);
         }
     },
     handlePercentage(p, index) {
+      let v;
       const cells = this.$refs["percentage"].getElementsByTagName("span");
       for (let i = 0; i < cells.length; i++) {
         cells[i].classList.remove("green");
       }
       cells[index].classList.add("green");
-      let v = Math.floor(this.balance * p);
-      v = Math.min(v, this.limit.max);
-      this.stake = v;
+      if(p === 'half'){
+          v = Math.floor(this.stake / 2);
+      }else if(p ==='double'){
+          v = this.stake * 2;
+      }else{
+          v = Math.floor(this.balance)
+      }
+      v = Math.min(v, this.limit[this.dbToken].max ,this.balance);
+      v = Math.max(v, this.limit[this.dbToken].min);
+      this.$store.commit('SET_STAKE',v);
     },
     async roll() {
-      if (this.stake == 0) {
-        this.dialogPleaseInput = true;
-        return false;
-      }
-      if (this.balance < 10) {
-        this.dialogNotEnough = true;
+      if (this.balance < this.limit[this.dbToken].min) {
+        this.$message({
+            message:this.$t('Msg.BalanceNotEnough'),
+            type: 'warning'
+        });
         return false;
       }
       if (this.disabled) return false;
       this.disabled = true;
-      let transactionId = await this.contractInstance
-        .bet(this.number)
-        .send({
-          callValue: window.tronWeb.toSun(this.stake), //投注金额
-          shouldPollResponse: false //是否等待响应
-        })
-        .catch(err => {
-          this.disabled = false;
-        });
+      let transactionId;
+      if(this.dbToken==0){
+        transactionId = await this.contractInstance
+          .bet(this.number)
+          .send({
+              callValue: window.tronWeb.toSun(this.stake), //投注金额
+              shouldPollResponse: false //是否等待响应
+          })
+          .catch(err => {
+              this.disabled = false;
+          });
+      }else{
+        const stake = Number(window.tronWeb.toSun(this.stake));
+        console.log(stake);
+        transactionId = await this.diceContractInstance
+          .diceBet(this.number,stake)
+          .send({
+            //callValue: window.tronWeb.toSun(this.stake), //投注金额
+            shouldPollResponse: false //是否等待响应
+          })
+          .catch(err => {
+            this.disabled = false;
+          });
+      }
+
       if (!transactionId) return;
       this.transactionId = transactionId;
       let tmp = 0;
       this.rolling = setInterval(_ => {
         this.r = Math.ceil(Math.random() * 100);
       }, 50);
-      if (!transactionId) return;
       this.$refs.win.style.display="none";
       this.$refs.lose.style.display="none";
       this.timer = setInterval(async _ => {
-        const res = await window.tronWeb.getEventByTransacionID(transactionId);
+        const res = await window.tronWeb.getEventByTransactionID(transactionId);
+        console.log(transactionId,res)
         if (res.length > 0) {
           // const random = res2[3].toString();
           // clearInterval(rolling);
@@ -229,7 +269,7 @@ export default {
           //this.saveMyBets(res[0],res2);
         } else {
           tmp++;
-          if (tmp == 10) {
+          if (tmp == 30) {
             clearInterval(this.timer);
             clearInterval(this.rolling);
             this.disabled = false;
@@ -257,7 +297,8 @@ export default {
       localStorage.my = JSON.stringify(my);
     },
     async watchBalance() {
-      const balance = await getBalance(this.address.hex);
+      let balance = this.dbToken == 0 ? await getBalance(this.address.hex) : (await this.diceContractInstance.getBalanceOf(this.address.hex.replace('/^41/','0x')).call()).toString();
+      console.log(balance);
       this.$store.commit("SET_BALANCE", window.tronWeb.fromSun(balance));
     },
     animate(ref, newVal, oldVal) {
@@ -275,7 +316,7 @@ export default {
         newVal = parseFloat(newVal);
         oldVal = parseFloat(oldVal);
         const t = setInterval(() => {
-          oldVal = oldVal + (newVal - oldVal) / 5;
+          oldVal = oldVal + (newVal - oldVal) / 3;
           oldVal = Math.floor(oldVal * 100) / 100;
           this.$refs[ref].innerHTML = oldVal;
           if (Math.abs(oldVal - newVal) < 0.4) {
@@ -325,7 +366,7 @@ export default {
         text-align: right;
       }
       &:after {
-        content: "TRX";
+        content:attr(data-after);
         position: absolute;
         width: 0.68rem;
         height: 100%;

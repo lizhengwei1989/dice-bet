@@ -1,4 +1,7 @@
 {
+  "Msg":{
+    "BalanceNotEnough":"Balance is not enough"
+  },
   "RankTitle": "今日排行榜",
   "Order": "排名",
   "Player": "投注者",
@@ -6,7 +9,7 @@
   "Prize": "奖励",
   "OtherPrize": {
     "Txt1": "下注可获得：",
-    "Txt2": "现在投注可获得投注货币 100% DICE"
+    "Txt2": "现在投注可获得投注货币"
   },
   "Nav":{
     "HongLi":"红利"
@@ -56,7 +59,6 @@
   "Select": "Choose",
   "Input": "Bet",
   "Output": "Prize",
-
   "ServiceItem": "Terms of Service",
   "Telegram": "Telegram",
   "Rule": {
