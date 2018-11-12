@@ -106,8 +106,7 @@ export default {
       all: [],
       my: [],
       lucky: [],
-      myLen: 0,
-      maxNum: 30
+      myLen: 0
     };
   },
   computed: {

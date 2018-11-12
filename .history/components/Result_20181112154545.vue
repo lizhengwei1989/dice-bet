@@ -106,21 +106,15 @@ export default {
       all: [],
       my: [],
       lucky: [],
-      myLen: 0,
-      maxNum: 30
+      myLen: 0
     };
   },
   computed: {
-    ...mapState([
-      "contractAddress",
-      "contractInstance",
-      "address",
-      "diceAddress"
-    ])
+    ...mapState(["contractAddress", "contractInstance", "address",'diceAddress'])
   },
   watch: {
     contractAddress(n) {
-      this.getAllBets(n, this.diceAddress);
+      this.getAllBets(n,this.diceAddress);
     },
     my(n, o) {
       this.myLen = n.length;
@@ -128,17 +122,6 @@ export default {
     myLen(n, o) {
       this.$store.commit("SET_MY_BETS_LENGTH", n);
       this.$store.commit("SET_RANDOM", this.my[0].result);
-    },
-    address: {
-      deep: true,
-      handler(val) {
-        let localMy = localStorage.getItem(val.base58);
-        if (localMy) {
-          let myObj = JSON.parse(localMy);
-          this.my = myObj;
-          this.localMy = myObj;
-        }
-      }
     }
   },
   mounted() {},
@@ -156,7 +139,7 @@ export default {
         }
       }
     },
-    getAllBets(address, diceAddress) {
+    getAllBets(address,diceAddress) {
       let oDate = new Date();
       let timestamp = oDate.getTime() - 6 * 3600 * 1000;
       setInterval(async () => {
@@ -186,14 +169,13 @@ export default {
           0
         );
 
-        Promise.all([success, fail, dice_success, dice_fail]).then(logs => {
-          let trxLogs = [],
-            diceLogs = [];
+        Promise.all([success, fail,dice_success,dice_fail]).then(logs => {
+          let trxLogs = [],diceLogs = [];
           trxLogs = logs[0].concat(logs[1]);
           diceLogs = logs[2].concat(logs[3]);
-          diceLogs.forEach(v => {
-            v.token = 1;
-          });
+          diceLogs.forEach(v=>{
+              v.token = 1;
+          })
           logs = trxLogs.concat(diceLogs);
           logs.sort((o1, o2) => {
             if (o1.timestamp > o2.timestamp) {
@@ -203,10 +185,10 @@ export default {
             }
           });
           logs = logs.filter(v => {
-            if (txid.indexOf(v.transaction) == -1) {
-              txid.push(v.transaction);
-              return v;
-            }
+              if (txid.indexOf(v.transaction)==-1) {
+                  txid.push(v.transaction);
+                  return v;
+              }
           });
           let a = [],
             b = [];
@@ -217,12 +199,10 @@ export default {
             const select = v.result["_point"];
             const result = v.result["_random"];
             const input = window.tronWeb.fromSun(v.result["_amount"]);
-            const output = v.result["_W"]
-              ? window.tronWeb.fromSun(v.result["_W"])
-              : "";
+            const output = v.result["_W"] ? window.tronWeb.fromSun(v.result["_W"]) : "";
             const time = formatTime(v.timestamp);
             const token = v.token ? v.token : 0;
-            a.push({ select, result, player, input, output, time, token });
+            a.push({ select, result, player, input, output, time,token });
           });
           this.all = a;
           logs = logs.filter(v => {
@@ -240,63 +220,14 @@ export default {
             const select = v.result["_point"];
             const result = v.result["_random"];
             const input = window.tronWeb.fromSun(v.result["_amount"]);
-            const output = v.result["_W"]
-              ? window.tronWeb.fromSun(v.result["_W"])
-              : "";
+            const output = v.result["_W"] ? window.tronWeb.fromSun(v.result["_W"]) : "";
             const time = formatTime(v.timestamp);
-            const timestamp = v.timestamp;
             const token = v.token ? v.token : 0;
-            b.push({
-              select,
-              result,
-              player,
-              input,
-              output,
-              time,
-              token,
-              timestamp
-            });
+            b.push({ select, result, player, input, output, time, token});
           });
-
-          //  本地存储30条
-          this.localMy = JSON.parse(localStorage.getItem(this.address.base58));
-          if (this.localMy && this.localMy.length != 0) {
-            let arr = b.concat(this.localMy);
-            arr = arr.length > this.maxNum ? arr.slice(0, this.maxNum) : arr;
-
-            arr = this.deworming(arr, "transactionId");
-
-            this.my = arr;
-          } else {
-            this.my = b;
-          }
-
-          this.my = this.sort(this.my, "timestamp");
-          localStorage.setItem(this.address.base58, JSON.stringify(this.my));
+          this.my = b;
         });
       }, 3000);
-    },
-    deworming(arr, attr) {
-      let transactionIds = [];
-      arr = arr.filter((item, index) => {
-        if (transactionIds.indexOf(item[attr]) === -1) {
-          transactionIds.push(item[attr]);
-          return item;
-        }
-      });
-
-      return arr;
-    },
-    sort(arr, attr) {
-      arr = arr.sort((o1, o2) => {
-        if (o1[attr] > o2[attr]) {
-          return -1;
-        } else {
-          return 1;
-        }
-      });
-
-      return arr;
     }
   }
 };
@@ -493,14 +424,12 @@ export default {
     }
   }
 }
-@media screen and (max-width: 1280px) {
-  .result {
-    table {
-      tr {
-        th,
-        td {
-          &:nth-child(3),
-          &:nth-child(4) {
+@media screen and (max-width:1280px){
+  .result{
+    table{
+      tr{
+        th,td{
+          &:nth-child(3), &:nth-child(4){
             display: none;
           }
         }
