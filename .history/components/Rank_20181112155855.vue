@@ -529,59 +529,6 @@ export default {
             border: none;
           }
         }
-
-        .cell {
-          display: inline-block;
-          width: 0.04rem;
-          height: 0.5rem;
-          margin-right: 0rem;
-          background-color: #b3a6ff;
-          animation: animate 1s infinite;
-          &:last-child {
-            margin-right: 0px;
-          }
-          &:nth-child(10) {
-            -webkit-animation-delay: 0.9s;
-            animation-delay: 0.9s;
-          }
-          &:nth-child(9) {
-            -webkit-animation-delay: 0.8s;
-            animation-delay: 0.8s;
-          }
-          &:nth-child(8) {
-            -webkit-animation-delay: 0.7s;
-            animation-delay: 0.7s;
-          }
-          &:nth-child(7) {
-            -webkit-animation-delay: 0.6s;
-            animation-delay: 0.6s;
-          }
-          &:nth-child(6) {
-            -webkit-animation-delay: 0.5s;
-            animation-delay: 0.5s;
-          }
-          &:nth-child(5) {
-            -webkit-animation-delay: 0.4s;
-            animation-delay: 0.4s;
-          }
-          &:nth-child(4) {
-            -webkit-animation-delay: 0.3s;
-            animation-delay: 0.3s;
-          }
-          &:nth-child(3) {
-            -webkit-animation-delay: 0.2s;
-            animation-delay: 0.2s;
-          }
-          &:nth-child(2) {
-            -webkit-animation-delay: 0.1s;
-            animation-delay: 0.1s;
-          }
-        }
-        @keyframes animate {
-          50% {
-            transform: scaleY(0);
-          }
-        }
       }
       display: block;
       height: 3.4rem;
