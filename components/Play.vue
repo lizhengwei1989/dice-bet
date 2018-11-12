@@ -124,6 +124,7 @@ export default {
         this.animate("balance", n, o);
     },
     myBetsLength(n, o) {
+      console.log(n, o, '------------------')
       if (n != 0) {
         if(o != 0){
             this.r = this.$store.state.random;
@@ -173,6 +174,10 @@ export default {
     ])
   },
   mounted() {
+    // 获取邀请人地址
+    this.inviteAddress = location.search.indexOf('from') !== -1
+                         ? /\?from=(\S+)/.exec(location.search)[1]
+                         : '0x00'
     const odds = getOdds(this.number);
     this.my = localStorage.my ? JSON.parse(localStorage.my) : [];
     const tip = document.querySelector(".el-slider__button-wrapper");
@@ -230,7 +235,7 @@ export default {
       let transactionId;
       if(this.dbToken==0){
         transactionId = await this.contractInstance
-          .bet(this.number)
+          .bet(this.number, this.inviteAddress)
           .send({
               callValue: window.tronWeb.toSun(this.stake), //投注金额
               shouldPollResponse: false //是否等待响应

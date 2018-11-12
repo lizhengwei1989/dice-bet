@@ -111,7 +111,7 @@
     "prize": "Betting rewards",
     "table": {
       "level": "Level",
-      "amount": "Accumulated betting amount",
+      "amount": "betting amount",
       "prize": "Rewards"
     },
     "remainingBet": "A betting of {trx} TRX will make you VIP",
@@ -133,6 +133,10 @@
       "address": "Invitee",
       "bet": "Betting amount of the invitee",
       "prize": "My rewards"
+    },
+    "result": {
+      "number": "Invite friends",
+      "prize": "Invitation to award"
     }
   }
 }

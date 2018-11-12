@@ -2,7 +2,7 @@
   <article v-if="visible" class="root">
     <div class="mask">
       <div class="content">
-        <i class="el-icon-close" @click="close"></i>
+        <i class="el-icon-close" @click="close" style="color:grey"></i>
         <!-- 标题 -->
         <el-row>
           <h1 class="title">{{$t('LuckyDraw.title')}}</h1>
@@ -28,26 +28,42 @@
             </tbody>
           </table>
         </el-row>
-        <el-row class="">
-
+        <el-row class="record">
+            <el-col :span="3">
+                <img :src="require('../assets/images/user-1.png')" class="user-img">
+            </el-col>
+            <el-col :span="16" class="prize">
+                <div>{{$t('LuckyDraw.rewardText')}} <span>{{balance + ' TRX'}}</span></div>
+                
+            </el-col>
+            <el-col class="btn-withdraw" :span="5">
+                <button class="with-draw" @click="withdraw" v-loading="isLoading"
+            element-loading-text="loading..."
+            element-loading-spinner="el-icon-loading"
+            element-loading-background="rgba(0, 0, 0, 0.6)">
+                  {{$t('LuckyDraw.withdraw')}}
+                </button>
+            </el-col>
         </el-row>
         <!-- 抽奖 -->
         <el-row class="lottery">
           <!-- 开奖结果 -->
-          <el-col :span="8">
+          <!-- <el-col :span="8">
             <div class="t1">
-              {{$t('LuckyDraw.winText') + ' ' + luckyNum}}
+              
             </div>
-          </el-col>
+          </el-col> -->
           <!-- 抽奖触发 -->
-          <el-col :span="8" style="text-align: center;">
-            
-            <button @click="getLuckyNum" class="roll">
-              {{times+''+ $t('LuckyDraw.times')}}
-            </button>
+          <el-col :span="24" style="text-align: center;margin-bottom:0.1rem;position:relative">
+              <div class="lucky-num" v-show="luckyNumShow">
+                  {{$t('LuckyDraw.winText') + ' ' + luckyNum}}
+              </div>
+              <button @click="getLuckyNum" class="roll">
+                {{times+' '+ $t('LuckyDraw.times')}}
+              </button> 
           </el-col>
           <!-- 奖金 -->
-          <el-col
+          <!-- <el-col
             :span="8"
             v-loading="isLoading"
             element-loading-text="loading..."
@@ -57,7 +73,7 @@
             <div>{{$t('LuckyDraw.rewardText')}}</div>
             <span>{{balance + ' TRX'}}</span>
             <a @click="withdraw" class="withdraw" href="javascript:;">{{$t('LuckyDraw.withdraw')}}</a>
-          </el-col>
+          </el-col> -->
         </el-row>
         <!-- 补充说明 -->
         <el-row class="supplement">
@@ -102,7 +118,8 @@ export default {
       // 控制是否显示
       load: this.visible,
       // 奖金说明列表
-      rewardList: this.getRewardList()
+      rewardList: this.getRewardList(),
+      luckyNumShow: false
     };
   },
   async created() {
@@ -159,12 +176,18 @@ export default {
           res.every(v => {
             if (v.name === "GetRandom") {
               this.luckyNum = v.result._random;
+              this.luckyNumShow = true;
+
               return false;
             }
           });
           // 刷新次数和奖金
           this.getTimes();
           this.getBalance();
+
+          setTimeout(() => {
+            this.luckyNumShow = false;
+          });
           // 打开节流阀
           this.flagObj.draw = true;
         });
@@ -237,6 +260,21 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.lucky-num {
+  color: #fff;
+  background: url("../assets/images/float.png") no-repeat;
+  background-size: 100% auto;
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: auto;
+  z-index: 5;
+  width: 2.2rem;
+  height: 0.42rem;
+  top: -0.45rem;
+  line-height: 0.35rem;
+  font-size: 12px;
+}
 /* 打开动画 */
 @keyframes dialogOpen {
   0% {
@@ -245,6 +283,35 @@ export default {
   100% {
     opacity: 1;
   }
+}
+
+.record {
+  width: 100%;
+  height: 0.54rem;
+  background-color: #f5f6fa;
+  border-radius: 0.08rem;
+  margin-top: 0.1rem;
+  padding: 0.12rem 0.21rem;
+  .user-img {
+    width: 0.32rem;
+    height: 0.32rem;
+  }
+
+  font-size: 0.14rem;
+  font-weight: normal;
+  font-stretch: normal;
+  color: #4648bf;
+  .prize {
+    line-height: 0.32rem;
+  }
+
+  .with-draw {
+    height: 0.28rem;
+    background-color: #4648bf;
+    border-radius: 0.08rem;
+    color: #fff;
+  }
+  margin-bottom: 0.1rem;
 }
 
 .root {
@@ -337,5 +404,25 @@ export default {
     }
   }
 }
-</style>
 
+@media (max-width: 750px) {
+  .root {
+    .mask {
+      .content {
+        font-size: 13px;
+        padding: 10px;
+        width: 95%;
+      }
+    }
+  }
+
+  .record {
+    .btn-withdraw {
+      width: 20%;
+      .with-draw {
+        height: 0.4rem;
+      }
+    }
+  }
+}
+</style>

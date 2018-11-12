@@ -1,12 +1,13 @@
 <template>
 
   <el-dialog
+    :modal-append-to-body='false'
     :visible.sync="vipDialog.visible"
      center class="vipDialog">
     <!-- <p class="center">{{$t('vip.desc')}}</p> -->
     <div class="card">
         <el-row class="message" :gutter="20">
-          <el-col :span="6" >
+          <el-col class="vip-logo" :span="6" >
             <img :src="require('../assets/images/vip.png')" class="vip-img"/>
           </el-col>
           <el-col :span="18" class="vip-level">
@@ -19,7 +20,7 @@
             <el-col :span="2">
               <img class="vip-img"  :src="require('../assets/images/vip'+vipInfo.level+'.png')">
             </el-col>
-            <el-col :span="20" style="text-align:right;line-height:0.26rem;color:#fff;">
+            <el-col :span="20" style="text-align:center;line-height:0.26rem;color:#fff;">
                 {{emainingText}}
             </el-col>
             <el-col :span="2">
@@ -50,7 +51,7 @@
             </template>
 
           </el-table-column>
-          <el-table-column prop="allBets" :label="$t('vip.table.amount')" width="200px">
+          <el-table-column prop="allBets" :label="$t('vip.table.amount')" width="150px">
             <template slot-scope="scope">
                {{scope.row.totalAmount/1000000}} TRX
             </template>
@@ -175,7 +176,7 @@ export default {
     height: 0.26rem;
   }
   .el-dialog {
-    width: 4.63rem;
+    width: 4.83rem;
     background-color: #454545;
     border-radius: 0.2rem;
   }
@@ -183,7 +184,7 @@ export default {
     padding: 0.2rem;
   }
   .card {
-    width: 4.2rem;
+    width: 100%;
     height: 2.05rem;
     background-image: linear-gradient(-4deg, #9e6e33 0%, #d8b274 100%),
       linear-gradient(#ffffff, #ffffff);
@@ -256,7 +257,7 @@ export default {
     }
   }
   .table {
-    width: 4.2rem;
+    width: 100%;
     height: 5.63rem;
     border-radius: 0.2rem;
     border: solid 1px #c49b5e;
@@ -290,6 +291,44 @@ export default {
     .el-table td,
     .el-table th.is-leaf {
       border-bottom: none;
+    }
+  }
+}
+@media (max-width: 750px) {
+  .vipDialog {
+    .el-dialog {
+      width: 6.6rem;
+    }
+    .card {
+      height: 2.4rem;
+      .message {
+        .vip-logo {
+          width: 15%;
+        }
+      }
+      .vip-level {
+        width: 85%;
+        .grade {
+          .el-button {
+            width: 1.1rem;
+            font-size: 12px;
+            height: auto;
+            padding: 0.1rem;
+          }
+        }
+      }
+    }
+    .table {
+      height: 6rem;
+      .el-table::before {
+        height: 0px;
+      }
+      .table-content {
+        margin: 0.1rem 0;
+      }
+      td {
+        padding: 0;
+      }
     }
   }
 }
