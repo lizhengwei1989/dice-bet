@@ -124,7 +124,7 @@ export default {
   },
   async created() {
     /* 设置合约对象 */
-    this.contractObj = await window.tronWeb.contract().at(contractAddress);
+    this.contractObj = await window.tronWeb.contract().at(this.$store.state.activityAddress);
     this.getTimes();
     this.getBalance();
     // this.contractObj.setLotterNumber('TN7KpFteYkkGUPM4wQ8uKRLCzq2M3ngkmc', 10).send()
