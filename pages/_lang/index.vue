@@ -145,7 +145,11 @@ export default {
     checkEnv() {
       const server =  (typeof window.tronWeb.eventServer).toUpperCase() === 'OBJECT'?window.tronWeb.eventServer.host:window.tronWeb.eventServer;
       if (server === "https://api.shasta.trongrid.io") {
+<<<<<<< HEAD
         contractAddress = "TMZMHUFf4XWwGzcmNm4EmguAcvpNfvEQY2";
+=======
+        contractAddress = "TPUZherbdW4CQi9t4RbzvJmsoSzgTgBQRQ";
+>>>>>>> e5e2a34a3ae864d4b3aaf29a7e7c092f7c71b97c
         activityAddress = "TUWGZ9S7hQ52fpmKcLhE5m59s4Ks4nhqq5";
         //diceAddress = "THrENu48be4VuU1f6688fSbazQwRHkDKKQ";
         diceAddress = "TUn7qTLodvp2Xe4M3VQhzdGFZrmWeiCb5x";
