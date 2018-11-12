@@ -463,19 +463,6 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-.ruleDialog {
-  padding: 20px;
-  h4 {
-    margin-bottom: 20px;
-    line-height: 20px;
-  }
-  p {
-    line-height: 20px;
-  }
-  p:last-child {
-    margin-bottom: 20px;
-  }
-}
 .rank {
   width: 100%;
   /*height: 5.7rem;*/
