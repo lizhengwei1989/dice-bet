@@ -128,9 +128,9 @@ export default {
       const server =  (typeof window.tronWeb.eventServer).toUpperCase() === 'OBJECT'?window.tronWeb.eventServer.host:window.tronWeb.eventServer;
       if (server === "https://api.shasta.trongrid.io") {
         // contractAddress = "TT1Y6SAsYsoQfhk666vqcqAttsgMXdPqpQ";
-        contractAddress = "TPUZherbdW4CQi9t4RbzvJmsoSzgTgBQRQ";
+        contractAddress = "TY25w8UYufdahopKSiYrq124zEiLAX2MQT";
         activityAddress = "TSYuKXyV6pPcxcMJfaqZzt4KUBtncPPPC5";
-        diceAddress = "TQJRRMRpGAZEUEjqBZ6UJXvf2DhMYc52fs";
+        diceAddress = "TAMKrioEwSgvvxYuHZM7KAydQQw3KJQqkS";
       } else {
         contractAddress = "TPUZherbdW4CQi9t4RbzvJmsoSzgTgBQRQ";
         activityAddress = "";

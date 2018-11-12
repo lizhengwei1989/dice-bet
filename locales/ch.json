@@ -1,20 +1,29 @@
 {
-  "RankTitle": "今日排行榜",
+  "RankTitle": "每日排行榜",
   "Order": "排名",
   "Player": "投注者",
   "TotalMount": "总投注额",
   "Prize": "奖励",
+  "extract":"提现",
   "OtherPrize": {
     "Txt1": "下注可获得：",
-    "Txt2": "现在投注可获得投注货币 100% DICE"
+    "Txt2": "现在投注可获得投注货币"
+  },
+  "Resource":{
+    "BandWidth":"带宽：",
+    "Energy":"能量："
   },
   "Nav": {
+    "Invite":"邀请",
+    "Rule":"规则",
+    "Vip":"Vip",
+    "LuckyDraw":"幸运抽奖",
     "HongLi": "红利"
   },
   "Play": {
     "Bet": {
       "Title": "投注",
-      "Left": "可用"
+      "Left": "钱包余额"
     },
     "WinTitle": "赢取",
     "WinRate": "中奖概率",
@@ -32,50 +41,19 @@
     "Result": "开奖号码",
     "Output": "奖金"
   },
-  "HowToPlay": "Rules",
   "Chinese": "Chinese",
   "English": "English",
-  "WinRate": "Winning Rate",
-  "extract": "Extract",
-  "PayOut": "Payout",
-  "Range": "Choose betting range",
-  "RangeTip": "You win if the number on the dice falls in your betting range.",
-  "InputCount": "Enter the betting amount",
-  "InputCountTip": "· The number of single bets can not exceed your wallet balance. <br> · The maximum number of single bets can not exceed 10,000 TRX.",
-  "InputMoney": "Enter the amount",
-  "Balance": "Your Wallet Balance:",
-  "LuckyValue": "Lucky Number",
-  "LuckyValueTip": "1. The lucky number is the number of times you lose in a row. The number will go back to 0 if you win or lose 6 times in a row.<br>2. If you lose, 10% of your betting amount will be added to the lucky pool. When you win or lose 6 times in a row, the amount of funds in the lucky pool will turn to 0.<br>3. When the lucky number hits 3, the current amount of funds in the lucky pool will be added to the prize pool as a reward; <br>when the lucky number hits 6, twice the amount of funds in the lucky pool will be added to the prize pool as a reward.",
-  "LuckyPool": "Lucky Pool",
-  "Roll": "Roll the Dice",
-  "Withdraw": "Withdraw",
-  "TRX": "TRX",
-  "AllBets": "All Bets",
-  "MyBets": "My Bets",
-  "LuckyPrize": "Lucky Prize",
-  "Select": "Choose",
-  "Input": "Bet",
-  "Output": "Prize",
-
-  "ServiceItem": "Terms of Service",
-  "Telegram": "Telegram",
   "Rule": {
-    "P1": "1. Make sure you have a TRON Chrome Wallet. Click and install <a target='_blank' href='https://goo.gl/Yb4NRU'>TronLink Wallet</a>.",
-    "P2": "2. Make sure there is a certain amount of TRX in it and TRX is the prerequisite to joining the game.",
-    "P3": "3. You can choose different betting ranges, and the corresponding winning rate, losing rate, and prize will change accordingly.",
-    "P4": "4. Set the betting amount, which is the amount of TRX you would like to bet.",
-    "P5": "5. Click on the 'Roll the Dice' button to start the game and the smart contract will generate a random number from 1 to 6.",
-    "P6": "6. If the number generated falls in your betting range, you win.",
-    "P7": " If you win, you will receive a certain amount of prize in your prize pool and the prize can be withdrawn to your wallet.<br>If you lose, you still have the opportunity to win the lucky prize.",
-    "RuleTip": "Got questions? You are welcome to join our <a target='_blank' href='https://t.me/joinchat/JUyvA1KP9kU2qfwtESfvpg'>Telegram Group</a> and we are more than happy to help you!"
+    "title":"规则",
+    "p1": "1. 确保您有一个TRONLink钱包。点击下载<a target='_blank' href='https://goo.gl/Yb4NRU'>TRONLINK</a>钱包",
+    "p2": "2. 要参与游戏您必须拥有TRX，这是为TRON网络提供动力的基础加密货币。",
+    "p3": "3. 设置您的投注额度，也就是您要下注的TRX数量。",
+    "p4": "4. 您可以调整滑块至您想要的预测编号范围。移动滑块时，您可赢得的总金额、胜率、奖励倍数都将自动调整。",
+    "p5": "5. 点击滚动按钮开始游戏。智能合约随后将从1-100之间随机生成一个幸运数字。",
+    "p6": "6. 如果幸运数字在您的预测范围之内，您就赢了！",
+    "p7": "仍然还有疑问？欢迎加入我们的<a href='https://t.me/TRONDice'>电报组</a>，我们非常乐意为您提供帮助！"
   },
-  "Service": {
-    "P1": "The website provides the smart contract page based on TRON blockchain. It will receive TRX and transfer different amount of TRX according to external factors.",
-    "P2": "We cannot verify the legitimacy of service in all areas of jurisdiction, neither can we provide any legal advice for you. Please follow the instructions above and obey the laws, policies, and regulations related to TRX usage in your area of jurisdiction. Please notice that you will take full responsibility for yourself.",
-    "P3": "Players may gain or lose TRX in games based on smart contracts. We do not bear any responsibility for the result of the game that we provide.",
-    "P4": "We reserve the right to modify the website, its services, and these terms without notice."
-  },
-  "Confirm": "Confirm",
+  "Confirm": "确定",
   "LoginTipTitle": "Please log in to your TRON Chrome Wallet.",
   "LoginTipContent": "If you have not downloaded the wallet, please visit <a href='https://goo.gl/Yb4NRU' target='_blank'>https://goo.gl/Yb4NRU</a> and download the Chrome extensions.",
   "Login": "login",
@@ -85,52 +63,49 @@
   },
   "PleaseInput": "Please enter the betting amount !",
   "LuckyDraw": {
-    "btn": "Lucky draw",
-    "title": "Lucky draw",
-    "introductions": "Press the \"lucky draw\" button to draw a number; claim your prize of the number.",
-    "number": "Lucky number",
-    "reward": "Lucky prize",
-    "winText": "Lucky number for this round",
-    "rewardText": "Lucky prize",
-    "times": "to draw",
-    "withdraw": "Withdraw",
+    "title": "幸运抽奖",
+    "number": "幸运号码",
+    "reward": "幸运奖金",
+    "winText": "本次幸运抽奖数字",
+    "rewardText": "幸运奖金",
+    "times": "次机会",
+    "withdraw": "提现",
     "supplement": {
-      "p1": "The first betting of a day will give you 1 opportunity to draw!",
-      "p2": "You will win an extra opportunity to draw for free for each betting over 10 TRX! ",
-      "p3": "A maximum of 10 opportunities (accumulated) to draw!"
-    },
-    "explanation": "TRONDICE.ORG reserves the right of final interpretation of the campaign"
+      "p1": "当你每次投注≥10 TRX，即可额外获得一次免费抽奖机会！",
+      "p2": "每天共计10次抽奖机会！"
+    }
   },
   "vip": {
-    "button": "Vip",
-    "title": "VIP privileges",
-    "desc": "Exclusive VIP benefits with special rewards for each betting!",
-    "currentGrade": "Current level",
-    "prize": "Betting rewards",
+    "title":"VIP等级",
+    "prize": "投注奖励",
     "table": {
-      "level": "Level",
-      "amount": "Accumulated betting amount",
-      "prize": "Rewards"
+      "level": "等级",
+      "amount": "累计投注额",
+      "prize": "奖励"
     },
-    "remainingBet": "A betting of {trx} TRX will make you VIP",
-    "copyRight": "* TRONDICE.ORG reserves the right of final interpretation of the campaign"
+    "remainingBet": "只需投注 {trx} TRX 即可成为VIP",
+    "copyRight": "* 活动最终解释权归 DiceBet 所有"
   },
-  "invite": {
+  "Invite": {
     "button": "Invite",
-    "title": "Refer a friend",
-    "desc": "Refer a friend and get 0.2% of their betting! Copy your exclusive link and send out your invitation!",
-    "prize": "Referral bonus",
+    "title": "邀请好友",
+    "desc": "邀请好友即可获得他们 0.2% 的投注额！ 快复制您的专属链接发出邀请吧！",
+    "prize": "邀请奖励",
     "prizeRule": {
-      "p1": "The referral bonus for each account will be calculated once at 12:00 (GMT+8) every day.",
-      "p2": "The bonus will be deposited into the corresponding account with a record of the invitation."
+      "p1": "账户邀请返现金额每天结算一次，结算时间为12:00（GMT+8）。",
+      "p2": "结算后金额发放到账户，同时展示对应的邀请记录。"
     },
-    "record": "Invitation record",
-    "copyButton": "Copy",
+    "record": "邀请记录",
+    "copyButton": "复制",
     "table": {
-      "time": "Betting time",
-      "address": "Invitee",
-      "bet": "Betting amount of the invitee",
+      "time": "投注时间",
+      "address": "被邀请人",
+      "bet": "被邀请人的投注金额",
       "prize": "My rewards"
+    },
+    "result":{
+      "number":"被邀请人数量",
+      "prize":"我的奖励"
     }
   },
   "PrizeRule": {
@@ -146,5 +121,6 @@
     "footer": "奖金将在每日榜单公布后3天内，发放至您的地址。",
     "footer2": "每日排行结果将于第二天零点公布。",
     "copyright": "* 本活动最终解释权归trondice.org所有"
-  }
+  },
+  "NoData":"暂无数据"
 }

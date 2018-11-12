@@ -1,17 +1,17 @@
 <template>
 
   <el-dialog
-    :title="$t('invite.title')"
+    :title="$t('Invite.title')"
     :visible.sync="inviteDialog.visible"
     :modal-append-to-body='false'
     center class="inviteDialog"
     top="10vh"
     >
-    <p class="center">{{$t('invite.desc')}}</p>
+    <p class="center">{{$t('Invite.desc')}}</p>
     <el-row class="invite-url">
       <p class="url">{{inviteUrl}}</p>
       <el-button @click="copy" class="copyContent" :data-clipboard-text="inviteUrl">
-            {{$t('invite.copyButton')}}
+            {{$t('Invite.copyButton')}}
       </el-button>
     </el-row>
     <!-- <el-row class="message">
@@ -91,8 +91,8 @@
     </el-pagination>
     </el-row> -->
     <el-row class="record">
-        <p>{{$t('invite.result.number')}}：{{page.total}}</p>
-        <p>{{$t('invite.result.prize')}}：{{prize/1000000}} TRX <el-button>{{$t('extract')}}</el-button> </p>
+        <p>{{$t('Invite.result.number')}}：{{page.total}}</p>
+        <p>{{$t('Invite.result.prize')}}：{{prize/1000000}} TRX <el-button>{{$t('extract')}}</el-button> </p>
     </el-row>
     <el-row>
       {{$t('vip.copyRight')}}

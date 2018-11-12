@@ -36,11 +36,9 @@ html{
 }
 
 .how-dialog{
-  background: #463E79;
-  border: .01rem solid #B3A6FF;
-  border-radius: .1rem;
-  color: #fff;
+  background: #fff;
   font-size: .15rem;
+  border-radius:.2rem;
 }
 .how-dialog .el-dialog__close{
   height: 38px;
@@ -53,14 +51,13 @@ html{
   content:''
 }
 .how-dialog .el-dialog__header{
-  color: #fff;
   text-align: center;
   padding-top: .4rem;
   padding-bottom:0px;
 
 }
 .how-dialog .el-dialog__header .el-dialog__title{
-  color: #fff;
+
 }
 .how-dialog .lucky-tron{
   margin:10px auto 0;
@@ -79,7 +76,6 @@ html{
 }
 .how-dialog .el-dialog__body{
   font-size: .15rem;
-  color: #fff;
   padding: .1rem .3rem;
 }
 .how-dialog .el-dialog__body p{

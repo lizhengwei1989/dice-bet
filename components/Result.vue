@@ -36,7 +36,7 @@
             <td>{{item.select}}</td>
             <td>{{item.input}} {{item.token==0?'TRX':'DICE'}}</td>
             <td>{{item.result}}</td>
-            <td>{{item.output?item.output+(item.token==0?'TRX':'DICE'):''}}</td>
+            <td>{{item.output?Math.floor(item.output * 1000)/1000+' '+(item.token==0?'TRX':'DICE'):'-'}}</td>
           </tr>
         </tbody>
         <tbody v-else>
@@ -88,7 +88,7 @@
           <td>{{item.select}}</td>
           <td>{{item.input}} {{item.token==0?'TRX':'DICE'}}</td>
           <td>{{item.result}}</td>
-          <td>{{item.output?item.output+'TRX':''}}</td>
+          <td>{{item.output?Math.floor(item.output * 1000)/1000+' '+(item.token==0?'TRX':'DICE'):'-'}}</td>
         </tr>
         </tbody>
       </table>

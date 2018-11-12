@@ -1,85 +1,57 @@
 {
-  "Msg": {
-    "BalanceNotEnough": "Balance is not enough"
-  },
-  "RankTitle": "今日排行榜",
-  "Order": "排名",
-  "Player": "投注者",
-  "TotalMount": "总投注额",
-  "Prize": "奖励",
+  "RankTitle": "Daily Rankings",
+  "Order": "Rank",
+  "Player": "Player",
+  "TotalMount": "Total Wager",
+  "Prize": "Prize",
+  "extract":"Extract",
   "OtherPrize": {
-    "Txt1": "下注可获得：",
-    "Txt2": "现在投注可获得投注货币"
+    "Txt1": "Bet to get:",
+    "Txt2": "Bet now for FREE tokens"
+  },
+  "Resource":{
+    "BandWidth":"Bandwidth:",
+    "Energy":"Energy:"
   },
   "Nav": {
-    "HongLi": "红利"
+    "Invite":"Invite",
+    "Rule":"Rule",
+    "Vip":"Vip",
+    "LuckyDraw":"Lucky Draw",
+    "HongLi": "Payout"
   },
   "Play": {
     "Bet": {
-      "Title": "投注",
-      "Left": "可用"
+      "Title": "Bet",
+      "Left": "Your Wallet Balance"
     },
-    "WinTitle": "赢取",
-    "WinRate": "中奖概率",
-    "PayOut": "赔率",
-    "Less": "小于该数获胜",
-    "Roll": "掷骰子"
+    "WinTitle": "Win",
+    "WinRate": "Win Chance",
+    "PayOut": "Payout",
+    "Less": "Roll Under to Win",
+    "Roll": "Roll"
   },
   "Result": {
-    "AllBets": "所有投注",
-    "MyBets": "我的投注",
-    "Time": "时间",
-    "Player": "投注者",
-    "Select": "小于该号码获胜",
-    "Input": "投注",
-    "Result": "开奖号码",
-    "Output": "奖金"
+    "AllBets": "All Bets",
+    "MyBets": "My Bets",
+    "Time": "Time",
+    "Player": "Player",
+    "Select": "Roll Under",
+    "Input": "Bet",
+    "Result": "Roll",
+    "Output": "Prize"
   },
-  "Resource": {
-    "BindWidth": "带宽：",
-    "Energy": "能量："
-  },
-  "HowToPlay": "Rules",
   "Chinese": "Chinese",
   "English": "English",
-  "WinRate": "Winning Rate",
-  "extract": "Extract",
-  "PayOut": "Payout",
-  "Range": "Choose betting range",
-  "RangeTip": "You win if the number on the dice falls in your betting range.",
-  "InputCount": "Enter the betting amount",
-  "InputCountTip": "· The number of single bets can not exceed your wallet balance. <br> · The maximum number of single bets can not exceed 10,000 TRX.",
-  "InputMoney": "Enter the amount",
-  "Balance": "Your Wallet Balance:",
-  "LuckyValue": "Lucky Number",
-  "LuckyValueTip": "1. The lucky number is the number of times you lose in a row. The number will go back to 0 if you win or lose 6 times in a row.<br>2. If you lose, 10% of your betting amount will be added to the lucky pool. When you win or lose 6 times in a row, the amount of funds in the lucky pool will turn to 0.<br>3. When the lucky number hits 3, the current amount of funds in the lucky pool will be added to the prize pool as a reward; <br>when the lucky number hits 6, twice the amount of funds in the lucky pool will be added to the prize pool as a reward.",
-  "LuckyPool": "Lucky Pool",
-  "Roll": "Roll the Dice",
-  "Withdraw": "Withdraw",
-  "TRX": "TRX",
-  "AllBets": "All Bets",
-  "MyBets": "My Bets",
-  "LuckyPrize": "Lucky Prize",
-  "Select": "Choose",
-  "Input": "Bet",
-  "Output": "Prize",
-  "ServiceItem": "Terms of Service",
-  "Telegram": "Telegram",
   "Rule": {
-    "P1": "1. Make sure you have a TRON Chrome Wallet. Click and install <a target='_blank' href='https://goo.gl/Yb4NRU'>TronLink Wallet</a>.",
-    "P2": "2. Make sure there is a certain amount of TRX in it and TRX is the prerequisite to joining the game.",
-    "P3": "3. You can choose different betting ranges, and the corresponding winning rate, losing rate, and prize will change accordingly.",
-    "P4": "4. Set the betting amount, which is the amount of TRX you would like to bet.",
-    "P5": "5. Click on the 'Roll the Dice' button to start the game and the smart contract will generate a random number from 1 to 6.",
-    "P6": "6. If the number generated falls in your betting range, you win.",
-    "P7": " If you win, you will receive a certain amount of prize in your prize pool and the prize can be withdrawn to your wallet.<br>If you lose, you still have the opportunity to win the lucky prize.",
-    "RuleTip": "Got questions? You are welcome to join our <a target='_blank' href='https://t.me/joinchat/JUyvA1KP9kU2qfwtESfvpg'>Telegram Group</a> and we are more than happy to help you!"
-  },
-  "Service": {
-    "P1": "The website provides the smart contract page based on TRON blockchain. It will receive TRX and transfer different amount of TRX according to external factors.",
-    "P2": "We cannot verify the legitimacy of service in all areas of jurisdiction, neither can we provide any legal advice for you. Please follow the instructions above and obey the laws, policies, and regulations related to TRX usage in your area of jurisdiction. Please notice that you will take full responsibility for yourself.",
-    "P3": "Players may gain or lose TRX in games based on smart contracts. We do not bear any responsibility for the result of the game that we provide.",
-    "P4": "We reserve the right to modify the website, its services, and these terms without notice."
+    "title":"Rule",
+    "p1": "1. Make sure you have a TronLink wallet. Click to download the <a target='_blank' href='https://goo.gl/Yb4NRU'>TronLink</a> wallet",
+    "p2": "2. To participate in the game you must own TRX, the underlying cryptocurrency that powers the TRON network.",
+    "p3": "3. Set your bet amount, that is, the number of TRX you want to bet on.",
+    "p4": "4. You can adjust the slider to the predicted number range you want. When moving the slider, you can win the total amount, win rate, reward multiple will be automatically adjusted.",
+    "p5": "5. Click the scroll button to start the game. The smart contract will then randomly generate a lucky number from 1 to 100.",
+    "p6": "6. If the lucky number is within your range, you win!",
+    "p7": "Still questions? Welcome to join our <a href='https://t.me/TRONDice'>telegram group</a>, we are glad to help you!"
   },
   "Confirm": "Confirm",
   "LoginTipTitle": "Please log in to your TRON Chrome Wallet.",
@@ -91,37 +63,30 @@
   },
   "PleaseInput": "Please enter the betting amount !",
   "LuckyDraw": {
-    "btn": "Lucky draw",
-    "title": "Lucky draw",
-    "introductions": "Press the \"lucky draw\" button to draw a number; claim your prize of the number.",
-    "number": "Lucky number",
-    "reward": "Lucky prize",
+    "title": "Lucky Draw",
+    "number": "Lucky Number",
+    "reward": "Lucky Prize",
     "winText": "Lucky number for this round",
-    "rewardText": "Lucky prize",
-    "times": "to draw",
-    "withdraw": "Withdraw",
+    "rewardText": "Lucky Prize",
+    "times": "to Draw",
+    "withdraw": "Extract",
     "supplement": {
-      "p1": "The first betting of a day will give you 1 opportunity to draw!",
-      "p2": "You will win an extra opportunity to draw for free for each betting over 10 TRX! ",
-      "p3": "A maximum of 10 opportunities (accumulated) to draw!"
-    },
-    "explanation": "TRONDICE.ORG reserves the right of final interpretation of the campaign"
+      "p1": "You will win an extra opportunity to draw for free for each betting over 10 TRX! ",
+      "p2": "A maximum of 10 opportunities (every day) to draw!"
+    }
   },
   "vip": {
-    "button": "Vip",
-    "title": "VIP privileges",
-    "desc": "Exclusive VIP benefits with special rewards for each betting!",
-    "currentGrade": "Current level",
-    "prize": "Betting rewards",
+    "title": "VIP Level",
+    "prize": "Betting Rewards",
     "table": {
       "level": "Level",
-      "amount": "betting amount",
+      "amount": "Betting Amount",
       "prize": "Rewards"
     },
     "remainingBet": "A betting of {trx} TRX will make you VIP",
-    "copyRight": "* TRONDICE.ORG reserves the right of final interpretation of the campaign"
+    "copyRight": "* DiceBet reserves the right of final interpretation of the campaign"
   },
-  "invite": {
+  "Invite": {
     "button": "Invite",
     "title": "Refer a friend",
     "desc": "Refer a friend and get 0.2% of their betting! Copy your exclusive link and send out your invitation!",
@@ -144,17 +109,18 @@
     }
   },
   "PrizeRule": {
-    "title": "Rewards Rules",
-    "header": "To thank our supporters, trondice.org has released a new feature of Daily Betting Ranking List, with various amount of TRX reward for the top 1 - 30 players on the list.",
+    "title": "奖励规则",
+    "header": "trondice.org为回馈支持者，推出每日投注排行榜功能，并对榜单上1-30名的玩家分别给予数额不等的TRX回赠。",
     "content": {
-      "p1": "No  1: 10,000 TRX",
-      "p2": "No. 2: 5,000 TRX",
-      "p3": "No. 3: 3,000 TRX",
-      "p4": "No. 4 - 10: 1,000 TRX each",
-      "p5": "No. 11 - 30: 100 TRX each"
+      "p1": "每日榜单第1名：奖励10000TRX",
+      "p2": "每日榜单第2名：奖励5000TRX",
+      "p3": "每日榜单第3名：奖励3000TRX",
+      "p4": "每日榜单第4-10名：各自奖励1000TRX",
+      "p5": "每日榜单第11-30名：各自奖励100TRX"
     },
-    "footer": "Rewards will be sent to your address within 3 days upon the release of the Daily list. ",
-    "footer2": "The result will be announced on every 0 o'clock.",
-    "copyright": "* Trondice.org reserves the final right to interpret the terms and conditions of this content."
-  }
+    "footer": "奖金将在每日榜单公布后3天内，发放至您的地址。",
+    "footer2": "每日排行结果将于第二天零点公布。",
+    "copyright": "* 本活动最终解释权归trondice.org所有"
+  },
+  "NoData":"No Data"
 }

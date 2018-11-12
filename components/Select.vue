@@ -1,8 +1,8 @@
 <template>
     <div class="select" ref="select">
-        <div class="resource">
+        <div class="resource" v-if="address.base58">
             <div>
-                {{$t('Resource.BindWidth')}}<span>{{bindWidth}}</span>
+                {{$t('Resource.BandWidth')}}<span>{{bindWidth}}</span>
             </div>
             <div>
                 {{$t('Resource.Energy')}}<span>{{energy}}</span>

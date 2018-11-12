@@ -5,7 +5,8 @@
             <caption class="title">
               <el-row :gutter="20">
                 <el-col :span="12" style="text-align:left;">
-                  {{$t('RankTitle')}} <i class="el-icon-question" @click="ruleDialog.visible=true"></i>
+                    {{$t('RankTitle')}}
+                    <!--<i class="el-icon-question" @click="ruleDialog.visible=true"></i>-->
                 </el-col>
                 <el-col :span="12" style="text-align:right;">
                   <div class="dateTime">
@@ -53,7 +54,7 @@
                     <div class="cell"></div>
                   </td>
                   <td v-else>
-                      No Data
+                       {{$t('NoData')}}
                   </td>
                 </tr>
             </tbody>
@@ -111,7 +112,7 @@ export default {
   data() {
     return {
       ranks: [],
-      date: moment().format("YYYYMMDD"),
+      //date: moment().format("YYYYMMDD"),
       isLoading: true,
       ruleDialog: {
         visible: false

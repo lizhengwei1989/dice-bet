@@ -11,7 +11,7 @@
             <img :src="require('../assets/images/vip.png')" class="vip-img"/>
           </el-col>
           <el-col :span="18" class="vip-level">
-            <span class="level">VIP等级</span>
+            <span class="level">{{$t('vip.title')}}</span>
             <span class="grade">{{$t('vip.prize')}}：{{prize/1000000}} TRX <el-button type="primary" size="mini" @click="extract" :loading="extractLoading" style="float:right;">{{$t('extract')}}</el-button></span>  
           </el-col>
         </el-row>

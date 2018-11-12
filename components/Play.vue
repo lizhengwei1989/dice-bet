@@ -415,7 +415,10 @@ export default {
       display: flex;
       align-items: center;
       font-size: 0.14rem;
-      color: #787ab7;
+      color: #fff;
+      span{
+        color: #e7b01a;
+      }
     }
   }
   .win {
