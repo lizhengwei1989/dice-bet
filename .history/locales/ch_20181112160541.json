@@ -132,19 +132,5 @@
       "bet": "Betting amount of the invitee",
       "prize": "My rewards"
     }
-  },
-  "PrizeRule": {
-    "title": "奖励规则",
-    "header": "trondice.org为回馈支持者，推出每日投注排行榜功能，并对榜单上1-30名的玩家分别给予数额不等的TRX回赠。",
-    "content": {
-      "p1": "每日榜单第1名：奖励10000TRX",
-      "p2": "每日榜单第2名：奖励5000TRX",
-      "p3": "每日榜单第3名：奖励3000TRX",
-      "p4": "每日榜单第4-10名：各自奖励1000TRX",
-      "p5": "每日榜单第11-30名：各自奖励100TRX"
-    },
-    "footer": "奖金将在每日榜单公布后3天内，发放至您的地址。",
-    "footer2": "每日排行结果将于第二天零点公布。",
-    "copyright": "* 本活动最终解释权归trondice.org所有"
   }
 }

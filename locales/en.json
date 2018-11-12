@@ -1,6 +1,6 @@
 {
-  "Msg":{
-    "BalanceNotEnough":"Balance is not enough"
+  "Msg": {
+    "BalanceNotEnough": "Balance is not enough"
   },
   "RankTitle": "今日排行榜",
   "Order": "排名",
@@ -11,8 +11,8 @@
     "Txt1": "下注可获得：",
     "Txt2": "现在投注可获得投注货币"
   },
-  "Nav":{
-    "HongLi":"红利"
+  "Nav": {
+    "HongLi": "红利"
   },
   "Play": {
     "Bet": {
@@ -34,6 +34,10 @@
     "Input": "投注",
     "Result": "开奖号码",
     "Output": "奖金"
+  },
+  "Resource": {
+    "BindWidth": "带宽：",
+    "Energy": "能量："
   },
   "HowToPlay": "Rules",
   "Chinese": "Chinese",
@@ -138,5 +142,19 @@
       "number": "Invite friends",
       "prize": "Invitation to award"
     }
+  },
+  "PrizeRule": {
+    "title": "Rewards Rules",
+    "header": "To thank our supporters, trondice.org has released a new feature of Daily Betting Ranking List, with various amount of TRX reward for the top 1 - 30 players on the list.",
+    "content": {
+      "p1": "No  1: 10,000 TRX",
+      "p2": "No. 2: 5,000 TRX",
+      "p3": "No. 3: 3,000 TRX",
+      "p4": "No. 4 - 10: 1,000 TRX each",
+      "p5": "No. 11 - 30: 100 TRX each"
+    },
+    "footer": "Rewards will be sent to your address within 3 days upon the release of the Daily list. ",
+    "footer2": "The result will be announced on every 0 o'clock.",
+    "copyright": "* Trondice.org reserves the final right to interpret the terms and conditions of this content."
   }
 }

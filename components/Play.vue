@@ -267,7 +267,6 @@ export default {
       this.$refs.lose.style.display="none";
       this.timer = setInterval(async _ => {
         const res = await window.tronWeb.getEventByTransactionID(transactionId);
-        console.log(transactionId,res)
         if (res.length > 0) {
           // const random = res2[3].toString();
           // clearInterval(rolling);
@@ -304,7 +303,6 @@ export default {
     },
     async watchBalance() {
       let balance = this.dbToken == 0 ? await getBalance(this.address.hex) : (await this.diceContractInstance.getBalanceOf(this.address.hex.replace('/^41/','0x')).call()).toString();
-      console.log(balance);
       this.$store.commit("SET_BALANCE", window.tronWeb.fromSun(balance));
     },
     animate(ref, newVal, oldVal) {

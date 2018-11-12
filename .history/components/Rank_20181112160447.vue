@@ -420,15 +420,6 @@ export default {
       if (this.isLoading) {
         return;
       }
-
-      if (type === "-" && !this.isPreClick) {
-        return;
-      }
-
-      if (type === "+" && !this.isClick) {
-        return;
-      }
-
       this.isClick = true;
       this.isPreClick = true;
       let dateTimeStemp = moment(this.date, "YYYY.MM.DD").format("x");
@@ -438,7 +429,7 @@ export default {
         .format("YYYY.MM.DD");
       let currentDateTimeStemp = moment(currentDate, "YYYY.MM.DD").format("x");
       // 11.06之前无数据就不可点击
-      let previsousDate = moment("2018.11.12", "YYYY.MM.DD").format("x");
+      let previsousDate = moment("2018.11.07", "YYYY.MM.DD").format("x");
 
       let multiple = 0;
       switch (type) {
@@ -472,19 +463,6 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-.ruleDialog {
-  padding: 20px;
-  h4 {
-    margin-bottom: 20px;
-    line-height: 20px;
-  }
-  p {
-    line-height: 20px;
-  }
-  p:last-child {
-    margin-bottom: 20px;
-  }
-}
 .rank {
   width: 100%;
   /*height: 5.7rem;*/

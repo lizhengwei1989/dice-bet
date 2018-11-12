@@ -31,8 +31,10 @@ export const state = () => ({
   dapp: 2, //项目的区分
   dbToken:0,  //代币token  0：trx  1：dice
   //定义trx  与其他代币的兑换比例 key为 dbToken的值
-  convert:1
-}); //VIP，邀请，幸运抽奖活动合约
+  convert:1,
+  bindWidth:0,
+  energy:0
+});
 
 export const mutations = {
   SET_LANG(state, locale) {
@@ -81,6 +83,12 @@ export const mutations = {
   },
   SET_DB_TOKEN(state, dbToken){
     state.dbToken = dbToken;
+  },
+  SET_BAND_WIDTH(state, bindWidth){
+    state.bindWidth = bindWidth;
+  },
+  SET_ENERGY(state, energy){
+    state.energy = energy;
   }
 };
 

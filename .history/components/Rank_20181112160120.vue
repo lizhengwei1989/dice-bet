@@ -72,33 +72,6 @@
                 {{ranks[ranks.length-1].prize}} TRX
             </div>
         </div>
-
-         <!--奖励规则-->
-      <el-dialog
-        :title="$t('PrizeRule.title')"
-        :visible.sync="ruleDialog.visible"
-        width="30%">
-        <div class="ruleDialog">
-          <h4>
-            {{$t('PrizeRule.header')}}
-          </h4>
-          <div style="margin-bottom: 20px;">
-            <p v-for="(item,index) in $t('PrizeRule.content')" :key="index">
-              {{item}}
-            </p>
-          </div>
-
-          <h4>
-            {{$t('PrizeRule.footer')}}
-          </h4>
-          <h4>
-            {{$t('PrizeRule.footer2')}}
-          </h4>
-          <h5>
-            {{$t('PrizeRule.copyright')}}
-          </h5>
-        </div>
-      </el-dialog>
     </div>
 </template>
 
@@ -420,15 +393,6 @@ export default {
       if (this.isLoading) {
         return;
       }
-
-      if (type === "-" && !this.isPreClick) {
-        return;
-      }
-
-      if (type === "+" && !this.isClick) {
-        return;
-      }
-
       this.isClick = true;
       this.isPreClick = true;
       let dateTimeStemp = moment(this.date, "YYYY.MM.DD").format("x");
@@ -438,7 +402,7 @@ export default {
         .format("YYYY.MM.DD");
       let currentDateTimeStemp = moment(currentDate, "YYYY.MM.DD").format("x");
       // 11.06之前无数据就不可点击
-      let previsousDate = moment("2018.11.12", "YYYY.MM.DD").format("x");
+      let previsousDate = moment("2018.11.07", "YYYY.MM.DD").format("x");
 
       let multiple = 0;
       switch (type) {
@@ -472,19 +436,6 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-.ruleDialog {
-  padding: 20px;
-  h4 {
-    margin-bottom: 20px;
-    line-height: 20px;
-  }
-  p {
-    line-height: 20px;
-  }
-  p:last-child {
-    margin-bottom: 20px;
-  }
-}
 .rank {
   width: 100%;
   /*height: 5.7rem;*/
