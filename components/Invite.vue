@@ -101,7 +101,7 @@
 </template>
 <script>
 import Clipboard from "clipboard";
-import { getInviteList } from "~/api/vip";
+// import { getInviteList } from "~/api/vip";
 import moment from "moment";
 
 export default {
@@ -137,7 +137,7 @@ export default {
     let tronWeb = window.tronWeb;
     this.contractInstance = await tronWeb.contract().at(this.activityAddress);
     await this.getBalance();
-    this.getTableData();
+    // this.getTableData();
 
     this.url = window.location.origin;
 
@@ -211,21 +211,21 @@ export default {
     },
     handleSizeChange(val) {
       this.page.limit = val;
-      this.getTableData();
+      // this.getTableData();
     },
     handleCurrentChange(val) {
       this.page.current = val;
-      this.getTableData();
+      // this.getTableData();
     },
-    async getTableData() {
-      let data = this.postData;
-      let response = await getInviteList(data);
+    // async getTableData() {
+    //   let data = this.postData;
+    //   let response = await getInviteList(data);
 
-      this.tableData = response.data;
-      this.page.total = response.total;
+    //   this.tableData = response.data;
+    //   this.page.total = response.total;
 
-      this.tableLoading = false;
-    }
+    //   this.tableLoading = false;
+    // }
   }
 };
 </script>

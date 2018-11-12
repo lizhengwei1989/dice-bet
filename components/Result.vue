@@ -43,7 +43,7 @@
           <tr>
           </tr>
           <tr>
-            <td colspan="5" class="span">
+            <td colspan="5" class="span" v-if="isLoading">
               <div class="cell"></div>
               <div class="cell"></div>
               <div class="cell"></div>
@@ -54,6 +54,9 @@
               <div class="cell"></div>
               <div class="cell"></div>
               <div class="cell"></div>
+            </td>
+            <td colspan="5" style="text-align: center" v-else>
+                {{$t('NoData')}}
             </td>
           </tr>
         </tbody>
@@ -103,11 +106,13 @@ export default {
   name: "Result",
   data() {
     return {
+      myLen:0,
       all: [],
       my: [],
       lucky: [],
-      myLen: 0,
-      maxNum: 30
+      isLoading:true,
+      localMy:[],
+      maxNum:30
     };
   },
   computed: {
@@ -123,9 +128,11 @@ export default {
       this.getAllBets(n, this.diceAddress);
     },
     my(n, o) {
+      console.log(n,o,'~~~~~~~~');
       this.myLen = n.length;
     },
     myLen(n, o) {
+        console.log(n,o,'^^^^^^');
       this.$store.commit("SET_MY_BETS_LENGTH", n);
       this.$store.commit("SET_RANDOM", this.my[0].result);
     },
@@ -187,6 +194,7 @@ export default {
         );
 
         Promise.all([success, fail, dice_success, dice_fail]).then(logs => {
+          this.isLoading = false;
           let trxLogs = [],
             diceLogs = [];
           trxLogs = logs[0].concat(logs[1]);
@@ -208,8 +216,7 @@ export default {
               return v;
             }
           });
-          let a = [],
-            b = [];
+          let a = [], b = [];
           logs.forEach(v => {
             const player = window.tronWeb.address.fromHex(
               v.result["_addr"].replace(/^0x/, "41")
@@ -257,22 +264,22 @@ export default {
               timestamp
             });
           });
-
+          this.my = b;
           //  本地存储30条
-          this.localMy = JSON.parse(localStorage.getItem(this.address.base58));
-          if (this.localMy && this.localMy.length != 0) {
-            let arr = b.concat(this.localMy);
-            arr = arr.length > this.maxNum ? arr.slice(0, this.maxNum) : arr;
-
-            arr = this.deworming(arr, "transactionId");
-
-            this.my = arr;
-          } else {
-            this.my = b;
-          }
-
-          this.my = this.sort(this.my, "timestamp");
-          localStorage.setItem(this.address.base58, JSON.stringify(this.my));
+          // this.localMy = JSON.parse(localStorage.getItem(this.address.base58));
+          // if (this.localMy && this.localMy.length != 0) {
+          //   let arr = b.concat(this.localMy);
+          //   arr = arr.length > this.maxNum ? arr.slice(0, this.maxNum) : arr;
+          //
+          //   arr = this.deworming(arr, "transactionId");
+          //
+          //   this.my = arr;
+          // } else {
+          //   this.my = b;
+          // }
+          // this.my = this.sort(this.my, "timestamp");
+          // console.log(this.my);
+          // localStorage.setItem(this.address.base58, JSON.stringify(this.my));
         });
       }, 3000);
     },

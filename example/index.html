@@ -13,14 +13,15 @@
             const solidityNode = new HttpProvider('https://api.shasta.trongrid.io');
             const eventServer = 'https://api.shasta.trongrid.io';
             const privateKey = '2f7fb77412adff0cb522e275d591cbcd1ae5c7f7adb2bc31c09b527fecb59892';
-            const contract_address = 'TY25w8UYufdahopKSiYrq124zEiLAX2MQT';
+            const contract_address = 'TT1Y6SAsYsoQfhk666vqcqAttsgMXdPqpQ';
 
 
 
             const dicePrivateKey = '6f52e931cb32701fb4fb53f735622c996973196bd4a6b674b65cd242025c66e0';
             const diceTokenPrivateKey = 'c9fed84875e52cda338c93d18b9909bd885e31b02398adcc28d727d4344fb340';
-            const dice_contract_address = 'TAMKrioEwSgvvxYuHZM7KAydQQw3KJQqkS';
-            const dice_token_contract_address = 'TAiWyXGdcMDpiBJ8Z5dU8Q4vN4zjRDiv4a';
+            //const dice_contract_address = 'THrENu48be4VuU1f6688fSbazQwRHkDKKQ';
+            const dice_contract_address = 'TQJRRMRpGAZEUEjqBZ6UJXvf2DhMYc52fs';
+            const dice_token_contract_address = 'THb87oGbNWuyfHSuj2UCZuEwFxgzypBjas';
 
             const tronWeb = new TronWeb(
                 fullNode,
@@ -91,12 +92,11 @@
 
             $('#inputDice').on('click',async ()=>{
                 //tronWeb.setPrivateKey(diceTokenPrivateKey);
-                //await diceTokenContractInstance.transfer(tronWeb.address.toHex(contract_address).replace('/^41/','0x'),1000000000).send();
-                //await diceTokenContractInstance.transfer(tronWeb.address.toHex(dice_contract_address).replace('/^41/','0x'),1000000000).send();
+                //await diceTokenContractInstance.transfer(tronWeb.address.toHex(contract_address).replace('/^41/','0x'),100000000000).send();
+                //await diceTokenContractInstance.transfer(tronWeb.address.toHex(dice_contract_address).replace('/^41/','0x'),100000000000).send();
                 const a = await diceTokenContractInstance.balanceOf(tronWeb.address.toHex(contract_address).replace('/^41/','0x')).call();
                 const b = await diceTokenContractInstance.balanceOf(tronWeb.address.toHex(dice_contract_address).replace('/^41/','0x')).call();
                 console.log(a.toString(),b.toString())
-                contractInstance
 
             })
 

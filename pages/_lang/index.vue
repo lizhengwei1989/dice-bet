@@ -33,6 +33,7 @@ import Play from "~/components/Play.vue";
 import Result from "~/components/Result.vue";
 import Loading from "~/components/loading.vue";
 import { getBalance, noDebug, getWeeklyRank } from "~/static/js/Util";
+import { addInviteUser } from '~/api/user'
 
 let contractAddress = ""; //测试网
 let activityAddress = "";
@@ -65,7 +66,7 @@ export default {
     };
   },
   created() {
-    this.$store.dispatch("getToken");
+    //this.$store.dispatch("getToken");
   },
   computed: {
     ...mapState(["showLoading","address","contractInstance"])
@@ -90,11 +91,28 @@ export default {
           .at(diceAddress);
       this.$store.commit("SET_CONTRACT_INSTANCE", contractInstance);
       this.$store.commit("SET_DICE_CONTRACT_INSTANCE", diceContractInstance);
+      // 添加邀请人
+      this.addInviteUser()
     } else {
       this.checkLogin();
     }
   },
   methods: {
+    // 添加邀请人
+    addInviteUser() {
+      let queryArr = /\?from=(\S+)/.exec(location.search)
+      if (queryArr) {
+        addInviteUser({
+          dappId: 1,
+          contractAddress: 'TH4hAB56S9KVESypZJUWeqXbbYZLyfhdtb',
+          inviterAddress: queryArr[1],
+          inviteeAddress: this.address.base58
+        }).then(res => {
+          console.log(res)
+        })
+      }
+      
+    },
     isHasTronWeb() {
       this.isLoading = true;
       let isTronWebLoaded = false;
@@ -127,10 +145,10 @@ export default {
     checkEnv() {
       const server =  (typeof window.tronWeb.eventServer).toUpperCase() === 'OBJECT'?window.tronWeb.eventServer.host:window.tronWeb.eventServer;
       if (server === "https://api.shasta.trongrid.io") {
-        // contractAddress = "TT1Y6SAsYsoQfhk666vqcqAttsgMXdPqpQ";
-        contractAddress = "TY25w8UYufdahopKSiYrq124zEiLAX2MQT";
-        activityAddress = "TSYuKXyV6pPcxcMJfaqZzt4KUBtncPPPC5";
-        diceAddress = "TAMKrioEwSgvvxYuHZM7KAydQQw3KJQqkS";
+        contractAddress = "TMZMHUFf4XWwGzcmNm4EmguAcvpNfvEQY2";
+        activityAddress = "TUWGZ9S7hQ52fpmKcLhE5m59s4Ks4nhqq5";
+        //diceAddress = "THrENu48be4VuU1f6688fSbazQwRHkDKKQ";
+        diceAddress = "TUn7qTLodvp2Xe4M3VQhzdGFZrmWeiCb5x";
       } else {
         contractAddress = "TPUZherbdW4CQi9t4RbzvJmsoSzgTgBQRQ";
         activityAddress = "";

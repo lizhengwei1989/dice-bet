@@ -107,7 +107,7 @@ export default {
         withdraw: true
       },
       // 幸运数字
-      luckyNum: 0,
+      luckyNum: '请摇奖',
       // 奖金余额
       balance: 0,
       // 抽奖次数
@@ -123,7 +123,7 @@ export default {
   },
   async created() {
     /* 设置合约对象 */
-    this.contractObj = await window.tronWeb.contract().at(contractAddress);
+    this.contractObj = await window.tronWeb.contract().at(this.$store.state.activityAddress);
     this.getTimes();
     this.getBalance();
     // this.contractObj.setLotterNumber('TN7KpFteYkkGUPM4wQ8uKRLCzq2M3ngkmc', 10).send()
@@ -162,6 +162,7 @@ export default {
     async getLuckyNum() {
       if (this.flagObj.draw && this.times !== 0) {
         this.flagObj.draw = false;
+        this.luckyNumShow = true;
         // 拿到交易id
         let transctionId = await this.contractObj.roll().send();
         // 幸运数字
@@ -175,7 +176,6 @@ export default {
           res.every(v => {
             if (v.name === "GetRandom") {
               this.luckyNum = v.result._random;
-              this.luckyNumShow = true;
 
               return false;
             }
@@ -183,10 +183,6 @@ export default {
           // 刷新次数和奖金
           this.getTimes();
           this.getBalance();
-
-          setTimeout(() => {
-            this.luckyNumShow = false;
-          });
           // 打开节流阀
           this.flagObj.draw = true;
         });
@@ -217,7 +213,7 @@ export default {
       // 查询事件服务器，拿到匹配结果
       let eventTimer = setInterval(async () => {
         // 拿到匹配事件返回值
-        const res = await window.tronWeb.getEventByTransacionID(id);
+        const res = await window.tronWeb.getEventByTransactionID(id);
         if (res.length !== 0) {
           // 清除定时器
           clearInterval(eventTimer);
