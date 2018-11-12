@@ -106,8 +106,7 @@ export default {
       all: [],
       my: [],
       lucky: [],
-      myLen: 0,
-      maxNum: 30
+      myLen: 0
     };
   },
   computed: {
@@ -244,18 +243,8 @@ export default {
               ? window.tronWeb.fromSun(v.result["_W"])
               : "";
             const time = formatTime(v.timestamp);
-            const timestamp = v.timestamp;
             const token = v.token ? v.token : 0;
-            b.push({
-              select,
-              result,
-              player,
-              input,
-              output,
-              time,
-              token,
-              timestamp
-            });
+            b.push({ select, result, player, input, output, time, token });
           });
 
           //  本地存储30条
@@ -271,8 +260,7 @@ export default {
             this.my = b;
           }
 
-          this.my = this.sort(this.my, "timestamp");
-          localStorage.setItem(this.address.base58, JSON.stringify(this.my));
+          this.my = b;
         });
       }, 3000);
     },

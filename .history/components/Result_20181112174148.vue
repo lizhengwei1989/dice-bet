@@ -106,8 +106,7 @@ export default {
       all: [],
       my: [],
       lucky: [],
-      myLen: 0,
-      maxNum: 30
+      myLen: 0
     };
   },
   computed: {
@@ -128,17 +127,6 @@ export default {
     myLen(n, o) {
       this.$store.commit("SET_MY_BETS_LENGTH", n);
       this.$store.commit("SET_RANDOM", this.my[0].result);
-    },
-    address: {
-      deep: true,
-      handler(val) {
-        let localMy = localStorage.getItem(val.base58);
-        if (localMy) {
-          let myObj = JSON.parse(localMy);
-          this.my = myObj;
-          this.localMy = myObj;
-        }
-      }
     }
   },
   mounted() {},
@@ -244,59 +232,13 @@ export default {
               ? window.tronWeb.fromSun(v.result["_W"])
               : "";
             const time = formatTime(v.timestamp);
-            const timestamp = v.timestamp;
             const token = v.token ? v.token : 0;
-            b.push({
-              select,
-              result,
-              player,
-              input,
-              output,
-              time,
-              token,
-              timestamp
-            });
+            b.push({ select, result, player, input, output, time, token });
           });
 
-          //  本地存储30条
-          this.localMy = JSON.parse(localStorage.getItem(this.address.base58));
-          if (this.localMy && this.localMy.length != 0) {
-            let arr = b.concat(this.localMy);
-            arr = arr.length > this.maxNum ? arr.slice(0, this.maxNum) : arr;
-
-            arr = this.deworming(arr, "transactionId");
-
-            this.my = arr;
-          } else {
-            this.my = b;
-          }
-
-          this.my = this.sort(this.my, "timestamp");
-          localStorage.setItem(this.address.base58, JSON.stringify(this.my));
+          this.my = b;
         });
       }, 3000);
-    },
-    deworming(arr, attr) {
-      let transactionIds = [];
-      arr = arr.filter((item, index) => {
-        if (transactionIds.indexOf(item[attr]) === -1) {
-          transactionIds.push(item[attr]);
-          return item;
-        }
-      });
-
-      return arr;
-    },
-    sort(arr, attr) {
-      arr = arr.sort((o1, o2) => {
-        if (o1[attr] > o2[attr]) {
-          return -1;
-        } else {
-          return 1;
-        }
-      });
-
-      return arr;
     }
   }
 };
