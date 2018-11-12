@@ -235,7 +235,7 @@ export default {
       let transactionId;
       if(this.dbToken==0){
         transactionId = await this.contractInstance
-          .bet(this.number, this.inviteAddress)
+          .bet(this.number)
           .send({
               callValue: window.tronWeb.toSun(this.stake), //投注金额
               shouldPollResponse: false //是否等待响应

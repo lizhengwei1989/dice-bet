@@ -1,13 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-<<<<<<< HEAD
 const _0148765c = () => import('../pages/index.vue' /* webpackChunkName: "pages/index" */).then(m => m.default || m)
 const _454bebe0 = () => import('../pages/_lang/index.vue' /* webpackChunkName: "pages/_lang/index" */).then(m => m.default || m)
-=======
-const _1e535544 = () => import('../pages/index.vue' /* webpackChunkName: "pages/index" */).then(m => m.default || m)
-const _922805fc = () => import('../pages/_lang/index.vue' /* webpackChunkName: "pages/_lang/index" */).then(m => m.default || m)
->>>>>>> 6c119d49eb15eb1e4d62d5d5fd9f451cfda38bd9
 
 Vue.use(Router)
 
@@ -70,20 +65,12 @@ export function createRouter () {
     routes: [
 		{
 			path: "/",
-<<<<<<< HEAD
 			component: _0148765c,
-=======
-			component: _1e535544,
->>>>>>> 6c119d49eb15eb1e4d62d5d5fd9f451cfda38bd9
 			name: "index"
 		},
 		{
 			path: "/:lang",
-<<<<<<< HEAD
 			component: _454bebe0,
-=======
-			component: _922805fc,
->>>>>>> 6c119d49eb15eb1e4d62d5d5fd9f451cfda38bd9
 			name: "lang"
 		}
     ],

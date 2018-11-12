@@ -335,6 +335,7 @@ export default {
         right: 10px;
         font-size: 16px;
         cursor: pointer;
+        z-index: 10;
       }
       .title {
         width: 100%;
@@ -413,6 +414,51 @@ export default {
   }
 
   .record {
+    .btn-withdraw {
+      width: 20%;
+      .with-draw {
+        height: 0.4rem;
+      }
+    }
+  }
+}
+
+@media (min-width: 1600px) {
+  .root {
+    .mask {
+      .content {
+        font-size: 18px;
+        padding: 10px;
+        width: 35%;
+        height: 75%;
+        .explanation {
+          font-size: 0.15rem;
+        }
+        .lottery {
+          .roll {
+            padding: 0 30px;
+            height: 50px;
+            font-size: 16px;
+            margin: 20px 0;
+          }
+        }
+        .supplement {
+          p {
+            font-size: 0.24rem;
+            font-weight: 100;
+          }
+        }
+        .list {
+          td {
+            height: 0.7rem;
+          }
+        }
+      }
+    }
+  }
+
+  .record {
+    height: 0.65rem;
     .btn-withdraw {
       width: 20%;
       .with-draw {
