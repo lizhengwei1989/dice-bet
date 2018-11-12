@@ -438,7 +438,7 @@ export default {
         .format("YYYY.MM.DD");
       let currentDateTimeStemp = moment(currentDate, "YYYY.MM.DD").format("x");
       // 11.06之前无数据就不可点击
-      let previsousDate = moment("2018.11.12", "YYYY.MM.DD").format("x");
+      let previsousDate = moment("2018.11.07", "YYYY.MM.DD").format("x");
 
       let multiple = 0;
       switch (type) {
