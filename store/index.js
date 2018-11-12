@@ -1,5 +1,5 @@
 import { deepCopy } from "../static/js/Util";
-import { getUserInfo } from "~/api/user";
+// import { getUserInfo } from "~/api/user";
 import Cookies from "js-cookie";
 
 export const state = () => ({
@@ -92,15 +92,15 @@ export const mutations = {
   }
 };
 
-export const actions = {
-  getToken({ commit }) {
-    let user = {
-      name: "dappzy",
-      password: "#$tron@123"
-    };
-    getUserInfo(user).then(response => {
-      commit("SET_TOKEN", response.token);
-      Cookies.set("token", response.token);
-    });
-  }
-};
+// export const actions = {
+//   getToken({ commit }) {
+//     let user = {
+//       name: "dappzy",
+//       password: "#$tron@123"
+//     };
+//     getUserInfo(user).then(response => {
+//       commit("SET_TOKEN", response.token);
+//       Cookies.set("token", response.token);
+//     });
+//   }
+// };

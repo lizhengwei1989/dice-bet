@@ -125,7 +125,7 @@ export async function setContext(app, context) {
       payload: context.payload,
       error: context.error,
       base: '/',
-      env: {"BASE_API":"","ACTIVITY_API":"https://testzyapi.trondapps.org"}
+      env: {"BASE_API":"","ACTIVITY_API":"http://47.90.189.80:9080/api"}
     }
     // Only set once
     if (context.req) app.context.req = context.req

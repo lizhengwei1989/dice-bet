@@ -8,7 +8,7 @@ export function getVipInfo(param) {
     return new Promise(
       function (resolve, reject) {
         request({
-          url: `${url}/api/common/user/queryUserVipInfo?userAddress=${param}`,
+          url: `${url}/common/user/queryUserVipInfo?userAddress=${param}`,
           method: 'get'
         }).then(response => {
             if(response.code === 0){
@@ -36,7 +36,7 @@ export function getVipInfo(param) {
     return new Promise(
       function (resolve, reject) {
         request({
-          url: `${url}/api/common/user/queryVipList`,
+          url: `${url}/common/user/queryVipList`,
           method: 'get'
         }).then(response => {
             if(response.code === 0){

@@ -4,37 +4,10 @@ const url = process.env.ACTIVITY_API;
 
 import { Message, MessageBox } from "element-ui";
 
-export function getUserInfo(params) {
-  return new Promise(function(resolve, reject) {
-    request({
-      url: `${url}/api/common/account/login`,
-      method: "post",
-      data: params
-    })
-      .then(response => {
-        if (response.code === 0) {
-          resolve(response.data);
-        } else {
-          Message({
-            type: "warning",
-            message: response.message
-          });
-        }
-      })
-      .catch(err => {
-        Message({
-          type: "warning",
-          message: err.message
-        });
-        reject(err);
-      });
-  });
-}
-
 export function addInviteUser(params) {
   return new Promise(function(resolve, reject) {
     request({
-      url: `${url}/api/auth/user/addUserInvite`,
+      url: `${url}/auth/user/addUserInvite`,
       method: "post",
       data: params
     })

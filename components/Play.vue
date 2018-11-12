@@ -35,7 +35,7 @@
             {{$t('Play.Less')}}
           </div>
           <div class="c">
-            < {{number}}
+            {{number}}
           </div>
         </div>
         <div class="cell">
