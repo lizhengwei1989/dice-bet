@@ -289,13 +289,12 @@ export default {
         height: 5.96rem;
         overflow-y: scroll;
         &::-webkit-scrollbar {
-          width: 0.01rem;
-          border-radius: 0.1rem;
-          background: rgba(10, 10, 10, 0.2);
+          width: 0.05rem;
+          border-radius: 0.04rem;
         }
         &::-webkit-scrollbar-thumb {
-          background-color: #b3a6ff;
-          border-radius: 0.6rem;
+          background: #363995;
+          border-radius: 0.04rem;
         }
       }
       tr {

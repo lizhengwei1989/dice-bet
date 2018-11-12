@@ -3,7 +3,7 @@
     <div class="inner">
       <span class="menu iconfont icon-menu" @click="showMenus"></span>
       <a class="logo" href="javascript:window.location.reload();">
-        <img :src="require('../assets/images/logo.png')">
+        <!--<img :src="require('../assets/images/logo.png')">-->
       </a>
       <div class="nav" ref="nav">
         <!-- 邀请 -->

@@ -36,7 +36,6 @@ const formatTime = (ns) => {
 const getBalance = async address=>{
     let tronWeb = window.tronWeb;
     const server = (typeof tronWeb.eventServer).toUpperCase() === 'OBJECT'? tronWeb.eventServer.host : tronWeb.eventServer;
-    console.log(server)
     let {data} = await xhr.post(`${server}/wallet/getaccount`,{
         address : address
     })

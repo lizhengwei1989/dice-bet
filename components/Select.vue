@@ -1,5 +1,13 @@
 <template>
     <div class="select" ref="select">
+        <div class="resource">
+            <div>
+                {{$t('Resource.BindWidth')}}<span>{{bindWidth}}</span>
+            </div>
+            <div>
+                {{$t('Resource.Energy')}}<span>{{energy}}</span>
+            </div>
+        </div>
         <div class="tab focus" @click="tab(0)">
             <img :src="require('../assets/images/logo-trx.png')" alt="">
             <span>TRX</span>
@@ -16,14 +24,29 @@
     export default {
         name: "Select",
         data(){
-            return {
-
+            return {}
+        },
+        watch:{
+            address(n){
+              this.watchResource(n);
             }
         },
         computed:{
-            ...mapState(["dbToken","diceAddress","address","diceContractInstance"])
+            ...mapState(["dbToken","diceAddress","address","diceContractInstance","bindWidth","energy"])
+        },
+        async mounted(){
+
         },
         methods:{
+            watchResource(address){
+                setInterval(async _=>{
+                    const resource = await window.tronWeb.trx.getAccountResources(address.base58);
+                    const energy = resource.EnergyUsed?(resource.EnergyLimit - resource.EnergyUsed):0;
+                    const bindWidth = await window.tronWeb.trx.getBandwidth(this.address.base58);
+                    this.$store.commit('SET_BAND_WIDTH',bindWidth);
+                    this.$store.commit('SET_ENERGY',energy);
+                },3000)
+            },
             async tab(dbToken){
                 if(dbToken == this.dbToken){
                     return false;
@@ -38,7 +61,6 @@
                     tabs[dbToken].classList.add('focus');
                     this.$store.commit('SET_DB_TOKEN',dbToken);
 
-
                 }
             }
         }
@@ -52,6 +74,23 @@
         flex-direction: row;
         align-items: center;
         justify-content: center;
+        position: relative;
+        .resource{
+            position: absolute;
+            width: 2rem;
+            height: 100%;
+            display: flex;
+            right:0;
+            flex-direction: column;
+            align-items: flex-end;
+            justify-content: center;
+            align-content: flex-end;
+            div{
+                &:last-child{
+                    margin-top: .1rem;
+                }
+            }
+        }
         .tab{
             cursor: pointer;
             font-size: .15rem;

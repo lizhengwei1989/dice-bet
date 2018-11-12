@@ -1,7 +1,7 @@
 <template>
     <div class="rank">
         <table border="0" cellspacing="0" cellpadding="0">
-            <caption class="title">{{$t('RankTitle')}}(19:19:08)</caption>
+            <caption class="title"><span style="text-align: left"> {{$t('RankTitle')}} <i class="el-icon-question" @click="ruleDialog.visible=true"></i></span></caption>
             <thead>
             <tr>
                 <th>
@@ -313,15 +313,14 @@ export default {
       #191c60 100%
     ),
     linear-gradient(#242572, #242572);
-  background-blend-mode: normal, normal;
-  border-radius: 0.2rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
+    background-blend-mode: normal, normal;
+    border-radius: 0.2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
   .title {
     height: 0.72rem;
-    text-align: center;
     line-height: 0.72rem;
     font-size: 0.2rem;
     border-bottom: 0.02rem solid #383a90;

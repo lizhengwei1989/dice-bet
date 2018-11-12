@@ -35,6 +35,10 @@
     "Result": "开奖号码",
     "Output": "奖金"
   },
+  "Resource":{
+    "BindWidth":"带宽：",
+    "Energy":"能量："
+  },
   "HowToPlay": "Rules",
   "Chinese": "Chinese",
   "English": "English",
