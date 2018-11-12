@@ -20,7 +20,7 @@
             const dicePrivateKey = '6f52e931cb32701fb4fb53f735622c996973196bd4a6b674b65cd242025c66e0';
             const diceTokenPrivateKey = 'c9fed84875e52cda338c93d18b9909bd885e31b02398adcc28d727d4344fb340';
             const dice_contract_address = 'TQJRRMRpGAZEUEjqBZ6UJXvf2DhMYc52fs';
-            const dice_token_contract_address = 'TH5ybcmR7K2bzGdo4iAZCQrW36Py47mVP9';
+            const dice_token_contract_address = 'TAiWyXGdcMDpiBJ8Z5dU8Q4vN4zjRDiv4a';
 
             const tronWeb = new TronWeb(
                 fullNode,
@@ -34,6 +34,13 @@
                 solidityNode,
                 eventServer,
                 dicePrivateKey
+            );
+
+            const tronWeb3 = new TronWeb(
+                fullNode,
+                solidityNode,
+                eventServer,
+                diceTokenPrivateKey
             );
             function timeout(ms) {
                 return new Promise((resolve) => {
@@ -49,7 +56,7 @@
                 //if (localStorage.contractAddress) {
                     contractInstance = await tronWeb.contract().at(contract_address);
                     diceContractInstance = await tronWeb2.contract().at(dice_contract_address);
-                    diceTokenContractInstance = await tronWeb.contract().at(dice_token_contract_address);
+                    diceTokenContractInstance = await tronWeb3.contract().at(dice_token_contract_address);
                 //}
             }
             await getContractInstance();
@@ -84,10 +91,13 @@
 
             $('#inputDice').on('click',async ()=>{
                 //tronWeb.setPrivateKey(diceTokenPrivateKey);
-                //await diceContractInstance.transfer(tronWeb.address.toHex(dice_contract_address).replace('/^41/','0x'),1000000).send()
+                //await diceTokenContractInstance.transfer(tronWeb.address.toHex(contract_address).replace('/^41/','0x'),1000000000).send();
+                //await diceTokenContractInstance.transfer(tronWeb.address.toHex(dice_contract_address).replace('/^41/','0x'),1000000000).send();
                 const a = await diceTokenContractInstance.balanceOf(tronWeb.address.toHex(contract_address).replace('/^41/','0x')).call();
                 const b = await diceTokenContractInstance.balanceOf(tronWeb.address.toHex(dice_contract_address).replace('/^41/','0x')).call();
                 console.log(a.toString(),b.toString())
+                contractInstance
+
             })
 
             $('#getDice').on('click',async ()=>{
