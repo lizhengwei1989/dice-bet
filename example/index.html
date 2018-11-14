@@ -13,15 +13,12 @@
             const solidityNode = new HttpProvider('https://api.shasta.trongrid.io');
             const eventServer = 'https://api.shasta.trongrid.io';
             const privateKey = '2f7fb77412adff0cb522e275d591cbcd1ae5c7f7adb2bc31c09b527fecb59892';
-            const contract_address = 'TT1Y6SAsYsoQfhk666vqcqAttsgMXdPqpQ';
-
-
-
+            const contract_address = 'TBvs6Wvfi8M4QB34omgKZ4n8JmgH6ePvmK';
             const dicePrivateKey = '6f52e931cb32701fb4fb53f735622c996973196bd4a6b674b65cd242025c66e0';
             const diceTokenPrivateKey = 'c9fed84875e52cda338c93d18b9909bd885e31b02398adcc28d727d4344fb340';
             //const dice_contract_address = 'THrENu48be4VuU1f6688fSbazQwRHkDKKQ';
-            const dice_contract_address = 'TQJRRMRpGAZEUEjqBZ6UJXvf2DhMYc52fs';
-            const dice_token_contract_address = 'THb87oGbNWuyfHSuj2UCZuEwFxgzypBjas';
+            const dice_contract_address = 'TJXXTjz6bzhijYC55hrFvvuEeyaNDGrETg';
+            const dice_token_contract_address = 'TVHF21EMEDVoQPWgApaF6FERjoiDQfLs8t';
 
             const tronWeb = new TronWeb(
                 fullNode,
@@ -94,16 +91,33 @@
                 //tronWeb.setPrivateKey(diceTokenPrivateKey);
                 //await diceTokenContractInstance.transfer(tronWeb.address.toHex(contract_address).replace('/^41/','0x'),100000000000).send();
                 //await diceTokenContractInstance.transfer(tronWeb.address.toHex(dice_contract_address).replace('/^41/','0x'),100000000000).send();
-                const a = await diceTokenContractInstance.balanceOf(tronWeb.address.toHex(contract_address).replace('/^41/','0x')).call();
-                const b = await diceTokenContractInstance.balanceOf(tronWeb.address.toHex(dice_contract_address).replace('/^41/','0x')).call();
-                console.log(a.toString(),b.toString())
+                //const a = await diceTokenContractInstance.balanceOf(tronWeb.address.toHex(contract_address).replace('/^41/','0x')).call();
+                //const b = await diceTokenContractInstance.balanceOf(tronWeb.address.toHex(dice_contract_address).replace('/^41/','0x')).call();
+                //const c = await diceTokenContractInstance.balanceOf('TEcHv5BPtcvaGVrnBWZS4WucRU1YcGbLuo').call();
+                //const c = await diceTokenContractInstance.setGameOwner(dice_contract_address).send();
+                //const c = await contractInstance.setBetLimit(10,10000).send();
+                //const d = await diceContractInstance.setBetLimit(10,10000).send();
+                // setInterval(async ()=>{
+                //     const r = await tronWeb.getEventResult(dice_contract_address,0,'SetBetLimit',0);
+                //     console.log(r);
+                // },1000)
+                console.log(c.toString(),'token');
+                console.log(a.toString()+'----'+contract_address,b.toString()+'----'+dice_contract_address);
 
             })
 
             $('#getDice').on('click',async ()=>{
+                const type = $('[name="token"]:checked').val();
                 const v = $("#addr").val();
-                const a = await diceContractInstance.getBalanceOf(tronWeb.address.toHex(v).replace('/^41/','0x')).call();
-                console.log(a.toString())
+                if(type == 'dice'){
+                    const balance = await tronWeb.trx.getBalance(v);
+                    console.log(balance)
+                }else{
+                    const a = await diceContractInstance.getBalanceOf(tronWeb.address.toHex(v).replace('/^41/','0x')).call();
+                    console.log(a.toString())
+                }
+
+
             })
 
 
@@ -124,7 +138,9 @@
     <input type="button" id="btn_end" value="结束">
     <hr>
     <input type="text" id="addr" value="TJVVo2Yfzih4sAYNC35haFoXxryTAUX39c" style="width:300px" />
-    <input type="button" id="getDice" value="获取dice余额" />
+    <input type="button" id="getDice" value="获取余额" />
+    trx:<input type="radio" name="token" value="trx" />
+    dice:<input type="radio" name="token" checked value="dice" />
 </div>
 
 </body>

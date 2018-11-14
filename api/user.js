@@ -35,7 +35,7 @@ export function addInviteUser(params) {
 export function addTransition(params) {
   return new Promise(function(resolve, reject) {
     request({
-      url: `${url}/api/auth/trx/addTrx`,
+      url: `${url}/auth/trx/addTrx`,
       method: "post",
       data: params
     })
@@ -48,8 +48,35 @@ export function addTransition(params) {
       })
       .catch(err => {
         Message({ type: "warning", message: err.message });
-
         reject(err);
       });
   });
+}
+
+export function getRankList(params) {
+    return new Promise(function(resolve, reject) {
+        request({
+            url: `${url}/common/user/queryRealTimeRanking`,
+            method: "get",
+            params: params
+        })
+            .then(response => {
+                if (response.code === 0) {
+                    resolve(response.data);
+                } else {
+                    Message({
+                        type: "warning",
+                        message: response.message
+                    });
+                }
+            })
+            .catch(err => {
+                Message({
+                    type: "warning",
+                    message: err.message
+                });
+
+                reject(err);
+            });
+    });
 }

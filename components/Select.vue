@@ -8,6 +8,12 @@
                 {{$t('Resource.Energy')}}<span>{{energy}}</span>
             </div>
         </div>
+
+        <div class="min-stage">
+            当前为第{{minStage.stage}}阶段：
+            <span class="process" :style="'width:'+Math.ceil((minStage.left/minStage.diceCount)*100)/100+'%'"></span>
+            {{minStage.left}}/{{minStage.diceCount}}
+        </div>
         <div class="tab focus" @click="tab(0)">
             <img :src="require('../assets/images/logo-trx.png')" alt="">
             <span>TRX</span>
@@ -32,7 +38,7 @@
             }
         },
         computed:{
-            ...mapState(["dbToken","diceAddress","address","diceContractInstance","bindWidth","energy"])
+            ...mapState(["dbToken","diceAddress","address","diceContractInstance","bindWidth","energy","minStage"])
         },
         async mounted(){
 
@@ -60,7 +66,6 @@
                     }
                     tabs[dbToken].classList.add('focus');
                     this.$store.commit('SET_DB_TOKEN',dbToken);
-
                 }
             }
         }
@@ -80,16 +85,34 @@
             width: 2rem;
             height: 100%;
             display: flex;
-            right:0;
+            left:0;
             flex-direction: column;
-            align-items: flex-end;
+            align-items: flex-start;
             justify-content: center;
-            align-content: flex-end;
             div{
                 &:last-child{
                     margin-top: .1rem;
                 }
             }
+        }
+        .min-stage{
+            position: absolute;
+            right:0;
+            width: 4.8rem;
+            height: .4rem;
+            text-align: center;
+            line-height:.4rem;
+            border-radius:.4rem;
+            border:.02rem solid aliceblue;
+            span{
+                position: absolute;
+                left: 0;
+                top: 0;
+                height: 100%;
+                border-radius:.4rem 0 0 .4rem;
+                background-color: #64e1f6;
+            }
+
         }
         .tab{
             cursor: pointer;

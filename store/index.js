@@ -29,11 +29,17 @@ export const state = () => ({
   diceAddress:"",
   token: "",
   dapp: 2, //项目的区分
+  dappId:1, //项目编号
   dbToken:0,  //代币token  0：trx  1：dice
   //定义trx  与其他代币的兑换比例 key为 dbToken的值
-  convert:1,
   bindWidth:0,
-  energy:0
+  energy:0,
+  minStage:{
+      rate:1, //dice 和 trx 兑换比例
+      left:0, //剩余进阶 的 dice
+      stage:1, //阶段数
+      diceCount: 500000000
+  }
 });
 
 export const mutations = {
@@ -89,6 +95,9 @@ export const mutations = {
   },
   SET_ENERGY(state, energy){
     state.energy = energy;
+  },
+  SET_MIN_STAGE(state, obj) {
+    state.minStage = { ...state.minStage, ...obj };
   }
 };
 

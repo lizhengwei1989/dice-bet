@@ -2,10 +2,10 @@
     <div class="other-prize" v-if="dbToken==0">
         <div class="desc">
             <div class="r1">
-                {{$t('OtherPrize.Txt1')}}{{stake * convert}} DICE
+                {{$t('OtherPrize.Txt1')}}{{stake * (1/minStage.rate)}} DICE
             </div>
             <div class="r2">
-                {{$t('OtherPrize.Txt2')}} {{convert}}x DICE
+                {{$t('OtherPrize.Txt2')}} {{minStage.rate==1?minStage.rate:'1/'+minStage.rate}}x DICE
             </div>
         </div>
         <img :src="require('../assets/images/other-prize.png')" alt="" />
@@ -17,7 +17,7 @@
     export default {
         name: "OtherPrize",
         computed: {
-            ...mapState(["stake","dbToken","convert"])
+            ...mapState(["stake","dbToken","minStage"])
         },
     }
 </script>

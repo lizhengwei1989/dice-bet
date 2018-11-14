@@ -1,7 +1,13 @@
 <template lang="html">
   <div class="loading-page" v-if="isLoading" >
-    <div class="arc"></div>
-    <h1></h1>
+    <div class="loader">
+      <div class="face">
+        <div class="circle"></div>
+      </div>
+      <div class="face">
+        <div class="circle"></div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -21,126 +27,84 @@
 </script>
 
 <style scoped>
-  .loading-page {
+  .loading-page{
     position: fixed;
-    top: 0;
-    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0,0,0,.9);
+    z-index:9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .loader {
+    width: 20em;
+    height: 20em;
+    font-size: 10px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .loader .face {
+    position: absolute;
+    border-radius: 50%;
+    border-style: solid;
+    animation: animate 3s linear infinite;
+  }
+
+  .loader .face:nth-child(1) {
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.8);
-    text-align: center;
-    font-size: 30px;
-    font-family: sans-serif;
-    z-index:999;
-
-  }
-  .loading-text{
-    position:absolute;
-    top:50%;
-    left:50%;
-    transform:translate(-50%,-50%);
+    color: gold;
+    border-color: currentColor transparent transparent currentColor;
+    border-width: 0.2em 0.2em 0em 0em;
+    --deg: -45deg;
+    animation-direction: normal;
   }
 
-  .arc {
+  .loader .face:nth-child(2) {
+    width: 70%;
+    height: 70%;
+    color: lime;
+    border-color: currentColor currentColor transparent transparent;
+    border-width: 0.2em 0em 0em 0.2em;
+    --deg: -135deg;
+    animation-direction: reverse;
+  }
+
+  .loader .face .circle {
     position: absolute;
-    margin: auto;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    width: 100px;
-    height: 100px;
+    width: 50%;
+    height: 0.1em;
+    top: 50%;
+    left: 50%;
+    background-color: transparent;
+    transform: rotate(var(--deg));
+    transform-origin: left;
+  }
+
+  .loader .face .circle::before {
+    position: absolute;
+    top: -0.5em;
+    right: -0.5em;
+    content: '';
+    width: 1em;
+    height: 1em;
+    background-color: currentColor;
     border-radius: 50%;
-    border-top: 2px solid #FF6C81;
-    border-left: 1px solid transparent;
-    border-right: 1px solid transparent;
-    animation: rt 2s infinite linear;
-  }
-  .arc::before {
-    position: absolute;
-    margin: auto;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    width: 70px;
-    height: 70px;
-    border-radius: 50%;
-    border-top: 2px solid #8d29ff;
-    border-left: 1px solid transparent;
-    border-right: 1px solid transparent;
-    animation: rt 4s infinite linear reverse;
-    content: "";
-  }
-  .arc::after {
-    position: absolute;
-    margin: auto;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    width: 0;
-    height: 0;
-    border-radius: 50%;
-    border-top: initial;
-    border-left: initial;
-    border-right: initial;
-    animation: cw 1s infinite;
-    content: "";
-    background: snow;
+    box-shadow: 0 0 2em,
+    0 0 4em,
+    0 0 6em,
+    0 0 8em,
+    0 0 10em,
+    0 0 0 0.5em rgba(255, 255, 0, 0.1);
   }
 
-  h1 {
-    position: absolute;
-    height: 40px;
-    margin: auto;
-    top: 200px;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    text-transform: uppercase;
-    text-align: center;
-    letter-spacing: 0.1em;
-    font-size: 16px;
-    font-weight: bold;
-    color: white;
-  }
-  h1 span {
-    display: none;
-  }
-  h1::after {
-    animation: txt 5s infinite;
-    content: "";
-  }
-
-  @keyframes rt {
-    100% {
-      transform: rotate(360deg);
-    }
-  }
-  @keyframes cw {
-    0% {
-      width: 0;
-      height: 0;
-    }
-    75% {
-      width: 40px;
-      height: 40px;
-    }
-    100% {
-      width: 0;
-      height: 0;
-    }
-  }
-  @keyframes txt {
-    0% {
-      content: "LOADING.";
-    }
-    50% {
-      content: "LOADING..";
-    }
-    100% {
-      content: "LOADING...";
+  @keyframes animate {
+    to {
+      transform: rotate(1turn);
     }
   }
 

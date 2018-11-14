@@ -128,11 +128,9 @@ export default {
       this.getAllBets(n, this.diceAddress);
     },
     my(n, o) {
-      console.log(n,o,'~~~~~~~~');
       this.myLen = n.length;
     },
     myLen(n, o) {
-        console.log(n,o,'^^^^^^');
       this.$store.commit("SET_MY_BETS_LENGTH", n);
       this.$store.commit("SET_RANDOM", this.my[0].result);
     },
@@ -229,7 +227,8 @@ export default {
               : "";
             const time = formatTime(v.timestamp);
             const token = v.token ? v.token : 0;
-            a.push({ select, result, player, input, output, time, token });
+            const transactionId = v.transaction;
+            a.push({ select, result, player, input, output, time, token,transactionId });
           });
           this.all = a;
           logs = logs.filter(v => {
@@ -253,6 +252,7 @@ export default {
             const time = formatTime(v.timestamp);
             const timestamp = v.timestamp;
             const token = v.token ? v.token : 0;
+            const transactionId = v.transaction;
             b.push({
               select,
               result,
@@ -261,25 +261,28 @@ export default {
               output,
               time,
               token,
-              timestamp
+              timestamp,
+              transactionId
             });
           });
-          this.my = b;
-          //  本地存储30条
-          // this.localMy = JSON.parse(localStorage.getItem(this.address.base58));
-          // if (this.localMy && this.localMy.length != 0) {
-          //   let arr = b.concat(this.localMy);
-          //   arr = arr.length > this.maxNum ? arr.slice(0, this.maxNum) : arr;
-          //
-          //   arr = this.deworming(arr, "transactionId");
-          //
-          //   this.my = arr;
-          // } else {
-          //   this.my = b;
-          // }
-          // this.my = this.sort(this.my, "timestamp");
-          // console.log(this.my);
-          // localStorage.setItem(this.address.base58, JSON.stringify(this.my));
+          //this.my = b;
+          // 本地存储30条
+          this.localMy = JSON.parse(localStorage.getItem(this.address.base58));
+
+          if (this.localMy && this.localMy.length != 0) {
+            let arr = b.concat(this.localMy);
+            console.log(111,b,arr)
+            arr = arr.length > this.maxNum ? arr.slice(0, this.maxNum) : arr;
+
+            arr = this.deworming(arr, "transactionId");
+
+            this.my = arr;
+          } else {
+            this.my = b;
+          }
+          this.my = this.sort(this.my, "timestamp");
+          console.log(this.my);
+          localStorage.setItem(this.address.base58, JSON.stringify(this.my));
         });
       }, 3000);
     },
