@@ -1,26 +1,37 @@
 <template>
     <div class="select" ref="select">
-        <div class="resource" v-if="address.base58">
-            <div>
-                {{$t('Resource.BandWidth')}}<span>{{bindWidth}}</span>
-            </div>
-            <div>
-                {{$t('Resource.Energy')}}<span>{{energy}}</span>
-            </div>
-        </div>
+        <div class="info">
+            <div class="resource" v-if="address.base58">
+                <span>当前账号资源</span>
+                <div class="bar">
+                    <div>
+                        {{$t('Resource.BandWidth')}}<span>{{bindWidth}}</span>
+                    </div>
+                    <div>|</div>
+                    <div>
+                        {{$t('Resource.Energy')}}<span>{{energy}}</span>
+                    </div>
+                </div>
 
-        <div class="min-stage">
-            当前为第{{minStage.stage}}阶段：
-            <span class="process" :style="'width:'+Math.ceil((minStage.left/minStage.diceCount)*100)/100+'%'"></span>
-            {{minStage.left}}/{{minStage.diceCount}}
+            </div>
+
+            <div class="min-stage">
+                <span>当前为第{{minStage.stage}}阶段</span>
+                <div class="min">
+                    <span class="process" :style="'width:'+Math.ceil((minStage.left/minStage.diceCount)*100)/100+'%'"></span>
+                    <span>第 {{minStage.stage}}/7轮</span>
+                    <span>{{minStage.left}}/{{minStage.diceCount}}</span>
+                </div>
+
+            </div>
         </div>
         <div class="tab focus" @click="tab(0)">
-            <img :src="require('../assets/images/logo-trx.png')" alt="">
+            <img :src="require('../assets/images/icons/icon-trx.png')" alt="">
             <span>TRX</span>
         </div>
         <div class="tab" @click="tab(1)">
-            <img :src="require('../assets/images/logo-dice.png')" alt="">
-            <span>DICE</span>
+            <img :src="require('../assets/images/icons/icon-bet.png')" alt="">
+            <span>BET</span>
         </div>
     </div>
 </template>
@@ -44,22 +55,26 @@
 
         },
         methods:{
+            async getResource(address){
+                const resource = await window.tronWeb.trx.getAccountResources(address.base58);
+                const energy = resource.EnergyUsed?(resource.EnergyLimit - resource.EnergyUsed):0;
+                const bindWidth = await window.tronWeb.trx.getBandwidth(this.address.base58);
+                this.$store.commit('SET_BAND_WIDTH',bindWidth);
+                this.$store.commit('SET_ENERGY',energy);
+            },
             watchResource(address){
+                this.getResource(address);
                 setInterval(async _=>{
-                    const resource = await window.tronWeb.trx.getAccountResources(address.base58);
-                    const energy = resource.EnergyUsed?(resource.EnergyLimit - resource.EnergyUsed):0;
-                    const bindWidth = await window.tronWeb.trx.getBandwidth(this.address.base58);
-                    this.$store.commit('SET_BAND_WIDTH',bindWidth);
-                    this.$store.commit('SET_ENERGY',energy);
+                    this.getResource(address);
                 },3000)
             },
             async tab(dbToken){
                 if(dbToken == this.dbToken){
                     return false;
                 }else{
-                    let balance;
-                    balance = dbToken == 0 ? await getBalance(this.address.hex):(await this.diceContractInstance.getBalanceOf(this.address.hex.replace('/^41/','0x')).call()).toString();
-                    this.$store.commit('SET_BALANCE',window.tronWeb.fromSun(balance));
+                    //let balance;
+                    //balance = dbToken == 0 ? await getBalance(this.address.hex):(await this.diceContractInstance.getBalanceOf(this.address.hex.replace('/^41/','0x')).call()).toString();
+                    //this.$store.commit('SET_BALANCE',window.tronWeb.fromSun(balance));
                     const tabs = this.$refs.select.getElementsByClassName('tab');
                     for(let i=0;i<tabs.length;i++){
                         tabs[i].classList.remove('focus');
@@ -80,50 +95,74 @@
         align-items: center;
         justify-content: center;
         position: relative;
-        .resource{
+        z-index:2;
+        &>div.info{
             position: absolute;
-            width: 2rem;
+            z-index:-1;
             height: 100%;
+            width: 100%;
             display: flex;
-            left:0;
-            flex-direction: column;
-            align-items: flex-start;
-            justify-content: center;
-            div{
-                &:last-child{
-                    margin-top: .1rem;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            font-size: .14rem;
+            color: #F7D008;
+            .bar{
+                position: relative;
+                width: 2.6rem;
+                height: .2rem;
+                background: #FFEAC7;
+                border-radius: .06rem;
+                display: flex;
+                justify-content: space-between;
+                padding:0 .08rem;
+                color: #8F6300;
+                font-size: .12rem;
+                align-items: center;
+                margin-left: .2rem;
+            }
+            .min-stage{
+                position: relative;
+                display: flex;
+                order:1;
+                width: 4.8rem;
+                height: .4rem;
+                align-items: center;
+                .min{
+                    @extend .bar;
+                    span.process{
+                        position: absolute;
+                        left: 0;
+                        top: 0;
+                        height: 100%;
+                        border-radius:.06rem;
+                        background-image: linear-gradient(-180deg, #F9D255 0%, #FFC049 100%);
+                    }
                 }
             }
-        }
-        .min-stage{
-            position: absolute;
-            right:0;
-            width: 4.8rem;
-            height: .4rem;
-            text-align: center;
-            line-height:.4rem;
-            border-radius:.4rem;
-            border:.02rem solid aliceblue;
-            span{
-                position: absolute;
-                left: 0;
-                top: 0;
+            .resource{
+                order:2;
                 height: 100%;
-                border-radius:.4rem 0 0 .4rem;
-                background-color: #64e1f6;
+                display: flex;
+                left:0;
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
             }
-
         }
         .tab{
             cursor: pointer;
             font-size: .15rem;
             width: 1.23rem;
             height: .38rem;
-            background-color: #363995;
-            border-radius: .19rem;
+            background: #FFEAC7;
+            border: .02rem solid #F7D008;
+            box-shadow: 0 2px 4px 0 rgba(117,4,0,0.20);
+            border-radius: .06rem;
             display: flex;
             justify-content: center;
             align-items: center;
+            color: #C53028;
             img{
                 width: .16rem;
             }
@@ -135,19 +174,12 @@
             }
         }
         .tab.focus{
-            background-image: linear-gradient(142deg,
-                    #2babf5 0%,
-                    #4786f9 50%,
-                    #6260fd 100%),
-            linear-gradient(
-                            #de5cff,
-                            #de5cff);
-            background-blend-mode: normal,
-            normal;
-            border-radius: 19px;
+            background-image: linear-gradient(-180deg, #F9D255 0%, #FFC049 100%);
+            border: 3px solid #F7D008;
+            box-shadow: 0 2px 4px 0 rgba(117,4,0,0.20);
         }
     }
-    @media screen and (max-width:1280px){
+    @media screen and (max-width:1100px){
         .select{
 
         }

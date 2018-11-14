@@ -7,6 +7,7 @@ export const state = () => ({
   locale: "en",
   address: {},
   balance: 0,
+  diceBalance: 0,
   limit: {
     0:{
         min: 10,
@@ -56,6 +57,9 @@ export const mutations = {
   },
   SET_BALANCE(state, balance) {
     state.balance = balance;
+  },
+  SET_DICE_BALANCE(state, diceBalance) {
+    state.diceBalance = diceBalance;
   },
   SET_CONTRACT_INSTANCE(state, obj) {
     state.contractInstance = { ...state.contractInstance, ...obj };

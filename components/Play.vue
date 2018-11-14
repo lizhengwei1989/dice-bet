@@ -1,11 +1,9 @@
 <template>
   <div class="play">
+    <div ref="light" class="light light1"></div>
     <div class="bet">
-      <div class="tit green">
-        {{$t('Play.Bet.Title')}}
-      </div>
       <div class="input-group">
-        <div class="input" :data-after="unit">
+        <div class="input" :data-before="$t('Play.Bet.Title')" :data-after="unit">
           <input type="text" :value="stake" @input="handleInput" @blur="handleBlur" name="" id="" />
         </div>
         <div class="percentage" ref="percentage">
@@ -15,15 +13,21 @@
         </div>
       </div>
       <div class="desc">
-        {{$t('Play.Bet.Left')}}&nbsp;<span ref="balance"></span>&nbsp;{{unit}}
+        <div class="available">
+          {{$t('Play.Bet.Left')}}
+        </div>
+        <div class="balance-trx">
+          &nbsp;<span ref="balance"></span> TRX
+        </div>
+        <span>&nbsp;/&nbsp;</span>
+        <div class="balance-dice">
+          <span ref="diceBalance"></span> BET
+        </div>
       </div>
     </div>
     <div class="win">
-      <div class="tit pink">
-        {{$t('Play.WinTitle')}}
-      </div>
       <div class="input-group">
-        <div class="input" :data-after="unit">
+        <div class="input" :data-before="$t('Play.WinTitle')" :data-after="unit">
           <input type="text" name="" :value="Math.floor(stake * odds * 1000)/1000" readonly />
         </div>
       </div>
@@ -35,7 +39,7 @@
             {{$t('Play.Less')}}
           </div>
           <div class="c">
-            {{number}}
+            <{{number}}
           </div>
         </div>
         <div class="cell">
@@ -59,9 +63,9 @@
         <el-slider  :show-tooltip="false" v-model="number"></el-slider>
         <div class="line">
           <div class="cell" data-after="1"></div>
-          <div class="cell" data-after="25"></div>
+          <div class="cell" style="display: none" data-after="25"></div>
           <div class="cell" data-after="50"></div>
-          <div class="cell" data-after="75"></div>
+          <div class="cell" style="display: none" data-after="75"></div>
           <div class="cell" data-after="100"></div>
           <div class="win" ref="win">{{random}}</div>
           <div class="lose" ref="lose">{{random}}</div>
@@ -80,6 +84,7 @@
 import { mapState } from "vuex";
 import { getOdds, getBalance, formatTime } from "@/static/js/Util";
 import { addInviteUser, addTransition } from "~/api/user";
+import { animate } from "~/static/js/Animate";
 export default {
   name: "Play",
   data() {
@@ -121,12 +126,20 @@ export default {
         v = Math.min(v, this.limit[this.dbToken].max ,Math.floor(n));
         v = Math.max(v, this.limit[this.dbToken].min);
         this.$store.commit('SET_STAKE',v);
-        this.animate("balance", n, o);
+        animate(this.$refs["balance"], n, o);
+    },
+    diceBalance(n, o) {
+          let v = this.stake;
+          v = Math.min(v, this.limit[this.dbToken].max ,Math.floor(n));
+          v = Math.max(v, this.limit[this.dbToken].min);
+          this.$store.commit('SET_STAKE',v);
+          animate(this.$refs["diceBalance"], n, o);
     },
     myBetsLength(n, o) {
       if (n != 0) {
         if(o != 0){
             this.r = this.$store.state.random;
+            this.watchBalance();
         }
         clearInterval(this.timer);
         clearInterval(this.rolling);
@@ -134,20 +147,9 @@ export default {
         setTimeout(() => {
           this.r = "";
         }, 3000);
-        this.watchBalance();
+
         //添加交易
         if(this.transactionId){
-            // if(this.dbToken==0){
-            //     let data = {
-            //         dappId: this.dapp,
-            //         contractAddress: this.contractAddress,
-            //         trxHash: this.transactionId,
-            //         amount: Number(window.tronWeb.toSun(this.stake)),
-            //         userAddress: this.address.base58 || "",
-            //         status: 1
-            //     };
-            //     addTransition(data);
-            // }
             if(this.r >= this.number){
                 this.$refs.lose.style.display="block";
             }else{
@@ -169,7 +171,8 @@ export default {
       "dbToken",
       "stake",
       "limit",
-      "diceContractInstance"
+      "diceContractInstance",
+      "diceBalance"
     ])
   },
   mounted() {
@@ -260,7 +263,9 @@ export default {
       let tmp = 0;
       this.rolling = setInterval(_ => {
         this.r = Math.ceil(Math.random() * 100);
-      }, 50);
+        const c = this.$refs.light.className;
+        this.$refs.light.className = c.match(/1/) ? c.replace('1','2'):c.replace('2','1')
+      }, 100);
       this.$refs.win.style.display="none";
       this.$refs.lose.style.display="none";
       this.timer = setInterval(async _ => {
@@ -301,33 +306,25 @@ export default {
       localStorage.my = JSON.stringify(my);
     },
     async watchBalance() {
-      let balance = this.dbToken == 0 ? await getBalance(this.address.hex) : (await this.diceContractInstance.getBalanceOf(this.address.hex.replace('/^41/','0x')).call()).toString();
+      console.log(this.diceContractInstance);
+      const balance =  await getBalance(this.address.hex);
+      const diceBalance = (await this.diceContractInstance.getBalanceOf(this.address.hex.replace('/^41/','0x')).call()).toString();
       this.$store.commit("SET_BALANCE", window.tronWeb.fromSun(balance));
+      this.$store.commit("SET_DICE_BALANCE", window.tronWeb.fromSun(diceBalance));
     },
     animate(ref, newVal, oldVal) {
-      const dom = this.$refs[ref];
-      if (ref == "luckyPoint") {
-        const item = dom.getElementsByClassName("leaf");
-        for (let i = 0; i < item.length; i++) {
-          if (i < newVal) {
-            item[i].classList.add("active");
-          } else {
-            item[i].classList.remove("active");
-          }
-        }
-      } else {
+        const dom = this.$refs[ref];
         newVal = parseFloat(newVal);
         oldVal = parseFloat(oldVal);
         const t = setInterval(() => {
           oldVal = oldVal + (newVal - oldVal) / 3;
           oldVal = Math.floor(oldVal * 100) / 100;
-          this.$refs[ref].innerHTML = oldVal;
+          dom.innerHTML = oldVal;
           if (Math.abs(oldVal - newVal) < 0.4) {
             clearInterval(t);
-            this.$refs[ref].innerHTML = newVal;
+            dom.innerHTML = newVal;
           }
         }, 30);
-      }
     }
   }
 };
@@ -341,32 +338,57 @@ export default {
   color: #de5cff;
 }
 .play {
+  position: relative;
+  width: 4.98rem;
+  height: 4.98rem;
   display: flex;
   flex-direction: column;
-  height: 100%;
+  align-items: center;
+  background: #FFFADE;
+  box-shadow: inset 0 0.04rem 0.1rem 0 rgba(7, 52, 22, 0.2);
+  border-radius: .1rem;
   padding: 0.2rem 0.25rem 0;
-  .tit {
-    height: 0.4rem;
-    line-height: 0.4rem;
-    font-size: 0.18rem;
-    padding-left: 0.04rem;
+  z-index:0;
+  .light{
+    position: absolute;
+    width: 5.3rem;
+    height: 5.3rem;
+    left: -0.14rem;
+    top: -0.14rem;
+    background-repeat: no-repeat;
+    z-index:-1;
+  }
+  .light1{
+    background-image: url('../assets/images/new/light1.png');
+  }
+  .light2{
+    background-image: url('../assets/images/new/light2.png');
   }
   .input-group {
-    height: 0.6rem;
-    border-radius: 0.1rem;
-    border: 0.03rem solid #131258;
+    height: 0.4rem;
+    border-radius: 0.06rem;
+    border: 0.01rem solid #C53028;
     .input {
+      flex:1;
       position: relative;
-      padding: 0 0.68rem 0 0.76rem;
+      padding-right: .58rem;
+      border-radius:.06rem 0 0 .06rem;
       input {
         width: 100%;
         height: 100%;
         background-color: transparent;
         border: none;
         outline: none;
-        color: #fff;
         font-size: 0.22rem;
         text-align: right;
+      }
+      &:before{
+        content:attr(data-before);
+        position: absolute;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        padding-left: .1rem;
       }
       &:after {
         content:attr(data-after);
@@ -386,79 +408,91 @@ export default {
     flex-direction: column;
     .input-group {
       display: flex;
+      background-color: #fff;
       .input {
-        width: 3.74rem;
-        background-color: #131258;
-        background-image: url("../assets/images/icons/icon-bet.png");
+        background-color: #fff;
         background-repeat: no-repeat;
         background-position: 0.12rem center;
         background-size: auto 70%;
+        border-right: .01rem solid #C53028;
+        &:before {
+          color: #C53028;
+        }
         &:after {
-          @extend .green;
+          color: #C53028;
+        }
+        input{
+          color: #C53028;
         }
       }
       .percentage {
-        flex: 1;
+        width: 1.94rem;
         display: flex;
         padding: 0 0.14rem;
         align-items: center;
         justify-content: space-between;
-        font-size: 0.18rem;
+        font-size: 0.14rem;
+        color: #C53028;;
         span {
           cursor: pointer;
+          border:.01rem solid #C53028;
+          padding:0rem .08rem;
+          border-radius:.02rem;
+        }
+        span.green{
+          background-color: #C53028;
+          color: #fff;
         }
       }
     }
     .desc {
-      height: 0.3rem;
+      height: 0.6rem;
       display: flex;
       align-items: center;
       font-size: 0.14rem;
-      color: #fff;
-      span{
-        color: #e7b01a;
+      color: #C53028;
+      .available{
+        color: #E60815;
       }
     }
   }
   .win {
-    margin-top: 0.2rem;
+    display: flex;
+    width: 100%;
     .input-group {
+      width: 100%;
+      border:none;
       .input {
         height: 100%;
-        background-color: #131258;
-        background-image: url("../assets/images/icons/icon-win.png");
-        background-repeat: no-repeat;
-        background-position: 0.12rem center;
-        background-size: auto 70%;
-        &:after {
-          @extend .pink;
+        background-color: #F5A623;
+        color: #fff;
+        input{
+          color: #fff;
         }
       }
     }
   }
   .show {
-    flex: 1;
+    width: 100%;
+    flex:1;
     display: flex;
     flex-direction: column;
     margin: 0.17rem -0.25rem 0;
     .row-1 {
       flex: 1;
-      border-top: 0.01rem solid #383a90;
-      border-bottom: 0.01rem solid #383a90;
       display: flex;
+      box-shadow: inset 0 4px 10px 0 rgba(7,52,22,0.20);
+      border-radius: .1rem;
+      background-color: #C53028;;
       .cell {
         display: flex;
         flex: 1;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        border-left: 0.01rem solid #383a90;
-        &:first-child {
-          border: none;
-        }
+        color: #DDFFDC;
         .t {
           font-size: 0.18rem;
-          color: #a8abe4;
         }
         .c {
           font-size: 0.32rem;
@@ -469,14 +503,12 @@ export default {
         flex: 1;
         display: flex;
         position: relative;
-        border-bottom:0.01rem solid #383a90;
-        padding:0 .25rem;
         align-items: center;
         .line {
           position: absolute;
           height: .2rem;
-          width: 5.68rem;
-          top:.74rem;
+          width: 4.48rem;
+          top:.7rem;
           .win,.lose{
             position: absolute;
             width: .54rem;
@@ -531,7 +563,8 @@ export default {
               content: "";
             }
             &:after {
-              color: #fff;
+              font-size: .13rem;
+              color: #666;
               margin-top: .04rem;
               content: attr(data-after);
             }
@@ -544,14 +577,15 @@ export default {
       align-items: center;
       justify-content: center;
       button {
-        width: 3rem;
-        height: 0.65rem;
-        font-size: 0.24rem;
-        background-color: #4648bf;
-        border-radius: 0.32rem;
-        border: none;
-        color: #fff;
+        width: 1.8rem;
+        height: 0.5rem;
+        background-image: linear-gradient(-180deg, #FAD961 0%, #F76B1C 100%);
+        box-shadow: 0 4px 9px 0 rgba(117,4,0,0.20);
+        border-radius: 25px;
         cursor: pointer;
+        font-size: .24rem;
+        border:none;
+        color: #fff;
       }
     }
   }

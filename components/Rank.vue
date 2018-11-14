@@ -4,41 +4,57 @@
             <!-- <caption class="title"><span style="text-align: left"> {{$t('RankTitle')}} <i class="el-icon-question" @click="ruleDialog.visible=true"></i></span></caption> -->
             <caption class="title">
               <el-row :gutter="20">
-                <el-col :span="12" style="text-align:left;">
+                <el-col :span="24" style="">
                     {{$t('RankTitle')}}
                     <!--<i class="el-icon-question" @click="ruleDialog.visible=true"></i>-->
                 </el-col>
-                <el-col :span="12" style="text-align:right;">
-                  <div class="dateTime">
-                    <i class="iconfont icon-jiantou-zuo-cuxiantiao" @click="changeTime('-')" :class="{grey:(!isPreClick || isLoading)}"></i>
-                    <span style="width:1rem;display:inline-block;font-size:0.18rem;text-align:center">{{date}}</span> 
-                    <i class="iconfont icon-jiantou-zuo-cuxiantiao right" :class="{grey:(!isClick||isLoading)}" @click="changeTime('+')"></i>
-                  </div>    
-                </el-col>
+                <!--<el-col :span="12" style="text-align:right;">-->
+                  <!--<div class="dateTime">-->
+                    <!--<i class="iconfont icon-jiantou-zuo-cuxiantiao" @click="changeTime('-')" :class="{grey:(!isPreClick || isLoading)}"></i>-->
+                    <!--<span style="width:1rem;display:inline-block;font-size:0.18rem;text-align:center">{{date}}</span>-->
+                    <!--<i class="iconfont icon-jiantou-zuo-cuxiantiao right" :class="{grey:(!isClick||isLoading)}" @click="changeTime('+')"></i>-->
+                  <!--</div>-->
+                <!--</el-col>-->
               </el-row>
             </caption>
             <thead>
             <tr>
                 <th>
-                    {{$t('Order')}}
+                    <span>{{$t('Order')}}</span>
                 </th>
                 <th>
-                    {{$t('Player')}}
+                    <span>{{$t('Player')}}</span>
                 </th>
                 <th>
-                    {{$t('TotalMount')}}
+                    <span>{{$t('TotalMount')}}</span>
                 </th>
                 <th>
-                    {{$t('Prize')}}
+                    <span>{{$t('Prize')}}</span>
                 </th>
             </tr>
             </thead>
-            <tbody :style="'height:'+(dbToken==0?'3.4':'4.3')+'rem'">
+            <tbody :style="'height:'+(dbToken==0?'2.6':'4.3')+'rem'">
                 <tr v-for="(item,index) of ranks" v-if="ranks.length > 0">
-                    <td><img v-if="index < 3" :src="require('../assets/images/order'+(index+1)+'.png')"><span v-else>{{index+1}}</span></td>
-                    <td>{{item.player|hiddenAddress}}</td>
-                    <td>{{item.total|fromSun}} TRX</td>
-                    <td>{{item.prize}} TRX</td>
+                    <td>
+                        <span>
+                           {{index+1}}
+                        </span>
+                    </td>
+                    <td>
+                        <span>
+                            {{item.player|hiddenAddress}}
+                        </span>
+                    </td>
+                    <td>
+                        <span>
+                            {{item.total|fromSun}} TRX
+                        </span>
+                    </td>
+                    <td>
+                        <span>
+                            {{item.prize}} TRX
+                        </span>
+                    </td>
                 </tr>
                 <tr v-if="ranks.length === 0">
                   <td colspan="5" class="span" v-if="isLoading">
@@ -73,9 +89,8 @@
                 {{ranks[ranks.length-1].prize}} TRX
             </div>
         </div>
-
-         <!--奖励规则-->
-      <el-dialog
+        <!--奖励规则-->
+        <el-dialog
         :title="$t('PrizeRule.title')"
         :visible.sync="ruleDialog.visible"
         width="30%">
@@ -100,15 +115,20 @@
           </h5>
         </div>
       </el-dialog>
+        <other-prize />
     </div>
 </template>
 
 <script>
 import { mapState } from "vuex";
+import OtherPrize from "~/components/OtherPrize.vue";
 import { getRankList } from "@/api/user";
 import moment from "moment";
 export default {
   name: "Rank",
+  components:{
+      OtherPrize
+  },
   data() {
     return {
       ranks: [],
@@ -140,7 +160,6 @@ export default {
       const all = getRankList({dappId:this.dappId,contractAddress:this.contractAddress});
       const my = getRankList({dappId:this.dappId,contractAddress:this.contractAddress,userAddress:this.address.base58});
       Promise.all([all,my]).then((res)=>{
-          console.log(res);
           this.isLoading = false;
           res[0].rankingData.forEach((v,i)=>{
               let prize = 0;
@@ -243,28 +262,22 @@ export default {
   }
 }
 .rank {
-  width: 100%;
-  /*height: 5.7rem;*/
-  flex: 1;
-  background-image: linear-gradient(
-      142deg,
-      #2b2c80 0%,
-      #222470 62%,
-      #191c60 100%
-    ),
-    linear-gradient(#242572, #242572);
-  background-blend-mode: normal, normal;
-  border-radius: 0.2rem;
+  width: 4.98rem;
+  height: 4.98rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+  background: #FFFADE;
+  box-shadow: inset 0 .04rem .1rem 0 rgba(7,52,22,0.20);
+  border-radius: .1rem;
   .title {
-    height: 0.72rem;
+    height: 0.7rem;
     line-height: 0.72rem;
     font-size: 0.2rem;
-    border-bottom: 0.02rem solid #383a90;
     padding: 0 0.2rem;
+    color: #C53028;
+    text-shadow:0rem 0rem .2rem #C53028;
     .grey {
       color: grey;
     }
@@ -277,56 +290,66 @@ export default {
     }
   }
   table {
-    padding: 0 0.08rem;
+    padding: 0 0.2rem;
     tr {
+      margin-top: .12rem;
       display: table;
       width: 100%;
       table-layout: fixed;
-      padding: 0 0.12rem;
+      border: .01rem solid #C53028;
+      border-radius: .1rem;
       th,
       td {
+          height: .38rem;
+          font-size: .14rem;
+          color: #AF1A1A;
+          span{
+              display: inline-block;
+              width: 100%;
+              height: .2rem;
+              border-right:0.01rem solid #C53028;
+          }
         &:first-child {
           width: 0.8rem;
         }
-        &:nth-child(2) {
-          text-align: left;
-        }
-        &:nth-child(3),
-        &:nth-child(4) {
-          text-align: right;
-        }
-        &:nth-child(4) {
-          padding-right: 0.3rem;
+        &:last-child {
+            span{
+              border:none
+            }
         }
       }
     }
     thead {
-      th {
-        height: 0.4rem;
-        color: #a8abe4;
-        font-size: 0.12rem;
-      }
+        tr{
+            margin: 0;
+        }
     }
     tbody {
-      tr {
+        display: block;
+        height: 3.4rem;
+        overflow: auto;
+        border-radius: 0.1rem;
+        &::-webkit-scrollbar {
+            width: 0.05rem;
+            border-radius: 0.04rem;
+        }
+        &::-webkit-scrollbar-thumb {
+            background: #363995;
+            border-radius: 0.04rem;
+        }
+        tr {
         td {
-          height: 0.8rem;
-          font-size: 0.15rem;
-          border-bottom: 0.02rem solid #262778;
+          text-align: center;
           &:first-child {
             text-align: center;
-            img {
-              height: 0.34rem;
-              width: 0.34rem;
-            }
             span {
-              width: 0.34rem;
-              height: 0.34rem;
-              border-radius: 100%;
-              background-color: #262778;
-              border: 0.01rem solid #363995;
-              display: inline-block;
-              line-height: 0.3rem;
+              /*width: 0.34rem;*/
+              /*height: 0.34rem;*/
+              /*border-radius: 100%;*/
+              /*background-color: #262778;*/
+              /*border: 0.01rem solid #363995;*/
+              /*display: inline-block;*/
+              /*line-height: 0.3rem;*/
             }
           }
         }
@@ -335,7 +358,6 @@ export default {
             border: none;
           }
         }
-
         .cell {
           display: inline-block;
           width: 0.04rem;
@@ -389,30 +411,18 @@ export default {
           }
         }
       }
-      display: block;
-      height: 3.4rem;
-      overflow: auto;
-      border-radius: 0.1rem;
-      background-color: #131258;
-      &::-webkit-scrollbar {
-        width: 0.05rem;
-        border-radius: 0.04rem;
-      }
-      &::-webkit-scrollbar-thumb {
-        background: #363995;
-        border-radius: 0.04rem;
-      }
     }
   }
   .last {
-    width: 6.04rem;
-    height: 0.85rem;
-    background-color: #363995;
+    width: 4.58rem;
+    height: 0.4rem;
+    background-color: #C53028;;
     border-radius: 0.1rem;
-    margin-bottom: 0.16rem;
+    margin-top: 0.12rem;
     display: flex;
     flex-direction: row;
     align-items: center;
+      color: #DAFFCF;;
     .cell {
       &:first-child {
         width: 0.8rem;
@@ -448,7 +458,7 @@ export default {
     }
   }
 }
-@media screen and (max-width: 1280px) {
+@media screen and (max-width: 1100px) {
   .rank {
     .last {
       width: 6.66rem;

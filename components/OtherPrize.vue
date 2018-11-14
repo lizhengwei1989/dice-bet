@@ -1,14 +1,11 @@
 <template>
     <div class="other-prize" v-if="dbToken==0">
-        <div class="desc">
             <div class="r1">
-                {{$t('OtherPrize.Txt1')}}{{stake * (1/minStage.rate)}} DICE
+                {{$t('OtherPrize.Txt1')}}<span>{{stake * (1/minStage.rate)}} BET</span>
             </div>
             <div class="r2">
-                {{$t('OtherPrize.Txt2')}} {{minStage.rate==1?minStage.rate:'1/'+minStage.rate}}x DICE
+                {{$t('OtherPrize.Txt2')}} <span>{{minStage.rate==1?minStage.rate:'1/'+minStage.rate}}x </span>BET
             </div>
-        </div>
-        <img :src="require('../assets/images/other-prize.png')" alt="" />
     </div>
 </template>
 
@@ -24,41 +21,28 @@
 
 <style scoped lang="scss">
     .other-prize{
-        width: 6.2rem;
-        height: .8rem;
-        margin-top: .1rem;
-        background-image: linear-gradient(91deg,
-                #5b60d6 0%,
-                #5b37b6 100%),
-        linear-gradient(
-                        #a8abe4,
-                        #a8abe4);
-        background-blend-mode: normal,
-        normal;
-        border-radius: .1rem;
+        font-size: .14rem;
+        flex:1;
+        width: 4.58rem;
         display: flex;
-        flex-direction: row;
-        padding:0 .3rem 0 .26rem;
-        justify-content: space-between;
+        flex-direction: column;
+        justify-content: center;
         align-items: center;
-        .desc{
-            flex:1;
-            display: flex;
-            flex-direction: column;
-            .r1{
-                font-size: .18rem;
-            }
-            .r2{
-                font-size: .14rem;
-                color: #64e1f6;
+        color:#35781B;
+        span{
+            color: #FF7D00;
+        }
+        .r1{
+            font-size: .18rem;
+            span{
+                font-size: .2rem;
             }
         }
-        img{
-            width: .53rem;
-            height: .55rem;
+        .r2{
+            font-size: .14rem;
         }
     }
-    @media screen and (max-width:1280px){
+    @media screen and (max-width:1100px){
         .other-prize{
             width: 100%;
         }

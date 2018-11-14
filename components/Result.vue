@@ -1,13 +1,14 @@
 <template>
   <div class="result">
-    <div class="tab" ref="tab">
-      <a href="javascript:;" class="focus" @click="tab(0)">{{$t('Result.AllBets')}}</a>
-      <a href="javascript:;" @click="tab(1)">{{$t('Result.MyBets')}}</a>
-      <!--<a href="javascript:;" @click="tab(2)">{{$t('LuckyPrize')}}</a>-->
-    </div>
-    <div class="output" ref="output">
-      <table style="display: table" cellspacing="0">
-        <thead>
+    <div class="wrap">
+      <div class="tab" ref="tab">
+        <a href="javascript:;" class="focus" @click="tab(0)">{{$t('Result.AllBets')}}</a>
+        <a href="javascript:;" @click="tab(1)">{{$t('Result.MyBets')}}</a>
+        <!--<a href="javascript:;" @click="tab(2)">{{$t('LuckyPrize')}}</a>-->
+      </div>
+      <div class="output" ref="output">
+        <table style="display: table" cellspacing="0">
+          <thead>
           <tr>
             <th>
               {{$t('Result.Time')}}
@@ -28,8 +29,8 @@
               {{$t('Result.Output')}}
             </th>
           </tr>
-        </thead>
-        <tbody v-if="all.length!=0">
+          </thead>
+          <tbody v-if="all.length!=0">
           <tr v-for="item of all" :class="item.output ? 'win':'lose'">
             <td>{{item.time}}</td>
             <td>{{item.player | hiddenAddress}}</td>
@@ -38,8 +39,8 @@
             <td>{{item.result}}</td>
             <td>{{item.output?Math.floor(item.output * 1000)/1000+' '+(item.token==0?'TRX':'DICE'):'-'}}</td>
           </tr>
-        </tbody>
-        <tbody v-else>
+          </tbody>
+          <tbody v-else>
           <tr>
           </tr>
           <tr>
@@ -56,45 +57,46 @@
               <div class="cell"></div>
             </td>
             <td colspan="5" style="text-align: center" v-else>
-                {{$t('NoData')}}
+              {{$t('NoData')}}
             </td>
           </tr>
-        </tbody>
-      </table>
-      <table cellspacing="0">
-        <thead>
-        <tr>
-          <th>
-            {{$t('Result.Time')}}
-          </th>
-          <th>
-            {{$t('Result.Player')}}
-          </th>
-          <th>
-            {{$t('Result.Select')}}
-          </th>
-          <th>
-            {{$t('Result.Input')}}
-          </th>
-          <th>
-            {{$t('Result.Result')}}
-          </th>
-          <th>
-            {{$t('Result.Output')}}
-          </th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr v-for="item of my" :class="item.output ? 'win':'lose'">
-          <td>{{item.time}}</td>
-          <td>{{item.player | hiddenAddress}}</td>
-          <td>{{item.select}}</td>
-          <td>{{item.input}} {{item.token==0?'TRX':'DICE'}}</td>
-          <td>{{item.result}}</td>
-          <td>{{item.output?Math.floor(item.output * 1000)/1000+' '+(item.token==0?'TRX':'DICE'):'-'}}</td>
-        </tr>
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+        <table cellspacing="0">
+          <thead>
+          <tr>
+            <th>
+              {{$t('Result.Time')}}
+            </th>
+            <th>
+              {{$t('Result.Player')}}
+            </th>
+            <th>
+              {{$t('Result.Select')}}
+            </th>
+            <th>
+              {{$t('Result.Input')}}
+            </th>
+            <th>
+              {{$t('Result.Result')}}
+            </th>
+            <th>
+              {{$t('Result.Output')}}
+            </th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr v-for="item of my" :class="item.output ? 'win':'lose'">
+            <td>{{item.time}}</td>
+            <td>{{item.player | hiddenAddress}}</td>
+            <td>{{item.select}}</td>
+            <td>{{item.input}} {{item.token==0?'TRX':'DICE'}}</td>
+            <td>{{item.result}}</td>
+            <td>{{item.output?Math.floor(item.output * 1000)/1000+' '+(item.token==0?'TRX':'DICE'):'-'}}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </template>
@@ -271,7 +273,6 @@ export default {
 
           if (this.localMy && this.localMy.length != 0) {
             let arr = b.concat(this.localMy);
-            console.log(111,b,arr)
             arr = arr.length > this.maxNum ? arr.slice(0, this.maxNum) : arr;
 
             arr = this.deworming(arr, "transactionId");
@@ -281,7 +282,6 @@ export default {
             this.my = b;
           }
           this.my = this.sort(this.my, "timestamp");
-          console.log(this.my);
           localStorage.setItem(this.address.base58, JSON.stringify(this.my));
         });
       }, 3000);
@@ -314,196 +314,193 @@ export default {
 
 <style scoped lang="scss">
 .result {
-  height: 7.29rem;
-  background-image: linear-gradient(
-      142deg,
-      #28297c 0%,
-      #21236e 50%,
-      #191c60 100%
-    ),
-    linear-gradient(#242572, #242572);
-  background-blend-mode: normal, normal;
+  height: 5.3rem;
+  background-image: linear-gradient(0deg, #FAD961 0%, #F76B1C 100%);
+  box-shadow: 0 4px 24px 0 rgba(52,7,7,0.50);
   border-radius: 0.1rem;
-  .tab {
-    position: relative;
-    z-index: 1;
-    height: 0.8rem;
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: row;
-    align-items: center;
-    a {
-      height: 0.32rem;
-      line-height: 0.32rem;
-      padding: 0 0.3rem;
-      font-size: 0.18rem;
-      margin-left: 0.15rem;
-      color: #9fa2db;
-      //background: rgba(48,41,95,0.9);
-      //border: .01rem solid #7064B3;
-      border-bottom: none;
-      border-radius: 0.1rem 0.1rem 0 0;
-      transition: all 0.2s ease-in-out;
-      &:first-child {
-        margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  &>.wrap{
+    width: 10.68rem;
+    height: 4.97rem;
+    background: #FFFADE;
+    box-shadow: inset 0 4px 10px 0 rgba(7,52,22,0.20);
+    border-radius: .1rem;
+    .tab {
+      position: relative;
+      z-index: 1;
+      height: 0.6rem;
+      display: flex;
+      flex-wrap: wrap;
+      flex-direction: row;
+      align-items: center;
+      font-size: .16rem;
+      a {
+        height: 0.32rem;
+        line-height: 0.32rem;
+        padding: 0 0.3rem;
+        font-size: 0.18rem;
+        margin-left: 0.15rem;
+        color: #9A6666;;
+        border-bottom: none;
+        border-radius: 0.1rem 0.1rem 0 0;
+        transition: all 0.2s ease-in-out;
+      }
+      a.focus {
+        color: #fff;
+        background: #C53028;
+        border-radius: .06rem;
       }
     }
-    a.focus {
-      color: #fff;
-    }
-  }
-  .output {
-    flex: 1;
-    overflow: hidden;
-    table {
-      display: none;
-      width: 100%;
-      thead {
-        display: table;
+    .output {
+      flex: 1;
+      overflow: hidden;
+      table {
+        display: none;
         width: 100%;
-        table-layout: fixed;
-      }
-      tbody {
-        display: block;
-        height: 5.96rem;
-        overflow-y: scroll;
-        &::-webkit-scrollbar {
-          width: 0.05rem;
-          border-radius: 0.04rem;
+        thead {
+          display: table;
+          width: 100%;
+          table-layout: fixed;
         }
-        &::-webkit-scrollbar-thumb {
-          background: #363995;
-          border-radius: 0.04rem;
+        tbody {
+          display: block;
+          height: 3.7rem;
+          overflow-y: scroll;
+          &::-webkit-scrollbar {
+            width: 0.05rem;
+            border-radius: 0.04rem;
+          }
+          &::-webkit-scrollbar-thumb {
+            background: #363995;
+            border-radius: 0.04rem;
+          }
         }
-      }
-      tr {
-        display: table;
-        width: 100%;
-        table-layout: fixed;
-        td.span {
-          height: 2.4rem;
-          text-align: center !important;
-          .cell {
-            display: inline-block;
-            width: 0.04rem;
-            height: 0.5rem;
-            margin-right: 0rem;
-            background-color: #b3a6ff;
-            animation: animate 1s infinite;
-            &:last-child {
-              margin-right: 0px;
+        tr {
+          display: table;
+          width: 100%;
+          table-layout: fixed;
+          td.span {
+            height: 2.4rem;
+            text-align: center !important;
+            .cell {
+              display: inline-block;
+              width: 0.04rem;
+              height: 0.5rem;
+              margin-right: 0rem;
+              background-color: #b3a6ff;
+              animation: animate 1s infinite;
+              &:last-child {
+                margin-right: 0px;
+              }
+              &:nth-child(10) {
+                -webkit-animation-delay: 0.9s;
+                animation-delay: 0.9s;
+              }
+              &:nth-child(9) {
+                -webkit-animation-delay: 0.8s;
+                animation-delay: 0.8s;
+              }
+              &:nth-child(8) {
+                -webkit-animation-delay: 0.7s;
+                animation-delay: 0.7s;
+              }
+              &:nth-child(7) {
+                -webkit-animation-delay: 0.6s;
+                animation-delay: 0.6s;
+              }
+              &:nth-child(6) {
+                -webkit-animation-delay: 0.5s;
+                animation-delay: 0.5s;
+              }
+              &:nth-child(5) {
+                -webkit-animation-delay: 0.4s;
+                animation-delay: 0.4s;
+              }
+              &:nth-child(4) {
+                -webkit-animation-delay: 0.3s;
+                animation-delay: 0.3s;
+              }
+              &:nth-child(3) {
+                -webkit-animation-delay: 0.2s;
+                animation-delay: 0.2s;
+              }
+              &:nth-child(2) {
+                -webkit-animation-delay: 0.1s;
+                animation-delay: 0.1s;
+              }
             }
-            &:nth-child(10) {
-              -webkit-animation-delay: 0.9s;
-              animation-delay: 0.9s;
+            @keyframes animate {
+              50% {
+                transform: scaleY(0);
+              }
             }
-            &:nth-child(9) {
-              -webkit-animation-delay: 0.8s;
-              animation-delay: 0.8s;
-            }
-            &:nth-child(8) {
-              -webkit-animation-delay: 0.7s;
-              animation-delay: 0.7s;
-            }
-            &:nth-child(7) {
-              -webkit-animation-delay: 0.6s;
-              animation-delay: 0.6s;
-            }
-            &:nth-child(6) {
-              -webkit-animation-delay: 0.5s;
-              animation-delay: 0.5s;
-            }
-            &:nth-child(5) {
-              -webkit-animation-delay: 0.4s;
-              animation-delay: 0.4s;
-            }
-            &:nth-child(4) {
-              -webkit-animation-delay: 0.3s;
-              animation-delay: 0.3s;
-            }
-            &:nth-child(3) {
-              -webkit-animation-delay: 0.2s;
-              animation-delay: 0.2s;
+          }
+          th,
+          td {
+            font-size: 0.14rem;
+            color: rgba(255, 255, 255, 0.6);
+            &:first-child {
+              text-align: left;
+              width: 2rem;
+              padding-left: 0.3rem;
             }
             &:nth-child(2) {
-              -webkit-animation-delay: 0.1s;
-              animation-delay: 0.1s;
+              text-align: left;
             }
-          }
-          @keyframes animate {
-            50% {
-              transform: scaleY(0);
-            }
-          }
-        }
-        th,
-        td {
-          font-size: 0.14rem;
-          color: rgba(255, 255, 255, 0.6);
-          &:first-child {
-            text-align: left;
-            width: 2rem;
-            padding-left: 0.3rem;
-          }
-          &:nth-child(2) {
-            text-align: left;
-          }
-          &:last-child,
-          &:nth-child(3) {
-            //width:.7rem;
-          }
-          &:last-child {
-            padding-right: 0.1rem;
-          }
-        }
-        th {
-          background-color: #191c61;
-          height: 0.46rem;
-          line-height: 0.46rem;
-        }
-        td {
-          text-align: center;
-          height: 0.76rem;
-          line-height: 0.76rem;
-          border-bottom: 0.02rem solid #383a90;
-        }
-        td.win {
-          color: #69c265;
-        }
-        td.lose {
-          color: #d54e4e;
-        }
-        &:last-child {
-          td {
-            &:first-child {
-              border-radius: 0 0 0 0.1rem;
+            &:last-child,
+            &:nth-child(3) {
+              //width:.7rem;
             }
             &:last-child {
-              border-radius: 0 0 0.1rem 0;
+              padding-right: 0.1rem;
+            }
+          }
+          th {
+            height: 0.46rem;
+            line-height: 0.46rem;
+            font-size: .16rem;
+            color: #666;
+            font-weight: normal;
+          }
+          td {
+            text-align: center;
+            height: 0.36rem;
+            line-height: 0.36rem;
+          }
+          &:last-child {
+            td {
+              &:first-child {
+                border-radius: 0 0 0 0.1rem;
+              }
+              &:last-child {
+                border-radius: 0 0 0.1rem 0;
+              }
             }
           }
         }
-      }
-      .even {
-        td {
-          //background-color: #3A3366;
+        .even {
+          td {
+            //background-color: #3A3366;
+          }
         }
       }
-    }
 
-    .win {
-      td {
-        color: #0ff;
+      .win {
+        td {
+          color: #417505;
+        }
       }
-    }
-    .lose {
-      td {
-        color: #fc495b;
+      .lose {
+        td {
+          color: #C53028;
+        }
       }
     }
   }
 }
-@media screen and (max-width: 1280px) {
+@media screen and (max-width: 1100px) {
   .result {
     table {
       tr {

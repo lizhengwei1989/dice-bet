@@ -1,10 +1,9 @@
 <template>
   <div class="my-nav">
-    <div class="inner">
       <span class="menu iconfont icon-menu" @click="showMenus"></span>
-      <a class="logo" href="javascript:window.location.reload();">
-        <img :src="require('../assets/images/logo.png')">
-      </a>
+      <!--<a class="logo" href="javascript:window.location.reload();">-->
+        <!--<img :src="require('../assets/images/logo.png')">-->
+      <!--</a>-->
       <div class="nav" ref="nav">
         <!-- 玩法介绍 -->
         <a class="how" @click="dialogHow = true">{{$t('Nav.Rule')}}</a>
@@ -57,33 +56,33 @@
         <lucky-draw v-if="drawDialog" :visible.sync="drawDialog"></lucky-draw>
 
       </div>
-      <div v-if="address && address.base58" class="account">
-        {{address.base58 | hiddenAddress}}
-      </div>
-      <el-button v-else class="how" style="margin-left:.3rem" @click="$store.commit('SET_DIALOG_LOGIN',true)">
-        {{$t('Login')}}
-      </el-button>
-      <el-dialog
-              :title="$t('LoginTipTitle')"
-              :visible.sync="dialogLogin"
-              width="3.8rem"
-              custom-class="how-dialog">
-        <p v-html="$t('LoginTipContent')"></p>
-        <span slot="footer" class="dialog-footer">
-            <el-button type="primary" @click="$store.commit('SET_DIALOG_LOGIN',false)">{{$t('Confirm')}}</el-button>
-          </span>
-      </el-dialog>
-      <div class="language">
-        <img :src="icon?`/images/icon-${icon}.png`:''">
-        <span>{{txt}}</span>
-        <div class="group">
-          <div v-for="item of languages" class="item" @click="location(item.lng)">
-            <img :src="`/images/icon-${item.icon}.png`"><span>{{$t(item.txt)}}</span>
+      <div class="right">
+        <div v-if="address && address.base58" class="account">
+          {{address.base58 | hiddenAddress}}
+        </div>
+        <el-button v-else class="how" style="margin-left:.3rem" @click="$store.commit('SET_DIALOG_LOGIN',true)">
+          {{$t('Login')}}
+        </el-button>
+        <el-dialog
+                :title="$t('LoginTipTitle')"
+                :visible.sync="dialogLogin"
+                width="3.8rem"
+                custom-class="how-dialog">
+          <p v-html="$t('LoginTipContent')"></p>
+          <span slot="footer" class="dialog-footer">
+              <el-button type="primary" @click="$store.commit('SET_DIALOG_LOGIN',false)">{{$t('Confirm')}}</el-button>
+            </span>
+        </el-dialog>
+        <div class="language">
+          <!--<img :src="icon?`/images/icon-${icon}.png`:''">-->
+          <span>{{txt}}</span>
+          <div class="group">
+            <div v-for="item of languages" class="item" @click="location(item.lng)">
+              <img :src="`/images/icon-${item.icon}.png`"><span>{{$t(item.txt)}}</span>
+            </div>
           </div>
         </div>
       </div>
-
-    </div>
   </div>
 </template>
 
@@ -179,68 +178,82 @@ export default {
 
 <style scoped lang="scss">
 .my-nav {
-  height: 0.6rem;
-  border-bottom:.03rem solid #242572;
-  .inner {
-    .menu{display: none}
-    width: 12rem;
+  position: relative;
+  height: 0.8rem;
+  width: 100%;
+  padding:0 0.4rem;
+  .menu{display: none}
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom:.2rem solid transparent;
+  &:after{
+    position: absolute;
+    width: 100%;
+    content:'';
+    height: .2rem;
+    bottom: -0.2rem;
+    left: 0;
+    background-image: url('../assets/images/new/border-bg.png');
+    background-position: center center;
+  }
+  .logo {
+    display: flex;
+    justify-content: flex-start;
+    img {
+      width: 1.76rem;
+      height: 0.39rem;
+    }
+  }
+  .nav {
     height: 100%;
-    margin: auto;
     display: flex;
     flex-direction: row;
+    justify-content: flex-end;
     align-items: center;
-    justify-content: center;
-    .logo {
-      display: flex;
-      justify-content: flex-start;
-      img {
-        width: 1.76rem;
-        height: 0.39rem;
-      }
-    }
-    .nav {
-      height: 100%;
-      flex: 1;
-      display: flex;
-      flex-direction: row;
-      justify-content: flex-end;
-      align-items: center;
-      a{
-        color: #fff;
-        font-size: .16rem;
-        margin-left:.4rem;
-        &:nth-child(5){
-          position: relative;
-          padding:0 .2rem 0 .36rem;
-          height: .31rem;
-          line-height: .31rem;
-          background-color: #2babf5;
-          border-radius: .08rem;
-          &:before{
-            content: '';
-            position: absolute;
-            left:0.15rem;
-            width: .3rem;
-            height: .3rem;
-            background-image: url('../assets/images/icons/icon-prize.png');
-            background-position:left center;
-            background-repeat:no-repeat;
-            background-size:auto 60%;
+    a{
+      color: #FFEAC7;
+      font-size: .16rem;
+      margin-left:.4rem;
+      &:nth-child(5){
+        position: relative;
+        padding:0 .2rem 0 .36rem;
+        height: .31rem;
+        line-height: .31rem;
+        background-color: #2babf5;
+        border-radius: .08rem;
+        &:before{
+          content: '';
+          position: absolute;
+          left:0.15rem;
+          width: .3rem;
+          height: .3rem;
+          background-image: url('../assets/images/icons/icon-prize.png');
+          background-position:left center;
+          background-repeat:no-repeat;
+          background-size:auto 60%;
 
-          }
         }
       }
-      a.lucky{}
     }
+    a.lucky{}
+  }
+  .right{
+    display: flex;
+    flex-direction: row;
     .account {
+      order:2;
       margin-left: 0.3rem;
       letter-spacing: 0.01rem;
       font-size: 0.16rem;
       display: flex;
       align-items: center;
-      color: #fff;
+      color: #FFEAC7;
+      text-decoration: underline;
     }
     .language {
+      order:1;
       position: relative;
       z-index: 10;
       margin-left: .1rem;
@@ -249,11 +262,9 @@ export default {
       display: flex;
       align-items: center;
       cursor: pointer;
-      color: #b3a6ff;
+      color: #FFEAC7;
       transition: opacity 0.2s ease-in-out;
-      border:.02rem solid #383a90;
       height: .3rem;
-      border-radius:.15rem;
       img{
         width: .2rem;
       }
@@ -275,7 +286,7 @@ export default {
         right: 0.05rem;
         width: 0;
         height: 0;
-        border-top: 0.04rem solid #b3a6ff;
+        border-top: 0.04rem solid #FFEAC7;
         border-bottom: 0.04rem solid transparent;
         border-left: 0.04rem solid transparent;
         border-right: 0.04rem solid transparent;
@@ -320,12 +331,13 @@ export default {
         }
       }
     }
-    .language-mobile{
-      display: none;
-    }
+  }
+
+  .language-mobile{
+    display: none;
   }
 }
-@media screen and (max-width:1280px){
+@media screen and (max-width:1100px){
   .my-nav{
     position: fixed;
     z-index:1000;
