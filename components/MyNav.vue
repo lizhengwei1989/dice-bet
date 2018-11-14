@@ -1,10 +1,8 @@
 <template>
   <div class="my-nav">
-    <div class="inner">
+    <!--<div class="inner">-->
       <span class="menu iconfont icon-menu" @click="showMenus"></span>
-      <a class="logo" href="javascript:window.location.reload();">
-        <img :src="require('../assets/images/logo.png')">
-      </a>
+      <!--<a class="logo" href="javascript:window.location.reload();"></a>-->
       <div class="nav" ref="nav">
         <!-- 玩法介绍 -->
         <a class="how" @click="dialogHow = true">{{$t('Nav.Rule')}}</a>
@@ -21,7 +19,7 @@
         <a href="javascript:;" @click="vipDialog.visible = true">{{$t('Nav.Vip')}}</a>
 
         <!-- 幸运抽奖触发 -->
-        <a class="lucky" href="javascript:;" @click="drawDialog = true">{{$t('Nav.LuckyDraw')}}</a>
+        <!--<a class="lucky" href="javascript:;" @click="drawDialog = true">{{$t('Nav.LuckyDraw')}}</a>-->
         <!-- 幸运抽奖组件 -->
 
         <div class="language-mobile">
@@ -57,33 +55,35 @@
         <lucky-draw v-if="drawDialog" :visible.sync="drawDialog"></lucky-draw>
 
       </div>
-      <div v-if="address && address.base58" class="account">
-        {{address.base58 | hiddenAddress}}
-      </div>
-      <el-button v-else class="how" style="margin-left:.3rem" @click="$store.commit('SET_DIALOG_LOGIN',true)">
-        {{$t('Login')}}
-      </el-button>
-      <el-dialog
-              :title="$t('LoginTipTitle')"
-              :visible.sync="dialogLogin"
-              width="3.8rem"
-              custom-class="how-dialog">
-        <p v-html="$t('LoginTipContent')"></p>
-        <span slot="footer" class="dialog-footer">
-            <el-button type="primary" @click="$store.commit('SET_DIALOG_LOGIN',false)">{{$t('Confirm')}}</el-button>
-          </span>
-      </el-dialog>
-      <div class="language">
-        <img :src="icon?`/images/icon-${icon}.png`:''">
-        <span>{{txt}}</span>
-        <div class="group">
-          <div v-for="item of languages" class="item" @click="location(item.lng)">
-            <img :src="`/images/icon-${item.icon}.png`"><span>{{$t(item.txt)}}</span>
+      <div class="right">
+        <div class="language">
+          <img :src="icon?`/images/icon-${icon}.png`:''">
+          <!--<span>{{txt}}</span>-->
+          <div class="group">
+            <div v-for="item of languages" class="item" @click="location(item.lng)">
+              <img :src="`/images/icon-${item.icon}.png`"><span>{{$t(item.txt)}}</span>
+            </div>
           </div>
         </div>
-      </div>
+        <div v-if="address && address.base58" class="account">
+          {{address.base58 | hiddenAddress}}
+        </div>
+        <el-button v-else class="how" style="margin-left:.3rem" @click="$store.commit('SET_DIALOG_LOGIN',true)">
+          {{$t('Login')}}
+        </el-button>
+        <!--<el-dialog-->
+                <!--:title="$t('LoginTipTitle')"-->
+                <!--:visible.sync="dialogLogin"-->
+                <!--width="3.8rem"-->
+                <!--custom-class="how-dialog">-->
+          <!--<p v-html="$t('LoginTipContent')"></p>-->
+          <!--<span slot="footer" class="dialog-footer">-->
+              <!--<el-button type="primary" @click="$store.commit('SET_DIALOG_LOGIN',false)">{{$t('Confirm')}}</el-button>-->
+            <!--</span>-->
+        <!--</el-dialog>-->
 
-    </div>
+      </div>
+    <!--</div>-->
   </div>
 </template>
 
@@ -179,28 +179,36 @@ export default {
 
 <style scoped lang="scss">
 .my-nav {
-  height: 0.6rem;
-  border-bottom:.03rem solid #242572;
-  .inner {
+  z-index:9;
+  background-image: linear-gradient(178deg, rgba(201, 79, 73, 0.5) 1%, rgba(109, 39, 84, 0.5) 100%), linear-gradient(#cb5647, #cb5647);
+  background-blend-mode: normal, normal;
+  height: 0.7rem;
+  width: 100%;
+  padding:0 .3rem;
+  position: relative;
+  border-bottom:.05rem solid #f5da51;
+  //.inner {
     .menu{display: none}
-    width: 12rem;
-    height: 100%;
     margin: auto;
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     .logo {
+      position: absolute;
       display: flex;
+      left: 0;
+      top: 0;
       justify-content: flex-start;
-      img {
-        width: 1.76rem;
-        height: 0.39rem;
-      }
+      width: 23.85rem;
+      height: 15.42rem;
+      background-image: url('../assets/images/logo.png');
+      background-size:100%;
+      background-position: center center;
+      background-repeat: no-repeat;
     }
     .nav {
       height: 100%;
-      flex: 1;
       display: flex;
       flex-direction: row;
       justify-content: flex-end;
@@ -209,6 +217,9 @@ export default {
         color: #fff;
         font-size: .16rem;
         margin-left:.4rem;
+        &:first-child{
+          margin-left:0rem;
+        }
         &:nth-child(5){
           position: relative;
           padding:0 .2rem 0 .36rem;
@@ -232,90 +243,92 @@ export default {
       }
       a.lucky{}
     }
-    .account {
-      margin-left: 0.3rem;
-      letter-spacing: 0.01rem;
-      font-size: 0.16rem;
+    .right{
       display: flex;
-      align-items: center;
-      color: #fff;
-    }
-    .language {
-      position: relative;
-      z-index: 10;
-      margin-left: .1rem;
-      padding-left: .1rem;
-      padding-right: .2rem;
-      display: flex;
-      align-items: center;
-      cursor: pointer;
-      color: #b3a6ff;
-      transition: opacity 0.2s ease-in-out;
-      border:.02rem solid #383a90;
-      height: .3rem;
-      border-radius:.15rem;
-      img{
-        width: .2rem;
+      flex-direction: row;
+      .account {
+        margin-left: 0.3rem;
+        letter-spacing: 0.01rem;
+        font-size: 0.16rem;
+        display: flex;
+        align-items: center;
+        color: #fff;
       }
-      span{
-        margin-left: .04rem;
-      }
-      &:hover {
-        & > span {
-          opacity: 0.5;
+      .language {
+        position: relative;
+        z-index: 10;
+        margin-left: .1rem;
+        padding-left: .1rem;
+        padding-right: .2rem;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        color: #b3a6ff;
+        transition: opacity 0.2s ease-in-out;
+        height: .3rem;
+        img{
+          width: .2rem;
         }
-        & > .group {
-          display: block;
+        span{
+          margin-left: .04rem;
         }
-      }
-      &:after {
-        content: "";
-        position: absolute;
-        top: 0.12rem;
-        right: 0.05rem;
-        width: 0;
-        height: 0;
-        border-top: 0.04rem solid #b3a6ff;
-        border-bottom: 0.04rem solid transparent;
-        border-left: 0.04rem solid transparent;
-        border-right: 0.04rem solid transparent;
-      }
-      .group {
-        display: none;
-        position: absolute;
-        right: 0;
-        top: .3rem;
-        width: 1.2rem;
-        background:#a8abe4;
-        padding:0.01rem;
-        border-radius:.08rem;
-        &:after{
-          content:'';
+        &:hover {
+          & > span {
+            opacity: 0.5;
+          }
+          & > .group {
+            display: block;
+          }
+        }
+        &:after {
+          content: "";
+          position: absolute;
+          top: 0.12rem;
+          right: 0.05rem;
           width: 0;
           height: 0;
-          position: absolute;
-          border-bottom:.06rem solid #a8abe4;
-          border-left:.06rem solid transparent;
-          border-top:.06rem solid transparent;
-          border-right:.06rem solid transparent;
-          top: -0.12rem;
-          right: 0.1rem;
+          border-top: 0.04rem solid #fff;
+          border-bottom: 0.04rem solid transparent;
+          border-left: 0.04rem solid transparent;
+          border-right: 0.04rem solid transparent;
         }
-        .item {
-          height: 0.36rem;
-          padding: 0 0.2rem;
-          display: flex;
-          align-items: center;
-          cursor: pointer;
-          color: #131258;
-          &:hover {
-            background-color: #9599e1;
+        .group {
+          display: none;
+          position: absolute;
+          right: 0;
+          top: .3rem;
+          width: 1.2rem;
+          background:#a8abe4;
+          padding:0.01rem;
+          border-radius:.08rem;
+          &:after{
+            content:'';
+            width: 0;
+            height: 0;
+            position: absolute;
+            border-bottom:.06rem solid #a8abe4;
+            border-left:.06rem solid transparent;
+            border-top:.06rem solid transparent;
+            border-right:.06rem solid transparent;
+            top: -0.12rem;
+            right: 0.1rem;
           }
-          &:first-child {
-            border-radius: .08rem .08rem 0 0;
-          }
-          &:last-child {
-            border-radius:0 0 .08rem .08rem;
+          .item {
+            height: 0.36rem;
+            padding: 0 0.2rem;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            color: #131258;
+            &:hover {
+              background-color: #9599e1;
+            }
+            &:first-child {
+              border-radius: .08rem .08rem 0 0;
+            }
+            &:last-child {
+              border-radius:0 0 .08rem .08rem;
+            }
           }
         }
       }
@@ -324,7 +337,7 @@ export default {
       display: none;
     }
   }
-}
+//}
 @media screen and (max-width:1280px){
   .my-nav{
     position: fixed;
@@ -358,8 +371,7 @@ export default {
         left:0;
         top: 1rem;
         background-color: #131258;
-        box-shadow: -0.2px 11px 46px 0px
-        rgba(14, 13, 62, 0.52);
+        box-shadow: -0.2px 11px 46px 0px rgba(14, 13, 62, 0.52);
         flex-direction: column;
         align-items: flex-start;
         justify-content: flex-start;

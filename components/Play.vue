@@ -1,33 +1,33 @@
 <template>
   <div class="play">
-    <div class="bet">
-      <div class="tit green">
-        {{$t('Play.Bet.Title')}}
-      </div>
-      <div class="input-group">
-        <div class="input" :data-after="unit">
-          <input type="text" :value="stake" @input="handleInput" @blur="handleBlur" name="" id="" />
-        </div>
-        <div class="percentage" ref="percentage">
-          <span @click="handlePercentage('half',0)">1/2</span>
-          <span @click="handlePercentage('double',1)">2X</span>
-          <span @click="handlePercentage('all',2)">MAX</span>
-        </div>
-      </div>
-      <div class="desc">
-        {{$t('Play.Bet.Left')}}&nbsp;<span ref="balance"></span>&nbsp;{{unit}}
-      </div>
-    </div>
-    <div class="win">
-      <div class="tit pink">
-        {{$t('Play.WinTitle')}}
-      </div>
-      <div class="input-group">
-        <div class="input" :data-after="unit">
-          <input type="text" name="" :value="Math.floor(stake * odds * 1000)/1000" readonly />
-        </div>
-      </div>
-    </div>
+    <!--<div class="bet">-->
+      <!--<div class="tit green">-->
+        <!--{{$t('Play.Bet.Title')}}-->
+      <!--</div>-->
+      <!--<div class="input-group">-->
+        <!--<div class="input" :data-after="unit">-->
+          <!--<input type="text" :value="stake" @input="handleInput" @blur="handleBlur" name="" id="" />-->
+        <!--</div>-->
+        <!--<div class="percentage" ref="percentage">-->
+          <!--<span @click="handlePercentage('half',0)">1/2</span>-->
+          <!--<span @click="handlePercentage('double',1)">2X</span>-->
+          <!--<span @click="handlePercentage('all',2)">MAX</span>-->
+        <!--</div>-->
+      <!--</div>-->
+      <!--<div class="desc">-->
+        <!--{{$t('Play.Bet.Left')}}&nbsp;<span ref="balance"></span>&nbsp;{{unit}}-->
+      <!--</div>-->
+    <!--</div>-->
+    <!--<div class="win">-->
+      <!--<div class="tit pink">-->
+        <!--{{$t('Play.WinTitle')}}-->
+      <!--</div>-->
+      <!--<div class="input-group">-->
+        <!--<div class="input" :data-after="unit">-->
+          <!--<input type="text" name="" :value="Math.floor(stake * odds * 1000)/1000" readonly />-->
+        <!--</div>-->
+      <!--</div>-->
+    <!--</div>-->
     <div class="show">
       <div class="row-1">
         <div class="cell">
@@ -36,6 +36,14 @@
           </div>
           <div class="c">
             {{number}}
+          </div>
+        </div>
+        <div class="cell">
+          <div class="t">
+            {{$t('Play.LuckyNumber')}}
+          </div>
+          <div class="c">
+            {{r}}
           </div>
         </div>
         <div class="cell">
@@ -59,17 +67,48 @@
         <el-slider  :show-tooltip="false" v-model="number"></el-slider>
         <div class="line">
           <div class="cell" data-after="1"></div>
-          <div class="cell" data-after="25"></div>
           <div class="cell" data-after="50"></div>
-          <div class="cell" data-after="75"></div>
           <div class="cell" data-after="100"></div>
-          <div class="win" ref="win">{{random}}</div>
-          <div class="lose" ref="lose">{{random}}</div>
+          <!--<div class="win" ref="win">{{random}}</div>-->
+          <!--<div class="lose" ref="lose">{{random}}</div>-->
         </div>
       </div>
       <div class="row-3">
+        <div class="input-group">
+          <div class="input" :data-before="$t('Play.Bet.Title')" :data-after="unit">
+            <input type="text" :value="stake" @input="handleInput" @blur="handleBlur" name="" id="" />
+            <!--<div class="percentage" ref="percentage">-->
+              <!--<span @click="handlePercentage('half',0)">1/2</span>-->
+              <!--<span @click="handlePercentage('double',1)">2X</span>-->
+              <!--<span @click="handlePercentage('all',2)">MAX</span>-->
+            <!--</div>-->
+          </div>
+            <!--<div class="desc">-->
+            <!--{{$t('Play.Bet.Left')}}&nbsp;<span ref="balance"></span>&nbsp;{{unit}}-->
+            <!--</div>-->
+          <div class="input" :data-before="$t('Play.WinTitle')" :data-after="unit">
+            <input type="text" name="" :value="Math.floor(stake * odds * 1000)/1000" readonly />
+          </div>
+        </div>
+        <div class="percentage" ref="percentage">
+          <span @click="handlePercentage('half',0)">1/2</span>
+          <span @click="handlePercentage('double',1)">2X</span>
+          <span @click="handlePercentage('all',2)">MAX</span>
+        </div>
+      </div>
+      <div class="row-4">
+        <div class="token-count">
+          <div class="token trx">
+            <img :src="require('../assets/images/icons/icon-trx.png')" alt="">
+            <span>TRX</span>
+            <span ref="balance"></span>
+          </div>
+          <div class="token bet">
+
+          </div>
+        </div>
         <button class="roll" @click="roll" :disabled="disabled">
-          {{r?r:$t('Play.Roll')}}
+          {{$t('Play.Roll')}}
         </button>
       </div>
     </div>
@@ -88,7 +127,7 @@ export default {
       disabled: false,
       odds: 2,
       transactionId:'',
-      r: "",
+      r: 0,
       rolling: null,
       timer: null,
       unit:'TRX'
@@ -116,6 +155,9 @@ export default {
       tip.setAttribute("data-before", this.number);
       this.changeState(this.number);
     },
+    random(n){
+      this.r = n;
+    },
     balance(n, o) {
         let v = this.stake;
         v = Math.min(v, this.limit[this.dbToken].max ,Math.floor(n));
@@ -131,29 +173,18 @@ export default {
         clearInterval(this.timer);
         clearInterval(this.rolling);
         this.disabled = false;
-        setTimeout(() => {
-          this.r = "";
-        }, 3000);
+        // setTimeout(() => {
+        //   this.r = "";
+        // }, 3000);
         this.watchBalance();
         //添加交易
-        if(this.transactionId){
-            // if(this.dbToken==0){
-            //     let data = {
-            //         dappId: this.dapp,
-            //         contractAddress: this.contractAddress,
-            //         trxHash: this.transactionId,
-            //         amount: Number(window.tronWeb.toSun(this.stake)),
-            //         userAddress: this.address.base58 || "",
-            //         status: 1
-            //     };
-            //     addTransition(data);
-            // }
-            if(this.r >= this.number){
-                this.$refs.lose.style.display="block";
-            }else{
-                this.$refs.win.style.display="block";
-            }
-        }
+        // if(this.transactionId){
+        //     if(this.r >= this.number){
+        //         this.$refs.lose.style.display="block";
+        //     }else{
+        //         this.$refs.win.style.display="block";
+        //     }
+        // }
       }
     }
   },
@@ -344,42 +375,12 @@ export default {
   display: flex;
   flex-direction: column;
   height: 100%;
-  padding: 0.2rem 0.25rem 0;
+  padding: 0.24rem 0.3rem;
   .tit {
     height: 0.4rem;
     line-height: 0.4rem;
     font-size: 0.18rem;
     padding-left: 0.04rem;
-  }
-  .input-group {
-    height: 0.6rem;
-    border-radius: 0.1rem;
-    border: 0.03rem solid #131258;
-    .input {
-      position: relative;
-      padding: 0 0.68rem 0 0.76rem;
-      input {
-        width: 100%;
-        height: 100%;
-        background-color: transparent;
-        border: none;
-        outline: none;
-        color: #fff;
-        font-size: 0.22rem;
-        text-align: right;
-      }
-      &:after {
-        content:attr(data-after);
-        position: absolute;
-        width: 0.68rem;
-        height: 100%;
-        right: 0;
-        top: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-    }
   }
   .bet {
     display: flex;
@@ -440,43 +441,56 @@ export default {
     flex: 1;
     display: flex;
     flex-direction: column;
-    margin: 0.17rem -0.25rem 0;
     .row-1 {
-      flex: 1;
-      border-top: 0.01rem solid #383a90;
-      border-bottom: 0.01rem solid #383a90;
       display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: space-between;
       .cell {
+        width: 2.63rem;
+        height: 1.07rem;
+        background-color: #fff0c0;
+        border-radius: 10px;
+        border: solid 1px #ffffff;
         display: flex;
-        flex: 1;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        border-left: 0.01rem solid #383a90;
-        &:first-child {
-          border: none;
+        color: #ff4e33;
+        &:nth-child(2){
+          background-image: linear-gradient(110deg,
+                  #f98100 0%,
+                  #ff605a 100%),
+          linear-gradient(
+                          #ff6c00,
+                          #ff6c00);
+          background-blend-mode: normal,
+          normal;
+          color: #fff;
+          border-color:transparent;
         }
+        &:nth-child(3), &:nth-child(4){
+          margin-top: 0.1rem;
+        }
+
         .t {
-          font-size: 0.18rem;
-          color: #a8abe4;
+          font-size: 0.16rem;
         }
         .c {
-          font-size: 0.32rem;
+          font-size: 0.4rem;
         }
       }
     }
     .row-2{
-        flex: 1;
-        display: flex;
-        position: relative;
-        border-bottom:0.01rem solid #383a90;
-        padding:0 .25rem;
-        align-items: center;
-        .line {
+      height: 1.2rem;
+      display: flex;
+      position: relative;
+      align-items: center;
+      .line {
           position: absolute;
           height: .2rem;
-          width: 5.68rem;
-          top:.74rem;
+          width: 100%;
+          top:.8rem;
           .win,.lose{
             position: absolute;
             width: .54rem;
@@ -514,16 +528,10 @@ export default {
               left: -.05rem;
             }
             &:nth-child(2) {
-              left: calc(25% - 0.15rem);
-            }
-            &:nth-child(3) {
               left: calc(50% - 0.15rem);
             }
-            &:nth-child(4) {
-              left: calc(75% - 0.15rem);
-            }
-            &:nth-child(5) {
-              left: calc(100% - 0.2rem);
+            &:nth-child(3) {
+              left: calc(100% - 0.15rem);
             }
             &:before {
               font-size: .12rem;
@@ -531,18 +539,105 @@ export default {
               content: "";
             }
             &:after {
-              color: #fff;
+              color: #333;
               margin-top: .04rem;
               content: attr(data-after);
             }
           }
         }
-      }
+    }
     .row-3 {
-      flex: 1;
       display: flex;
-      align-items: center;
-      justify-content: center;
+      flex-direction: column;
+      border-bottom:.01rem solid #fff;
+      .input-group{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        height: .6rem;
+        .input{
+          position: relative;
+          width: 2.63rem;
+          height: .6rem;
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          &:first-child{
+            background-color: #ffffff;
+            border-radius: .06rem;
+            border: solid 1px #ffb533;
+            &:before{
+              color: #ffb533;
+            }
+            &:after{
+              color: #333;
+            }
+          }
+          &:last-child{
+            background-image: linear-gradient(110deg,
+                    #f98100 0%,
+                    #ff605a 100%),
+            linear-gradient(
+                            #ffb533,
+                            #ffb533);
+            background-blend-mode: normal,
+            normal;
+            border-radius: .06rem;
+            input{
+              color: #fff;
+            }
+          }
+          &:before{
+            position: absolute;
+            left: .1rem;
+            content:attr(data-before);
+          }
+          &:after{
+            position: absolute;
+            right: .06rem;
+            content:attr(data-after);
+          }
+          input{
+            width: 100%;
+            height: 100%;
+            border:none;
+            background:none;
+            text-align: right;
+            font-size: .18rem;
+            padding:0 .4rem;
+            outline: none;
+          }
+        }
+      }
+      .percentage{
+        height: .6rem;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        color: #f98100;
+        span{
+          padding:.08rem .2rem;
+        }
+        span.green{
+          background-color: #f98100;
+          border-radius:.1rem;
+          color: #fff;
+        }
+      }
+
+    }
+    .row-4{
+      display: flex;
+      flex-direction: column;
+      .token-count{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        .token{
+          width: 2.63rem;
+        }
+      }
       button {
         width: 3rem;
         height: 0.65rem;

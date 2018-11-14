@@ -4,17 +4,43 @@
             <!-- <caption class="title"><span style="text-align: left"> {{$t('RankTitle')}} <i class="el-icon-question" @click="ruleDialog.visible=true"></i></span></caption> -->
             <caption class="title">
               <el-row :gutter="20">
-                <el-col :span="12" style="text-align:left;">
+                <el-col :span="24" style="text-align:center;">
                     {{$t('RankTitle')}}
-                    <!--<i class="el-icon-question" @click="ruleDialog.visible=true"></i>-->
+                    <i class="el-icon-question" @click="ruleDialog.visible=true"></i>
                 </el-col>
-                <el-col :span="12" style="text-align:right;">
-                  <div class="dateTime">
-                    <i class="iconfont icon-jiantou-zuo-cuxiantiao" @click="changeTime('-')" :class="{grey:(!isPreClick || isLoading)}"></i>
-                    <span style="width:1rem;display:inline-block;font-size:0.18rem;text-align:center">{{date}}</span> 
-                    <i class="iconfont icon-jiantou-zuo-cuxiantiao right" :class="{grey:(!isClick||isLoading)}" @click="changeTime('+')"></i>
-                  </div>    
-                </el-col>
+                <!--<el-col :span="12" style="text-align:right;">-->
+                  <!--<div class="dateTime">-->
+                    <!--<i class="iconfont icon-jiantou-zuo-cuxiantiao" @click="changeTime('-')" :class="{grey:(!isPreClick || isLoading)}"></i>-->
+                    <!--<span style="width:1rem;display:inline-block;font-size:0.18rem;text-align:center">{{date}}</span> -->
+                    <!--<i class="iconfont icon-jiantou-zuo-cuxiantiao right" :class="{grey:(!isClick||isLoading)}" @click="changeTime('+')"></i>-->
+                  <!--</div>    -->
+                <!--</el-col>-->
+                  <!--奖励规则-->
+                  <el-dialog
+                          :title="$t('PrizeRule.title')"
+                          :visible.sync="ruleDialog.visible"
+                          width="30%">
+                      <div class="ruleDialog">
+                          <h4>
+                              {{$t('PrizeRule.header')}}
+                          </h4>
+                          <div style="margin-bottom: 20px;">
+                              <p v-for="(item,index) in $t('PrizeRule.content')" :key="index">
+                                  {{item}}
+                              </p>
+                          </div>
+
+                          <h4>
+                              {{$t('PrizeRule.footer')}}
+                          </h4>
+                          <h4>
+                              {{$t('PrizeRule.footer2')}}
+                          </h4>
+                          <h5>
+                              {{$t('PrizeRule.copyright')}}
+                          </h5>
+                      </div>
+                  </el-dialog>
               </el-row>
             </caption>
             <thead>
@@ -33,7 +59,7 @@
                 </th>
             </tr>
             </thead>
-            <tbody :style="'height:'+(dbToken==0?'3.4':'4.3')+'rem'">
+            <tbody :style="'height:'+(dbToken==0?'2.6':'4.4')+'rem'">
                 <tr v-for="(item,index) of ranks" v-if="ranks.length > 0">
                     <td><img v-if="index < 3" :src="require('../assets/images/order'+(index+1)+'.png')"><span v-else>{{index+1}}</span></td>
                     <td>{{item.player|hiddenAddress}}</td>
@@ -73,33 +99,6 @@
                 {{ranks[ranks.length-1].prize}} TRX
             </div>
         </div>
-
-         <!--奖励规则-->
-      <el-dialog
-        :title="$t('PrizeRule.title')"
-        :visible.sync="ruleDialog.visible"
-        width="30%">
-        <div class="ruleDialog">
-          <h4>
-            {{$t('PrizeRule.header')}}
-          </h4>
-          <div style="margin-bottom: 20px;">
-            <p v-for="(item,index) in $t('PrizeRule.content')" :key="index">
-              {{item}}
-            </p>
-          </div>
-
-          <h4>
-            {{$t('PrizeRule.footer')}}
-          </h4>
-          <h4>
-            {{$t('PrizeRule.footer2')}}
-          </h4>
-          <h5>
-            {{$t('PrizeRule.copyright')}}
-          </h5>
-        </div>
-      </el-dialog>
     </div>
 </template>
 
@@ -244,16 +243,7 @@ export default {
 }
 .rank {
   width: 100%;
-  /*height: 5.7rem;*/
   flex: 1;
-  background-image: linear-gradient(
-      142deg,
-      #2b2c80 0%,
-      #222470 62%,
-      #191c60 100%
-    ),
-    linear-gradient(#242572, #242572);
-  background-blend-mode: normal, normal;
   border-radius: 0.2rem;
   display: flex;
   flex-direction: column;
@@ -262,9 +252,9 @@ export default {
   .title {
     height: 0.72rem;
     line-height: 0.72rem;
-    font-size: 0.2rem;
-    border-bottom: 0.02rem solid #383a90;
+    font-size: 0.3rem;
     padding: 0 0.2rem;
+      color: #ff4428;
     .grey {
       color: grey;
     }
@@ -301,18 +291,21 @@ export default {
       }
     }
     thead {
+      background-color: #fff0c0;
       th {
-        height: 0.4rem;
-        color: #a8abe4;
+        height: 0.36rem;
+        color: #9497a3;
         font-size: 0.12rem;
+
       }
     }
     tbody {
       tr {
+        border-bottom:.02rem solid #f5f6f7;
         td {
-          height: 0.8rem;
+          height: 0.78rem;
           font-size: 0.15rem;
-          border-bottom: 0.02rem solid #262778;
+          color: #434650;
           &:first-child {
             text-align: center;
             img {
@@ -392,8 +385,9 @@ export default {
       display: block;
       height: 3.4rem;
       overflow: auto;
-      border-radius: 0.1rem;
-      background-color: #131258;
+      background-color: #fff0c0;
+      border-radius: 10px;
+      margin-top: .03rem;
       &::-webkit-scrollbar {
         width: 0.05rem;
         border-radius: 0.04rem;
@@ -405,9 +399,16 @@ export default {
     }
   }
   .last {
-    width: 6.04rem;
-    height: 0.85rem;
-    background-color: #363995;
+    width: 5.92rem;
+    height: 0.7rem;
+    background-image: linear-gradient(118deg,
+          #f98100 0%,
+          #ff605a 100%),
+    linear-gradient(
+                  #ff8400,
+                  #ff8400);
+    background-blend-mode: normal,
+    normal;
     border-radius: 0.1rem;
     margin-bottom: 0.16rem;
     display: flex;

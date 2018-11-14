@@ -153,7 +153,6 @@ export default {
       if (server === "https://api.shasta.trongrid.io") {
         contractAddress = "TBvs6Wvfi8M4QB34omgKZ4n8JmgH6ePvmK";
         activityAddress = "TUWGZ9S7hQ52fpmKcLhE5m59s4Ks4nhqq5";
-        //diceAddress = "THrENu48be4VuU1f6688fSbazQwRHkDKKQ";
         diceAddress = "TJXXTjz6bzhijYC55hrFvvuEeyaNDGrETg";
       } else {
         contractAddress = "TPUZherbdW4CQi9t4RbzvJmsoSzgTgBQRQ";
@@ -178,26 +177,59 @@ export default {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background-color: #131258;
+  background-image: linear-gradient(178deg, #c94f49 1%, #6d2754 100%);
   color: #fff;
   a {
     color: #b3a6ff;
   }
   .main {
+    position: relative;
+    z-index:10;
     width: 12.8rem;
     flex: 1;
     margin: auto;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    &:before{
+      content:'';
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      z-index:-1;
+      left: 0;
+      top:-2.86rem;
+      background-image: url('../../assets/images/logo.png');
+      background-size:100%;
+      background-position: 0rem 0rem;
+      background-repeat: no-repeat;
+    }
     & > .cell {
       &:nth-child(2) {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
         .col {
+          position: relative;
           width: 6.2rem;
           height: 6.6rem;
+          background-color: #fee592;
+          box-shadow: inset -0.4px -8px 0px 0px
+          rgba(0, 0, 0, 0.18);
+          border:.06rem solid #f67725;
+          //border:.06rem solid transparent;
+          border-radius:.2rem;
+          &:before{
+            content: '';
+            position: absolute;
+            top: -0.06rem;
+            bottom: -0.06rem;
+            left: -0.06rem;
+            right: -0.06rem;
+            border-radius:.2rem;
+            z-index:-1;
+            background-image:linear-gradient(177deg, #f9c670 0%, #f67725 100%);
+          }
         }
         .col.col-1 {
           display: flex;
@@ -205,16 +237,7 @@ export default {
           justify-content: space-between;
         }
         .col.col-2 {
-          background-image: linear-gradient(
-              142deg,
-              #28297c 0%,
-              #21236e 50%,
-              #191c60 100%
-            ),
-            linear-gradient(#242572, #242572);
-          background-blend-mode: normal, normal;
-          border-radius: 10px;
-          border: solid 1px #64e1f5;
+
         }
       }
       &:nth-child(3) {

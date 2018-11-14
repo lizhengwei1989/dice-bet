@@ -29,7 +29,8 @@
     "WinRate": "Win Chance",
     "PayOut": "Payout",
     "Less": "Roll Under to Win",
-    "Roll": "Roll"
+    "Roll": "Roll",
+    "LuckyNumber":"Lucky Number"
   },
   "Result": {
     "AllBets": "All Bets",
