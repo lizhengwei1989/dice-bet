@@ -14,89 +14,24 @@
             {{$t('Invite.copyButton')}}
       </el-button>
     </el-row>
-    <!-- <el-row class="message">
-      <el-input placeholder="请输入内容" v-model="inviteUrl" >
-        <template slot="append"   >
-          <el-button @click="copy" class="copyContent" :data-clipboard-text="inviteUrl">
-            {{$t('invite.copyButton')}}
-          </el-button>
-        </template>
-      </el-input>
-    </el-row> -->
-    <!-- <el-row>
-      <div class="title">{{$t('invite.prize')}}
 
-        <el-tooltip placement="right" effect="light">
-          <div slot="content">
-              <p style="font-size: 14px;" v-for="(item,index) in $t('invite.prizeRule')" :key="index">
-                {{item}}
-              </p>
-          </div>
-          <i class="el-icon-question"></i>
-        </el-tooltip>
-      </div>
-      <div class="textCenter">
-        <p class="">{{prize/1000000}} TRX</p>
-        <el-button @click="extract" type="primary" :loading="extractLoading">{{$t('extract')}}</el-button>
-      </div>
-
-    </el-row> -->
     <el-row class="table">
-      <!-- <p class="title">{{$t('invite.record')}}</p> -->
-      <!-- <el-table
-      :data="tableData"
-      style="width: 100%"
-      size="mini"
-      border
-      height="150"
-      v-loading="tableLoading"
-          element-loading-background="rgba(0, 0, 0, 0.9)"
-      >
-        <el-table-column prop="statisticTime" :label="$t('invite.table.time')">
-          <template slot-scope="scope">
-            {{moment(scope.row.statisticTime).format('YYYY-MM-DD')}}
-            
-          </template>
-        </el-table-column>
-        <el-table-column prop="inviteeAddress" :label="$t('invite.table.address')" width="220px">
-          <template slot-scope="scope">
-            {{scope.row.address | hiddenAddress}}
-            <el-button type="success" :data-clipboard-text="scope.row.address" size="mini" style="float: right" class="copyContent" @click="copy">
-              {{$t('invite.copyButton')}}
-            </el-button>
-          </template>
-        </el-table-column>
-        <el-table-column prop="returnAmount" :label="$t('invite.table.bet')">
-          <template slot-scope="scope">
-            {{scope.row.bet | fromSun}} TRX
-          </template>
-        </el-table-column>
-        <el-table-column prop="returnAmount" :label="$t('invite.table.prize')">
-          <template slot-scope="scope">
-            {{scope.row.prize | fromSun}} TRX
-          </template>
-        </el-table-column>
-      </el-table> -->
+
       
     </el-row>
-    <!-- <el-row style="text-align:center;" small>
-      <el-pagination
-      @size-change="handleSizeChange"
-      @current-change="handleCurrentChange"
-      :current-page="page.current"
-      :page-sizes="page.size"
-      :page-size="page.limit"
-      layout="total, sizes, prev, pager, next, jumper"
-      :total="page.total">
-    </el-pagination>
-    </el-row> -->
+
     <el-row class="record">
-        <p>{{$t('Invite.result.number')}}：{{page.total}}</p>
-        <p>{{$t('Invite.result.prize')}}：{{prize/1000000}} TRX <el-button>{{$t('extract')}}</el-button> </p>
+      <p>{{$t('Invite.result.number')}}：<span>{{page.total}}</span></p>
+      <p>
+        <b>{{$t('Invite.result.prize')}}：<span>{{prize/1000000}} TRX </span></b>
+        <el-button>{{$t('extract')}}</el-button> </p>
     </el-row>
     <el-row>
       {{$t('vip.copyRight')}}
     </el-row>
+    <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="inviteDialog.visible = false">{{$t('Confirm')}}</el-button>
+    </span>
   </el-dialog>
 </template>
 <script>
@@ -232,68 +167,52 @@ export default {
 <style lang="scss">
 .inviteDialog {
   .el-dialog {
-    background: #fff;
     color: #0a0a30;
     width: 5.6rem;
     border-radius: 0.1rem;
   }
   .el-dialog__title {
-    font-family: PingFangSC-Medium;
-    font-size: 0.2755rem;
-    font-weight: normal;
-    font-stretch: normal;
-    color: #0a0a30;
   }
   .center {
     text-align: center;
-    font-family: PingFangSC-Regular;
     font-size: 0.18rem;
     font-weight: normal;
     font-stretch: normal;
     line-height: 0.48rem;
-    color: #0a0a30;
   }
   .invite-url {
     height: 1.61rem;
-    background-color: #eaebed;
-    border-radius: 0.1rem;
+    background: #FFEAC7;
+    border-radius: 0.08rem;
     padding: 0.23rem;
     box-sizing: border-box;
     text-align: center;
     position: relative;
 
     .url {
-      height: 36px;
-      font-family: PingFangSC-Regular;
-      font-size: 0.17rem;
       font-weight: normal;
       font-stretch: normal;
       height: 0.595rem;
       letter-spacing: -0.4px;
-      color: #7f8084;
       word-break: break-all;
       text-align: left;
+      font-size: 14px;
+      color: #8F6300;
     }
     .copyContent {
-      margin-top: 0.2rem;
+      color: #8F6300;
       position: absolute;
       bottom: 0.15rem;
       left: 0;
       right: 0;
-      margin: auto;
-      color: #fff;
+      margin:0.2rem auto;
       padding: 0.1rem 0.15rem;
       width: 2.23rem;
       height: 0.41rem;
-      background-image: linear-gradient(
-          -25deg,
-          #7341ca 0%,
-          #7854e5 50%,
-          #7c67ff 100%
-        ),
-        linear-gradient(#4648bf, #4648bf);
-      background-blend-mode: normal, normal;
       border-radius: 0.1rem;
+      border: 1px solid #8F6300;
+      background: transparent;
+      box-shadow: none;
     }
   }
 
@@ -365,27 +284,44 @@ export default {
   .record {
     height: 0.87rem;
     margin: 0 auto;
-    background-image: linear-gradient(
-        -25deg,
-        #7341ca 0%,
-        #7854e5 50%,
-        #7c67ff 100%
-      ),
-      linear-gradient(#eaebed, #eaebed);
-    background-blend-mode: normal, normal;
+    background:#FFEAC7;
     border-radius: 0.1rem;
-    padding: 0.2rem;
+    padding: .1rem .2rem;
     box-sizing: border-box;
     color: #fff;
     line-height: 0.25rem;
-    .el-button {
-      float: right;
-      width: 0.65rem;
-      height: 0.28rem;
-      background-color: #ffffff;
-      border-radius: 0.08rem;
-      padding: 0;
+    display: flex;
+    flex-direction: column;
+    p{
+      font-size: .14rem;
+      color: #8F6300;
+      flex:1;
+      b{
+        font-weight: normal;
+      }
+      span{
+        font-size: .18rem;
+      }
+      &:last-child{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        .el-button {
+          margin: 0;
+          border:.01rem solid #8F6300;
+          border-radius: .08rem;
+          background: transparent;
+          color: #8F6300;
+          width: .8rem;
+          height: .4rem;
+          text-align: center;
+          padding:0;
+          box-shadow: none;
+        }
+      }
     }
+
   }
 }
 @media (max-width: 750px) {

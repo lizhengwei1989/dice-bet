@@ -155,10 +155,10 @@ export default {
     checkEnv() {
       const server =  (typeof window.tronWeb.eventServer).toUpperCase() === 'OBJECT'?window.tronWeb.eventServer.host:window.tronWeb.eventServer;
       if (server === "https://api.shasta.trongrid.io") {
-        contractAddress = "TBvs6Wvfi8M4QB34omgKZ4n8JmgH6ePvmK";
-        activityAddress = "TUWGZ9S7hQ52fpmKcLhE5m59s4Ks4nhqq5";
+        contractAddress = "TSdKwnD8dhiFuoPsVsVov4FwvK3sL3Fsps";
+        activityAddress = "TXd32KL68KrNFtkULgY9Ww5A2xVdhK7rhj";
         //diceAddress = "THrENu48be4VuU1f6688fSbazQwRHkDKKQ";
-        diceAddress = "TJXXTjz6bzhijYC55hrFvvuEeyaNDGrETg";
+        diceAddress = "TELzUo7wKhn6SWW9uELzBMrAbWaWh9bYqM";
       } else {
         contractAddress = "TPUZherbdW4CQi9t4RbzvJmsoSzgTgBQRQ";
         activityAddress = "";
@@ -199,6 +199,7 @@ export default {
     color: #b3a6ff;
   }
   .main {
+    padding-top:1.2rem;
     position: relative;
     z-index:1;
     width: 11rem;
@@ -213,6 +214,7 @@ export default {
       height: 100%;
       z-index: -1;
       top:-.7rem;
+      left: 0;
       background-image: url("../../assets/images/new/tiaoli.png");
       background-position: center top;
       background-repeat: no-repeat;
@@ -221,9 +223,8 @@ export default {
         position: absolute;
         width: 100%;
         height: 100%;
-        left:.8rem;
         background-image: url("../../assets/images/new/decorate.png");
-        background-position: center top;
+        background-position:  top;
         background-repeat: no-repeat;
       }
       &:after{
@@ -239,7 +240,6 @@ export default {
 
     & > .cell {
       &:first-child{
-        margin-top: 1.2rem;
       }
       &:nth-child(2) {
         display: flex;
@@ -273,13 +273,29 @@ export default {
 @media screen and (max-width:1100px){
   .container{
     .main{
-      padding:1rem .32rem 0;
+      padding:1.2rem .32rem 0;
       width: 100%;
+      z-index:1001;
+      .logo{
+        top:-1rem;
+        background-position: center -1rem;
+        &:before{
+          background-size:100% auto;
+          background-position: center 1rem;
+        }
+        &:after{
+          background-size:30% auto;
+          background-position: center top;
+        }
+      }
       .cell{
         &:nth-child(2){
           flex-direction: column;
           .col{
             width: 100%;
+            &:last-child{
+              margin-top: .35rem;
+            }
           }
           .col-2{
             margin-top: .12rem;

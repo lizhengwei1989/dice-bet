@@ -225,7 +225,7 @@ export default {
       this.$store.commit('SET_STAKE',v);
     },
     async roll() {
-      if (this.balance < this.limit[this.dbToken].min) {
+      if ((this.dbToken == 0 && this.balance < this.limit[0].min) || (this.dbToken==1 &&  this.diceBalance < this.limit[1].min)) {
         this.$message({
             message:this.$t('Msg.BalanceNotEnough'),
             type: 'warning'
@@ -592,10 +592,16 @@ export default {
 }
 @media screen and (max-width:1280px){
   .play{
+    width: 6.66rem;
+    .light{
+      width: 104%;
+      height: 105%;
+      background-size:100% 100%;
+    }
     .show{
       .row-2{
         .line{
-          width: 6.32rem;
+          width: 4.48rem;
         }
       }
     }

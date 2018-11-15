@@ -105,6 +105,24 @@ const getMinStage = (t)=>{
     }
 };
 
+
+const getLuckyDrawCount = r => {
+    let m;
+    if(r<=9885){
+       m = 0.1;
+    }else if(r<=9985){
+       m = 1;
+    }else if(r<=9993){
+       m = 10;
+    }else if(r<=9997){
+       m = 100;
+    }else if(r<=9999){
+       m = 1000;
+    }else{
+       m = 10000;
+    }
+    return m;
+};
 function noDebug(address) {
   var threshold = 160;
   if (window) {
@@ -119,4 +137,4 @@ function noDebug(address) {
   }
 }
 
-export { getOdds, formatTime, getPoint, getBalance, getRanks, noDebug,getMinStage };
+export { getOdds, formatTime, getPoint, getBalance, getRanks, noDebug,getMinStage,getLuckyDrawCount };

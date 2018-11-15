@@ -502,13 +502,17 @@ export default {
 }
 @media screen and (max-width: 1100px) {
   .result {
-    table {
-      tr {
-        th,
-        td {
-          &:nth-child(3),
-          &:nth-child(4) {
-            display: none;
+    .wrap{
+      width: 6.5rem;
+      height:4.94rem;
+      table {
+        tr {
+          th,
+          td {
+            &:nth-child(3),
+            &:nth-child(4) {
+              display: none;
+            }
           }
         }
       }

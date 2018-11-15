@@ -5,70 +5,58 @@
     :visible.sync="vipDialog.visible"
      center class="vipDialog">
     <!-- <p class="center">{{$t('vip.desc')}}</p> -->
-    <div class="card">
-        <el-row class="message" :gutter="20">
-          <el-col class="vip-logo" :span="6" >
-            <img :src="require('../assets/images/vip.png')" class="vip-img"/>
-          </el-col>
-          <el-col :span="18" class="vip-level">
-            <span class="level">{{$t('vip.title')}}</span>
-            <span class="grade">{{$t('vip.prize')}}：{{prize/1000000}} TRX <el-button type="primary" size="mini" @click="extract" :loading="extractLoading" style="float:right;">{{$t('extract')}}</el-button></span>  
-          </el-col>
-        </el-row>
-        <el-row class="vipProgress" >
-          <el-row :gutter="10" class="text">
-            <el-col :span="2">
-              <img class="vip-img"  :src="require('../assets/images/vip'+vipInfo.level+'.png')">
-            </el-col>
-            <el-col :span="20" style="text-align:center;line-height:0.26rem;color:#fff;">
-                {{emainingText}}
-            </el-col>
-            <el-col :span="2">
-              <img class="vip-img" :src="require('../assets/images/vip'+(vipInfo.level+1)+'.png')">
-            </el-col>
-          </el-row>
-          <el-progress :text-inside="true" :stroke-width="18" :percentage="vipInfo.expBar"></el-progress>
-        <!-- <el-tooltip class="item" effect="light" :content="emainingText" placement="top">
-            
-        </el-tooltip> -->
-        </el-row>
+    <div class="golden"></div>
+    <div class="el-dialog__body-wrap">
+      <div class="card">
+        <div class="level">VIP {{vipInfo.level}}</div>
+        <div class="prize">
+          所得奖励：{{prize/1000000}} TRX
+        </div>
+        <div class="level-process">
+          <div class="process">
+            <span :style="'width:'+vipInfo.expBar+'%'"></span>
+          </div>
+          <div class="desc">
+            <span>vip {{vipInfo.level}}</span>
+            <span>{{emainingText}} {{vipInfo.level+1}}</span>
+          </div>
+        </div>
+        <button @click="extract" :loading="extractLoading">去提现</button>
+      </div>
+      <el-row class="table">
+        <template>
+          <el-table
+                  :data="tableData"
+                  style="width: 100%"
+                  size="mini"
+                  v-loading="tableLoading"
+                  element-loading-background="rgba(0, 0, 0, 0.9)"
+                  class="table-content"
+          >
+            <el-table-column prop="grade" :label="$t('vip.table.level')">
+              <template slot-scope="scope">
+
+                <img class="vip-img" :src="require('../assets/images/new/vip/vip'+scope.row.level+'.png')">
+              </template>
+
+            </el-table-column>
+            <el-table-column prop="allBets" :label="$t('vip.table.amount')" width="150px">
+              <template slot-scope="scope">
+                {{scope.row.totalAmount/1000000}} TRX
+              </template>
+            </el-table-column>
+            <el-table-column prop="prize" :label="$t('vip.table.prize')">
+              <template slot-scope="scope">
+                {{scope.row.returnRatio*0.01}} %
+              </template>
+            </el-table-column>
+          </el-table>
+        </template>
+      </el-row>
+      <!--<el-row style="margin-top:0.2rem;color:#fff">-->
+        <!--{{$t('vip.copyRight')}}-->
+      <!--</el-row>-->
     </div>
-    
-    <el-row class="table">
-      <template>
-        <el-table
-          :data="tableData"
-          style="width: 100%"
-          size="mini"
-          v-loading="tableLoading"
-          element-loading-background="rgba(0, 0, 0, 0.9)"
-          class="table-content"
-        >
-          <el-table-column prop="grade" :label="$t('vip.table.level')">
-            <template slot-scope="scope">
-              
-              <img class="vip-img" :src="require('../assets/images/vip'+scope.row.level+'.png')">
-            </template>
-
-          </el-table-column>
-          <el-table-column prop="allBets" :label="$t('vip.table.amount')" width="150px">
-            <template slot-scope="scope">
-               {{scope.row.totalAmount/1000000}} TRX
-            </template>
-          </el-table-column>
-          <el-table-column prop="prize" :label="$t('vip.table.prize')">
-            <template slot-scope="scope">
-              {{scope.row.returnRatio*0.01}} %
-            </template>
-          </el-table-column>
-        </el-table>
-      </template>
-    </el-row>
-
-    <el-row style="margin-top:0.2rem;color:#fff">
-      {{$t('vip.copyRight')}}
-    </el-row>
-
   </el-dialog>
 </template>
 <script>
@@ -132,7 +120,13 @@ export default {
   },
   methods: {
     async getTableData() {
-      this.tableData = await getVipList();
+      let tableData = await getVipList();
+      tableData = tableData.filter((v,i)=>{
+          if(v.level!=0 && v.level!=9 && v.level!=10){
+              return v;
+          }
+      })
+      this.tableData = tableData;
       this.tableLoading = false;
     },
     async getVipInfo() {
@@ -176,113 +170,186 @@ export default {
     height: 0.26rem;
   }
   .el-dialog {
-    width: 4.83rem;
-    background-color: #454545;
-    border-radius: 0.2rem;
+    position: relative;
+    z-index:0;
+    width: 5.3rem;
+    height:7.4rem;
+    background-color: #FFFADE;
+    box-shadow: 0 4px 24px 0 rgba(52,7,7,0.50);
+    border-radius: .04rem;
+    border:none;
+  }
+  .el-dialog__header{
+    display: none;
   }
   .el-dialog--center .el-dialog__body {
-    padding: 0.2rem;
-  }
-  .card {
-    width: 100%;
-    height: 2.05rem;
-    background-image: linear-gradient(-4deg, #9e6e33 0%, #d8b274 100%),
-      linear-gradient(#ffffff, #ffffff);
-    background-blend-mode: normal, normal;
-    border-radius: 0.2rem;
-    padding: 0.2rem 0.3rem;
-    box-sizing: border-box;
-
-    .vip-img {
-      width: 0.61rem;
-      height: 0.62rem;
+    padding:0;
+    position: relative;
+    .golden{
+      width: .78rem;
+      height: 1rem;
+      left: 50%;
+      top:-.1rem;
+      z-index:1;
+      margin-left:-.39rem;
+      position: absolute;
+      background-image:url("../assets/images/new/vip/golden.png");
+      background-repeat: no-repeat;
     }
-    .vip-level {
-      .level {
-        font-family: MicrosoftYaHeiUI-Bold;
-        font-size: 0.192rem;
-        font-weight: normal;
-        font-stretch: normal;
-        line-height: 0.38rem;
-        color: #4b351c;
-        display: block;
+    .el-dialog__body-wrap{
+      overflow: hidden;
+      width: 100%;
+      height: 100%;
+      position: relative;
+      &:before{
+        left: -2.35rem;
+        top: -7rem;
+        content:'';
+        position: absolute;
+        width: 10rem;
+        height: 10rem;
+        border-radius:10rem;
+        background-image: linear-gradient(120deg, #FFDF97 24%, #D29229 100%);
+        //background-position:-5rem -5rem;
       }
-      .grade {
-        font-family: MicrosoftYaHeiUI;
-        font-size: 0.14rem;
-        font-weight: normal;
-        font-stretch: normal;
-        color: #4b351c;
-        height: 0.6rem;
-        display: inline-block;
-        width: 100%;
-        .el-button {
-          float: right;
-          font-family: MicrosoftYaHeiUI;
-          font-size: 0.14rem;
-          font-weight: normal;
-          font-stretch: normal;
-          color: #4b351c;
+      &:after{
+        left: 0;
+        top: 0;
+        width: 5.3rem;
+        height:6.96rem;
+        content:'';
+        position: absolute;
+        background-image: url('../assets/images/new/vip/vip-dot.png');
+        background-repeat: no-repeat;
+        background-position: center top;
+        background-size:80% auto;
+      }
+    }
+
+    .card {
+      position: relative;
+      z-index:1;
+      width: 100%;
+      height: 2.05rem;
+      margin-top: .8rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      .level{
+        height: .6rem;
+        line-height: .6rem;
+        font-size: .34rem;
+        font-weight: bold;
+        color: #FFF0D4;
+        text-shadow: 2px 2px 4px rgba(0,0,0m,.2);
+      }
+      .prize{
+        height: .4rem;
+        line-height: .4rem;
+        font-size: .22rem;
+        color: #8F6300;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.10);
+      }
+      .level-process{
+        display: flex;
+        flex-direction: column;
+        .process{
+          position: relative;
+          width: 3.4rem;
+          height: .06rem;
+          background: #C69125;
+          border-radius: 4px;
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          span{
+            background: #FCDFA4;
+            border-radius: 4px;
+            position: relative;
+            &:after{
+              width: .08rem;
+              height:.08rem;
+              background-color: rgba(255,255,255,.89);
+              position: absolute;
+              right: 0;
+              content: '';
+              border-radius:.08rem;
+              top:-.01rem;
+            }
+          }
+          &:before,&:after{
+            position: absolute;
+            z-index:1;
+            content: '';
+            width: .14rem;
+            height: .14rem;
+            background-color: #fff;
+            background-clip: content-box;
+            border-radius: .14rem;
+            border:.03rem solid rgba(255,255,255,.3);
+          }
+          &:before{
+            left:-0.07rem;
+            top:-0.05rem;
+          }
+          &:after{
+            right:-0.07rem;
+            top:-0.05rem;
+          }
+        }
+        .desc{
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          color: #BF7801;
+          font-size: .12rem;
+          height: .3rem;
+          line-height: .3rem;
         }
       }
-      .el-button {
-        height: 0.28rem;
-        background-image: linear-gradient(-16deg, #b5b4b4 0%, #ffffff 100%),
-          linear-gradient(#cfcfcf, #cfcfcf);
-        background-blend-mode: normal, normal;
-        border-radius: 0.08rem;
-        width: auto;
+      button{
+        width: .9rem;
+        height: .3rem;
+        cursor: pointer;
+        background-image: linear-gradient(-180deg, #F9D255 0%, #FFC049 100%);
+        box-shadow: 0 2px 4px 0 rgba(0,0,0,0.10);
+        border-radius: .06rem;
+        font-size: .14rem;
+        color: #8F6300;
+        border:none;
+        margin-top: .2rem;
       }
     }
-    .vipProgress {
-      .el-progress-bar__outer {
-        height: 0.07rem;
-        background-color: #4b351c;
-        border-radius: 0.0323rem;
-      }
-      .el-progress-bar__inner {
-        background-color: #ffffff;
-        border-radius: 0.0323rem;
-      }
-      .el-progress-bar__innerText {
-        color: #4b351c;
-      }
-      .vip-img {
-        width: 0.26rem;
-        height: 0.26rem;
-      }
-      .text {
-        margin-bottom: 0.08rem;
-      }
-    }
+
   }
   .table {
-    width: 100%;
+    width: 3.3rem;
     height: 5.63rem;
-    border-radius: 0.2rem;
-    border: solid 1px #c49b5e;
-    margin-top: 0.1rem;
-    background-color: #454545;
+    margin: 0.1rem auto;
     .table-content {
       margin: 0.2rem 0;
     }
+    .el-table, .el-table__expanded-cell{
+      background-color: transparent;
+    }
     .el-table th {
-      font-family: MicrosoftYaHeiUI;
-      font-size: 0.1293rem;
+      font-size: 0.14rem;
       font-weight: normal;
       font-stretch: normal;
-      color: #b49d78;
-      background-color: #454545;
+      color: #8F6300;
+      background-color: transparent;
+    }
+    .el-table td{
+      color: #8F6300;
     }
     .el-table tr {
-      background-color: #454545;
-      height: 0.17;
-      font-family: MicrosoftYaHeiUI;
+      background-color: transparent;
       font-size: 0.16rem;
       font-weight: normal;
       font-stretch: normal;
       line-height: 0.48;
       color: #ffdba2;
+      border-bottom:.01rem solid rgba(143,99,0,0.1);
     }
     .el-table--enable-row-hover .el-table__body tr:hover > td {
       background-color: #212e3e !important;
@@ -290,7 +357,6 @@ export default {
 
     .el-table td,
     .el-table th.is-leaf {
-      border-bottom: none;
     }
   }
 }

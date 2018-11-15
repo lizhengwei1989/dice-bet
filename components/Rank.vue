@@ -33,7 +33,7 @@
                 </th>
             </tr>
             </thead>
-            <tbody :style="'height:'+(dbToken==0?'2.6':'4.3')+'rem'">
+            <tbody :style="'height:'+(dbToken==0?'2.6':'3.2')+'rem'">
                 <tr v-for="(item,index) of ranks" v-if="ranks.length > 0">
                     <td>
                         <span>
@@ -225,7 +225,6 @@ export default {
           multiple--;
           break;
       }
-
       this.date = moment(this.date, "YYYY.MM.DD")
         .add(multiple, "days")
         .format("YYYY.MM.DD");
@@ -303,6 +302,7 @@ export default {
           height: .38rem;
           font-size: .14rem;
           color: #AF1A1A;
+          vertical-align: center;
           span{
               display: inline-block;
               width: 100%;
@@ -418,11 +418,11 @@ export default {
     height: 0.4rem;
     background-color: #C53028;;
     border-radius: 0.1rem;
-    margin-top: 0.12rem;
+    margin: 0.12rem 0;
     display: flex;
     flex-direction: row;
     align-items: center;
-      color: #DAFFCF;;
+    color: #DAFFCF;;
     .cell {
       &:first-child {
         width: 0.8rem;
@@ -460,8 +460,16 @@ export default {
 }
 @media screen and (max-width: 1100px) {
   .rank {
-    .last {
       width: 6.66rem;
+    table{
+        td,th{
+            span{
+                margin-top: .05rem;
+            }
+        }
+    }
+    .last {
+      width: 6.26rem;
       padding: 0 0.12rem;
       //width: calc(100% - 0.2rem);
       .cell {

@@ -1,101 +1,150 @@
 <template>
-  <article v-if="visible" class="root">
-    <div class="mask">
-      <div class="content">
-        <i class="el-icon-close" @click="close" style="color:grey"></i>
-        <!-- 标题 -->
-        <el-row>
-          <h1 class="title">{{$t('LuckyDraw.title')}}</h1>
-        </el-row>
-        <!-- 玩法说明 -->
-        <!-- <el-row>
-          <span class="introduct">{{$t('LuckyDraw.introductions')}}</span>
-        </el-row> -->
-        <!-- 列表 -->
-        <el-row>
-          <table cellspacing="0" cellpadding="0" class="list">
-            <thead>
-              <tr>
-                <td>{{$t('LuckyDraw.number')}}</td>
-                <td>{{$t('LuckyDraw.reward')}}</td>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="(item, index) in rewardList" :key="index">
-                <td>{{item.number}}</td>
-                <td>{{item.reward}}</td>
-              </tr>
-            </tbody>
-          </table>
-        </el-row>
-        <el-row class="record">
-            <el-col :span="3">
-                <img :src="require('../assets/images/user-1.png')" class="user-img">
-            </el-col>
-            <el-col :span="16" class="prize">
-                <div>{{$t('LuckyDraw.rewardText')}} <span>{{balance + ' TRX'}}</span></div>
-                
-            </el-col>
-            <el-col class="btn-withdraw" :span="5">
-                <button class="with-draw" @click="withdraw" v-loading="isLoading"
-            element-loading-text="loading..."
-            element-loading-spinner="el-icon-loading"
-            element-loading-background="rgba(0, 0, 0, 0.6)">
-                  {{$t('LuckyDraw.withdraw')}}
-                </button>
-            </el-col>
-        </el-row>
-        <!-- 抽奖 -->
-        <el-row class="lottery">
-          <!-- 开奖结果 -->
-          <!-- <el-col :span="8">
-            <div class="t1">
-              
+    <el-dialog
+            :title="$t('LuckyDraw.title')"
+            :visible.sync="luckyDialog.visible"
+            :modal-append-to-body='false'
+            center
+            class="luckyDialog"
+            top="10vh"
+    >
+        <div class="table">
+            <table cellpadding="0" cellspacing="0" width="100%">
+                <thead>
+                    <tr>
+                        <th>{{$t('LuckyDraw.number')}}</th>
+                        <th>{{$t('LuckyDraw.reward')}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="item of rewardList">
+                        <td>{{item.number}}</td>
+                        <td>{{item.reward}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="desc">
+            <div>
+                <div>
+                    所得奖励：<span>{{balance}} TRX</span>
+                </div>
+                <button>{{$t('extract')}}</button>
             </div>
-          </el-col> -->
-          <!-- 抽奖触发 -->
-          <el-col :span="24" style="text-align: center;margin-bottom:0.1rem;position:relative">
-              <div class="lucky-num" v-show="luckyNumShow">
-                  {{$t('LuckyDraw.winText') + ' ' + luckyNum}}
-              </div>
-              <button @click="getLuckyNum" class="roll">
-                {{times+' '+ $t('LuckyDraw.times')}}
-              </button> 
-          </el-col>
-          <!-- 奖金 -->
-          <!-- <el-col
-            :span="8"
-            v-loading="isLoading"
-            element-loading-text="loading..."
-            element-loading-spinner="el-icon-loading"
-            element-loading-background="rgba(0, 0, 0, 0.6)"
-          >
-            <div>{{$t('LuckyDraw.rewardText')}}</div>
-            <span>{{balance + ' TRX'}}</span>
-            <a @click="withdraw" class="withdraw" href="javascript:;">{{$t('LuckyDraw.withdraw')}}</a>
-          </el-col> -->
-        </el-row>
-        <!-- 补充说明 -->
-        <el-row class="supplement">
-          <p>{{$t('LuckyDraw.supplement.p1')}}</p>
-          <p>{{$t('LuckyDraw.supplement.p2')}}</p>
-        </el-row>
-        <!-- 解释权 -->
-        <el-row class="explanation">
-          <p>{{$t('vip.copyRight')}}</p>
-        </el-row>
-      </div>
-    </div>
-  </article>
+            <div>
+                <div>余抽奖次数： <span>{{times}}</span></div>
+            </div>
+        </div>
+        <div slot="footer" class="dialog-footer" style="position: relative;">
+            <div class="tip" v-if="luckyNumShow">
+                <span>{{luckyNum}}</span>
+                <span v-if="luckyInfoShow">恭喜中奖 <br /> +{{getReward}} TRX </span>
+
+            </div>
+            <el-button type="primary" @click="getLuckyNum">开始抽奖</el-button>
+        </div>
+    </el-dialog>
+  <!--<article  class="root">-->
+    <!--<div class="mask">-->
+      <!--<div class="content">-->
+        <!--<i class="el-icon-close" @click="close" style="color:grey"></i>-->
+        <!--&lt;!&ndash; 标题 &ndash;&gt;-->
+        <!--<el-row>-->
+          <!--<h1 class="title">{{$t('LuckyDraw.title')}}</h1>-->
+        <!--</el-row>-->
+        <!--&lt;!&ndash; 玩法说明 &ndash;&gt;-->
+        <!--&lt;!&ndash; <el-row>-->
+          <!--<span class="introduct">{{$t('LuckyDraw.introductions')}}</span>-->
+        <!--</el-row> &ndash;&gt;-->
+        <!--&lt;!&ndash; 列表 &ndash;&gt;-->
+        <!--<el-row>-->
+          <!--<table cellspacing="0" cellpadding="0" class="list">-->
+            <!--<thead>-->
+              <!--<tr>-->
+                <!--<td>{{$t('LuckyDraw.number')}}</td>-->
+                <!--<td>{{$t('LuckyDraw.reward')}}</td>-->
+              <!--</tr>-->
+            <!--</thead>-->
+            <!--<tbody>-->
+              <!--<tr v-for="(item, index) in rewardList" :key="index">-->
+                <!--<td>{{item.number}}</td>-->
+                <!--<td>{{item.reward}}</td>-->
+              <!--</tr>-->
+            <!--</tbody>-->
+          <!--</table>-->
+        <!--</el-row>-->
+        <!--<el-row class="record">-->
+            <!--<el-col :span="3">-->
+                <!--<img :src="require('../assets/images/user-1.png')" class="user-img">-->
+            <!--</el-col>-->
+            <!--<el-col :span="16" class="prize">-->
+                <!--<div>{{$t('LuckyDraw.rewardText')}} <span>{{balance + ' TRX'}}</span></div>-->
+
+            <!--</el-col>-->
+            <!--<el-col class="btn-withdraw" :span="5">-->
+                <!--<button class="with-draw" @click="withdraw" v-loading="isLoading"-->
+            <!--element-loading-text="loading..."-->
+            <!--element-loading-spinner="el-icon-loading"-->
+            <!--element-loading-background="rgba(0, 0, 0, 0.6)">-->
+                  <!--{{$t('LuckyDraw.withdraw')}}-->
+                <!--</button>-->
+            <!--</el-col>-->
+        <!--</el-row>-->
+        <!--&lt;!&ndash; 抽奖 &ndash;&gt;-->
+        <!--<el-row class="lottery">-->
+          <!--&lt;!&ndash; 开奖结果 &ndash;&gt;-->
+          <!--&lt;!&ndash; <el-col :span="8">-->
+            <!--<div class="t1">-->
+
+            <!--</div>-->
+          <!--</el-col> &ndash;&gt;-->
+          <!--&lt;!&ndash; 抽奖触发 &ndash;&gt;-->
+          <!--<el-col :span="24" style="text-align: center;margin-bottom:0.1rem;position:relative">-->
+              <!--<div class="lucky-num" v-show="luckyNumShow">-->
+                  <!--{{$t('LuckyDraw.winText') + ' ' + luckyNum}}-->
+              <!--</div>-->
+              <!--<button @click="getLuckyNum" class="roll">-->
+                <!--{{times+' '+ $t('LuckyDraw.times')}}-->
+              <!--</button>-->
+          <!--</el-col>-->
+          <!--&lt;!&ndash; 奖金 &ndash;&gt;-->
+          <!--&lt;!&ndash; <el-col-->
+            <!--:span="8"-->
+            <!--v-loading="isLoading"-->
+            <!--element-loading-text="loading..."-->
+            <!--element-loading-spinner="el-icon-loading"-->
+            <!--element-loading-background="rgba(0, 0, 0, 0.6)"-->
+          <!--&gt;-->
+            <!--<div>{{$t('LuckyDraw.rewardText')}}</div>-->
+            <!--<span>{{balance + ' TRX'}}</span>-->
+            <!--<a @click="withdraw" class="withdraw" href="javascript:;">{{$t('LuckyDraw.withdraw')}}</a>-->
+          <!--</el-col> &ndash;&gt;-->
+        <!--</el-row>-->
+        <!--&lt;!&ndash; 补充说明 &ndash;&gt;-->
+        <!--<el-row class="supplement">-->
+          <!--<p>{{$t('LuckyDraw.supplement.p1')}}</p>-->
+          <!--<p>{{$t('LuckyDraw.supplement.p2')}}</p>-->
+        <!--</el-row>-->
+        <!--&lt;!&ndash; 解释权 &ndash;&gt;-->
+        <!--<el-row class="explanation">-->
+          <!--<p>{{$t('vip.copyRight')}}</p>-->
+        <!--</el-row>-->
+      <!--</div>-->
+    <!--</div>-->
+  <!--</article>-->
 </template>
 
 <script>
+    import {getLuckyDrawCount} from '../static/js/Util';
 /* 测试网地址 */
 let contractAddress = "TSYuKXyV6pPcxcMJfaqZzt4KUBtncPPPC5";
 
 export default {
   props: {
-    visible: Boolean
+    visible: Boolean,
+      luckyDialog: {
+          type: Object,
+          default: {}
+      }
   },
   data() {
     return {
@@ -107,7 +156,7 @@ export default {
         withdraw: true
       },
       // 幸运数字
-      luckyNum: '请摇奖',
+      luckyNum: '',
       // 奖金余额
       balance: 0,
       // 抽奖次数
@@ -118,7 +167,9 @@ export default {
       load: this.visible,
       // 奖金说明列表
       rewardList: this.getRewardList(),
-      luckyNumShow: false
+      luckyNumShow: false,
+      getReward:0,
+        luckyInfoShow:false
     };
   },
   async created() {
@@ -162,9 +213,9 @@ export default {
     async getLuckyNum() {
       if (this.flagObj.draw && this.times !== 0) {
         this.flagObj.draw = false;
-        this.luckyNumShow = true;
         // 拿到交易id
         let transctionId = await this.contractObj.roll().send();
+        this.luckyNumShow = true;
         // 幸运数字
         let randomTimer = setInterval(() => {
           this.luckyNum = Math.ceil(Math.random() * 10001) - 1;
@@ -176,8 +227,13 @@ export default {
           res.every(v => {
             if (v.name === "GetRandom") {
               this.luckyNum = v.result._random;
+              this.getReward = getLuckyDrawCount(this.luckyNum);
+              this.luckyInfoShow = true;
+              setTimeout(_=>{
+                  this.luckyNumShow = false;
+                  this.luckyInfoShow = false;
+              },3000)
 
-              return false;
             }
           });
           // 刷新次数和奖金
@@ -254,21 +310,90 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-.lucky-num {
-  color: #fff;
-  background: url("../assets/images/float.png") no-repeat;
-  background-size: 100% auto;
-  position: absolute;
-  left: 0;
-  right: 0;
-  margin: auto;
-  z-index: 5;
-  width: 2.2rem;
-  height: 0.42rem;
-  top: -0.45rem;
-  line-height: 0.35rem;
-  font-size: 12px;
+<style lang="scss">
+.luckyDialog{
+    .el-dialog{
+        width: 5rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        .table{
+            width: 3.9rem;
+            background: #FFEAC7;
+            border-radius: .08rem;
+            padding:0 .3rem;
+            table{
+                tr{
+                    td,th{
+                        color: #8F6300;
+                        border-bottom:.01rem solid rgba(143,99,0,0.10);
+                        &:first-child{
+                            text-align: left;
+                        }
+                        &:last-child{
+                            text-align: right;
+                        }
+                    }
+                    th{
+                        height: .36rem;
+                    }
+                    td{
+                        height: .4rem;
+                    }
+                    &:last-child{
+                        td{
+                           border:none;
+                        }
+                    }
+                }
+
+            }
+        }
+        .desc{
+            width: 3.9rem;
+            display: flex;
+            flex-direction: column;
+            height: 1rem;
+            &>div{
+                flex: 1;
+                color: #8F6300;
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+                span{
+                    font-size: .18rem;
+                }
+                button{
+                    border: 1px solid #8F6300;
+                    border-radius: 8px;
+                    width:.7rem;
+                    height: .36rem;
+                    background-color: transparent;
+                    font-size: .16rem;
+                    cursor: pointer;
+                }
+            }
+        }
+        .el-button{
+            height: .5rem;
+            font-size: .24rem;
+        }
+        .tip{
+            position: absolute;
+            width: 1.8rem;
+            height: 1.1rem;
+            background: rgba(0,0,0,0.50);
+            border-radius: .1rem;
+            top:-260%;
+            display: flex;
+            flex-direction: column;
+            color: #fff;
+            font-size: .18rem;
+            align-items: center;
+            justify-content: center;
+        }
+    }
 }
 /* 打开动画 */
 @keyframes dialogOpen {
@@ -280,190 +405,4 @@ export default {
   }
 }
 
-.record {
-  width: 100%;
-  height: 0.54rem;
-  background-color: #f5f6fa;
-  border-radius: 0.08rem;
-  margin-top: 0.1rem;
-  padding: 0.12rem 0.21rem;
-  .user-img {
-    width: 0.32rem;
-    height: 0.32rem;
-  }
-
-  font-size: 0.14rem;
-  font-weight: normal;
-  font-stretch: normal;
-  color: #4648bf;
-  .prize {
-    line-height: 0.32rem;
-  }
-
-  .with-draw {
-    height: 0.28rem;
-    background-color: #4648bf;
-    border-radius: 0.08rem;
-    color: #fff;
-  }
-  margin-bottom: 0.1rem;
-}
-
-.root {
-  .mask {
-    width: 100vw;
-    height: 100vh;
-    position: fixed;
-    top: 0px;
-    left: 0px;
-    background: rgba(26, 19, 19, 0.6);
-    z-index: 99;
-    .content {
-      position: absolute;
-      padding: 40px;
-      width: 35%;
-      height: 80%;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: #fff;
-      animation: dialogOpen 0.3s ease-in;
-      .el-icon-close {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        font-size: 16px;
-        cursor: pointer;
-        z-index: 10;
-      }
-      .title {
-        width: 100%;
-        text-align: center;
-        font-weight: 500;
-        font-size: 0.2306rem;
-        line-height: 0.4rem;
-        font-family: PingFangSC-Medium;
-
-        margin-bottom: 10px;
-        color: #0a0a30;
-      }
-      .list {
-        width: 100%;
-        td {
-          width: 50%;
-          padding: 5px 0px;
-          text-align: center;
-          border-bottom: 1px solid #e5e5e5;
-          color: #0a0a30;
-          height: 0.39rem;
-        }
-      }
-      .lottery {
-        margin-top: 10px;
-        span {
-          display: inline-block;
-          height: 40px;
-          line-height: 20px;
-        }
-        .roll {
-          padding: 0 15px;
-          height: 40px;
-          // background: linear-gradient(0deg, #51b7ff 27%, #9a35ff 100%);
-          outline-style: none;
-          border: 0 none;
-          color: #fff;
-          cursor: pointer;
-          background-color: #4648bf;
-          border-radius: 25.36px;
-        }
-        .withdraw {
-          color: skyblue;
-          text-decoration: underline;
-        }
-      }
-      .supplement {
-        // margin-top: 20px;
-        p {
-          font-size: 13px;
-          color: red;
-          font-family: PingFangSC-Regular;
-          font-size: 0.14rem;
-          color: #0a0a30;
-          margin-bottom: 0.1rem;
-        }
-      }
-      .explanation {
-        // margin-top: 20px;
-        font-size: 12px;
-        color: #0a0a30;
-      }
-    }
-  }
-}
-
-@media (max-width: 750px) {
-  .root {
-    .mask {
-      .content {
-        font-size: 13px;
-        padding: 10px;
-        width: 95%;
-      }
-    }
-  }
-
-  .record {
-    .btn-withdraw {
-      width: 20%;
-      .with-draw {
-        height: 0.4rem;
-      }
-    }
-  }
-}
-
-@media (min-width: 1600px) {
-  .root {
-    .mask {
-      .content {
-        font-size: 18px;
-        padding: 10px;
-        width: 35%;
-        height: 75%;
-        .explanation {
-          font-size: 0.15rem;
-        }
-        .lottery {
-          .roll {
-            padding: 0 30px;
-            height: 50px;
-            font-size: 16px;
-            margin: 20px 0;
-          }
-        }
-        .supplement {
-          p {
-            font-size: 0.24rem;
-            font-weight: 100;
-          }
-        }
-        .list {
-          td {
-            height: 0.7rem;
-          }
-        }
-      }
-    }
-  }
-
-  .record {
-    height: 0.65rem;
-    .btn-withdraw {
-      width: 20%;
-      .with-draw {
-        height: 0.4rem;
-      }
-    }
-  }
-}
 </style>

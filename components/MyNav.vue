@@ -20,7 +20,7 @@
         <a href="javascript:;" @click="vipDialog.visible = true">{{$t('Nav.Vip')}}</a>
 
         <!-- 幸运抽奖触发 -->
-        <a class="lucky" href="javascript:;" @click="drawDialog = true">{{$t('Nav.LuckyDraw')}}</a>
+        <a class="lucky" href="javascript:;" @click="luckyDialog.visible = true">{{$t('Nav.LuckyDraw')}}</a>
         <!-- 幸运抽奖组件 -->
 
         <div class="language-mobile">
@@ -53,7 +53,7 @@
         <!--vip-->
         <vip v-if="vipDialog.visible" :vipDialog="vipDialog"></vip>
         <!--抽奖-->
-        <lucky-draw v-if="drawDialog" :visible.sync="drawDialog"></lucky-draw>
+        <lucky-draw v-if="luckyDialog.visible" :luckyDialog="luckyDialog"></lucky-draw>
 
       </div>
       <div class="right">
@@ -127,7 +127,13 @@ export default {
           table: []
         }
       },
-      drawDialog: false,
+      luckyDialog: {
+          visible: false,
+          data: {
+              prize: "",
+              table: []
+          }
+      },
       languages:[]
     };
   },
@@ -339,20 +345,19 @@ export default {
 }
 @media screen and (max-width:1100px){
   .my-nav{
-    position: fixed;
+    padding-left:.2rem;
+    position: relative;
     z-index:1000;
     height: 1rem;
-    width: 100%;
-    background-color: #131258;
-    .inner{
-      padding:0  .2rem;
-      width: 100%;
-      overflow: hidden;
-      justify-content: space-between;
+    width: 7.5rem;
+    display: flex;
+    justify-content: space-between;
+    background-color: #7a1011;
       .menu{
         cursor: pointer;
         display: block;
         font-size: .6rem;
+        color: #FFEAC7;
       }
       .account{
         margin-left: 0;
@@ -363,13 +368,13 @@ export default {
         transition:all .3s ease-in-out;
         overflow:hidden;
         height: 0rem;
-        position: fixed;
-        z-index:1;
-        width: 100%;
+        position: absolute;
+        z-index:1002;
+        width: 7.5rem;
         padding:0 .4rem;
         left:0;
         top: 1rem;
-        background-color: #131258;
+        background-color: #7a1011;
         box-shadow: -0.2px 11px 46px 0px
         rgba(14, 13, 62, 0.52);
         flex-direction: column;
@@ -394,7 +399,7 @@ export default {
           }
           &:nth-child(4){
             order:5;
-            border-bottom:0.01rem solid #39387b;
+            border-bottom:0.01rem solid #FFEAC7;
           }
           &:nth-child(5){
             margin-top: .2rem;
@@ -435,7 +440,8 @@ export default {
             display: flex;
             align-items: center;
             padding:.12rem;
-            border:.01rem solid #39387b;
+            border:.01rem solid #FFEAC7;
+            color: #FFEAC7;
             border-radius:.28rem;
             img{
               width: .32rem;
@@ -445,18 +451,17 @@ export default {
             }
           }
           .cell.focus{
-            border-color:#64e1f5;
+            border-color:#D81734;
+            color: #D81734;
           }
         }
       }
       .nav.show{
-        height: 6rem;
+        height: 4.8rem;
       }
       .language{
-        display: none;
+        display: none !important;
       }
-
-    }
   }
 }
 </style>

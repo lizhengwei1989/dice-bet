@@ -13,12 +13,14 @@
             const solidityNode = new HttpProvider('https://api.shasta.trongrid.io');
             const eventServer = 'https://api.shasta.trongrid.io';
             const privateKey = '2f7fb77412adff0cb522e275d591cbcd1ae5c7f7adb2bc31c09b527fecb59892';
-            const contract_address = 'TBvs6Wvfi8M4QB34omgKZ4n8JmgH6ePvmK';
+            //const contract_address = 'TBvs6Wvfi8M4QB34omgKZ4n8JmgH6ePvmK';
+            const contract_address = 'TSdKwnD8dhiFuoPsVsVov4FwvK3sL3Fsps';
             const dicePrivateKey = '6f52e931cb32701fb4fb53f735622c996973196bd4a6b674b65cd242025c66e0';
             const diceTokenPrivateKey = 'c9fed84875e52cda338c93d18b9909bd885e31b02398adcc28d727d4344fb340';
-            //const dice_contract_address = 'THrENu48be4VuU1f6688fSbazQwRHkDKKQ';
-            const dice_contract_address = 'TJXXTjz6bzhijYC55hrFvvuEeyaNDGrETg';
-            const dice_token_contract_address = 'TVHF21EMEDVoQPWgApaF6FERjoiDQfLs8t';
+            //const dice_contract_address = 'TJXXTjz6bzhijYC55hrFvvuEeyaNDGrETg';
+            const dice_contract_address = 'TELzUo7wKhn6SWW9uELzBMrAbWaWh9bYqM';
+            //const dice_token_contract_address = 'TVHF21EMEDVoQPWgApaF6FERjoiDQfLs8t';
+            const dice_token_contract_address = 'TXpCKLG7Z8TEVwJ7SQzWNdgPVhYWo7SvX7';
 
             const tronWeb = new TronWeb(
                 fullNode,
@@ -89,12 +91,12 @@
 
             $('#inputDice').on('click',async ()=>{
                 //tronWeb.setPrivateKey(diceTokenPrivateKey);
-                //await diceTokenContractInstance.transfer(tronWeb.address.toHex(contract_address).replace('/^41/','0x'),100000000000).send();
-                //await diceTokenContractInstance.transfer(tronWeb.address.toHex(dice_contract_address).replace('/^41/','0x'),100000000000).send();
-                //const a = await diceTokenContractInstance.balanceOf(tronWeb.address.toHex(contract_address).replace('/^41/','0x')).call();
-                //const b = await diceTokenContractInstance.balanceOf(tronWeb.address.toHex(dice_contract_address).replace('/^41/','0x')).call();
+                //await diceTokenContractInstance.transfer(tronWeb.address.toHex(contract_address).replace('/^41/','0x'),10000000000000).send();
+                //await diceTokenContractInstance.transfer(tronWeb.address.toHex(dice_contract_address).replace('/^41/','0x'),10000000000000).send();
+                const a = await diceTokenContractInstance.balanceOf(tronWeb.address.toHex(contract_address).replace('/^41/','0x')).call();
+                const b = await diceTokenContractInstance.balanceOf(tronWeb.address.toHex(dice_contract_address).replace('/^41/','0x')).call();
                 //const c = await diceTokenContractInstance.balanceOf('TEcHv5BPtcvaGVrnBWZS4WucRU1YcGbLuo').call();
-                //const c = await diceTokenContractInstance.setGameOwner(dice_contract_address).send();
+                const c = await diceTokenContractInstance.setGameOwners(dice_contract_address).send();
                 //const c = await contractInstance.setBetLimit(10,10000).send();
                 //const d = await diceContractInstance.setBetLimit(10,10000).send();
                 // setInterval(async ()=>{
