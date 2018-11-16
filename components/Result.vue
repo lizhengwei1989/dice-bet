@@ -373,8 +373,13 @@ export default {
             border-radius: 0.04rem;
           }
           &::-webkit-scrollbar-thumb {
-            background: #363995;
+            background: #E2BF81;
             border-radius: 0.04rem;
+          }
+          tr{
+            &:hover{
+              background-color: #FFDEA4;;
+            }
           }
         }
         tr {

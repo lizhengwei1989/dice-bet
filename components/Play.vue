@@ -17,7 +17,7 @@
           {{$t('Play.Bet.Left')}}
         </div>
         <div class="balance-trx">
-          &nbsp;<span ref="balance"></span> TRX
+          &nbsp;&nbsp;<span ref="balance"></span> TRX
         </div>
         <span>&nbsp;/&nbsp;</span>
         <div class="balance-dice">
@@ -72,6 +72,7 @@
         </div>
       </div>
       <div class="row-3">
+        <div class="gap" ref="gap">{{gap}}</div>
         <button class="roll" @click="roll" :disabled="disabled">
           {{r?r:$t('Play.Roll')}}
         </button>
@@ -96,7 +97,8 @@ export default {
       r: "",
       rolling: null,
       timer: null,
-      unit:'TRX'
+      unit:'TRX',
+      gap:'0',
     };
   },
   watch: {
@@ -104,7 +106,7 @@ export default {
         if(n==0){
             this.unit = 'TRX';
         }else if(n==1){
-            this.unit = 'DICE';
+            this.unit = 'BET';
         }
     },
     number(newVal, oldVal) {
@@ -127,13 +129,15 @@ export default {
         v = Math.max(v, this.limit[this.dbToken].min);
         this.$store.commit('SET_STAKE',v);
         animate(this.$refs["balance"], n, o);
+
     },
     diceBalance(n, o) {
-          let v = this.stake;
-          v = Math.min(v, this.limit[this.dbToken].max ,Math.floor(n));
-          v = Math.max(v, this.limit[this.dbToken].min);
-          this.$store.commit('SET_STAKE',v);
-          animate(this.$refs["diceBalance"], n, o);
+        let v = this.stake;
+        v = Math.min(v, this.limit[this.dbToken].max ,Math.floor(n));
+        v = Math.max(v, this.limit[this.dbToken].min);
+        this.$store.commit('SET_STAKE',v);
+        animate(this.$refs["diceBalance"], n, o);
+
     },
     myBetsLength(n, o) {
       if (n != 0) {
@@ -179,7 +183,7 @@ export default {
     // 获取邀请人地址
     this.inviteAddress = location.search.indexOf('from') !== -1
                          ? /\?from=(\S+)/.exec(location.search)[1]
-                         : '0x00'
+                         : '0x00';
     const odds = getOdds(this.number);
     this.my = localStorage.my ? JSON.parse(localStorage.my) : [];
     const tip = document.querySelector(".el-slider__button-wrapper");
@@ -225,6 +229,10 @@ export default {
       this.$store.commit('SET_STAKE',v);
     },
     async roll() {
+      if(!this.address.base58){
+          this.$store.commit('SET_DIALOG_LOGIN',true);
+          return false;
+      }
       if ((this.dbToken == 0 && this.balance < this.limit[0].min) || (this.dbToken==1 &&  this.diceBalance < this.limit[1].min)) {
         this.$message({
             message:this.$t('Msg.BalanceNotEnough'),
@@ -265,7 +273,7 @@ export default {
         this.r = Math.ceil(Math.random() * 100);
         const c = this.$refs.light.className;
         this.$refs.light.className = c.match(/1/) ? c.replace('1','2'):c.replace('2','1')
-      }, 100);
+      }, 200);
       this.$refs.win.style.display="none";
       this.$refs.lose.style.display="none";
       this.timer = setInterval(async _ => {
@@ -306,9 +314,18 @@ export default {
       localStorage.my = JSON.stringify(my);
     },
     async watchBalance() {
-      console.log(this.diceContractInstance);
+      let gap;
+      const dom = this.$refs['gap'];
       const balance =  await getBalance(this.address.hex);
       const diceBalance = (await this.diceContractInstance.getBalanceOf(this.address.hex.replace('/^41/','0x')).call()).toString();
+      gap = window.tronWeb.fromSun(balance) - this.balance != 0 ? (window.tronWeb.fromSun(balance) - this.balance):(window.tronWeb.fromSun(diceBalance) - this.diceBalance);
+      gap = Math.ceil(gap * 100)/100;
+      this.gap = gap > 0 ? '+'+gap:gap;
+      dom.classList.add('animate');
+      dom.addEventListener('animationend',()=>{
+          dom.classList.remove('animate');
+      });
+
       this.$store.commit("SET_BALANCE", window.tronWeb.fromSun(balance));
       this.$store.commit("SET_DICE_BALANCE", window.tronWeb.fromSun(diceBalance));
     },
@@ -365,7 +382,7 @@ export default {
     background-image: url('../assets/images/new/light2.png');
   }
   .input-group {
-    height: 0.4rem;
+    height: 0.5rem;
     border-radius: 0.06rem;
     border: 0.01rem solid #C53028;
     .input {
@@ -389,6 +406,7 @@ export default {
         display: flex;
         align-items: center;
         padding-left: .1rem;
+        font-size: .18rem;
       }
       &:after {
         content:attr(data-after);
@@ -397,6 +415,7 @@ export default {
         height: 100%;
         right: 0;
         top: 0;
+        font-size: .18rem;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -436,8 +455,12 @@ export default {
         span {
           cursor: pointer;
           border:.01rem solid #C53028;
-          padding:0rem .08rem;
+          width: .44rem;
+          height: .26rem;
           border-radius:.02rem;
+          display: flex;
+          align-items: center;
+          justify-content: center;
         }
         span.green{
           background-color: #C53028;
@@ -452,7 +475,11 @@ export default {
       font-size: 0.14rem;
       color: #C53028;
       .available{
-        color: #E60815;
+        color: #9A6666;
+      }
+      .balance-trx,.balance-dice{
+        font-size: .16rem;
+        font-weight: bold;
       }
     }
   }
@@ -466,6 +493,7 @@ export default {
         height: 100%;
         background-color: #F5A623;
         color: #fff;
+        border-radius:.06rem;
         input{
           color: #fff;
         }
@@ -479,7 +507,7 @@ export default {
     flex-direction: column;
     margin: 0.17rem -0.25rem 0;
     .row-1 {
-      flex: 1;
+      height: 1.1rem;
       display: flex;
       box-shadow: inset 0 4px 10px 0 rgba(7,52,22,0.20);
       border-radius: .1rem;
@@ -500,7 +528,8 @@ export default {
       }
     }
     .row-2{
-        flex: 1;
+      margin-top: .2rem;
+        flex:1;
         display: flex;
         position: relative;
         align-items: center;
@@ -508,7 +537,7 @@ export default {
           position: absolute;
           height: .2rem;
           width: 4.48rem;
-          top:.7rem;
+          top:.54rem;
           .win,.lose{
             position: absolute;
             width: .54rem;
@@ -572,10 +601,41 @@ export default {
         }
       }
     .row-3 {
+      position: relative;
+      margin-bottom: .1rem;
       flex: 1;
       display: flex;
       align-items: center;
       justify-content: center;
+      .gap{
+        position: absolute;
+        z-index:-1;
+        width: 1.8rem;
+        height: .5rem;
+        text-align:center;
+        font-size: .3rem;
+        font-weight: bold;
+        line-height:.5rem;
+        top:50%;
+        left:50%;
+        margin-left:-.9rem;
+        margin-top:-.25rem;
+        opacity: 0;
+        color: #C53028;
+      }
+      .gap.animate{
+        animation: show 1s ease-in-out;
+      }
+      @keyframes show {
+          50%{
+            top:0;
+            opacity: 1;
+          }
+          100%{
+            top:-50%;
+            opacity: 0;
+          }
+      }
       button {
         width: 1.8rem;
         height: 0.5rem;
@@ -590,7 +650,7 @@ export default {
     }
   }
 }
-@media screen and (max-width:1280px){
+@media screen and (max-width:1100px){
   .play{
     width: 6.66rem;
     .light{

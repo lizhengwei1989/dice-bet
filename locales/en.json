@@ -122,5 +122,8 @@
     "footer2": "每日排行结果将于第二天零点公布。",
     "copyright": "* 本活动最终解释权归trondice.org所有"
   },
-  "NoData":"No Data"
+  "NoData":"No Data",
+  "Msg":{
+    "BalanceNotEnough":"Balance not enough"
+  }
 }

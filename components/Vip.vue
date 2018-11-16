@@ -4,6 +4,9 @@
     :modal-append-to-body='false'
     :visible.sync="vipDialog.visible"
      center class="vipDialog">
+    <div class="close">
+      <i class="iconfont icon-close" @click="vipDialog.visible = false"></i>
+    </div>
     <!-- <p class="center">{{$t('vip.desc')}}</p> -->
     <div class="golden"></div>
     <div class="el-dialog__body-wrap">
@@ -30,7 +33,7 @@
                   style="width: 100%"
                   size="mini"
                   v-loading="tableLoading"
-                  element-loading-background="rgba(0, 0, 0, 0.9)"
+                  element-loading-background="transparent"
                   class="table-content"
           >
             <el-table-column prop="grade" :label="$t('vip.table.level')">
@@ -166,7 +169,7 @@ export default {
 <style lang="scss">
 .vipDialog {
   .vip-img {
-    width: 0.26rem;
+    width: auto;
     height: 0.26rem;
   }
   .el-dialog {
@@ -195,6 +198,7 @@ export default {
       position: absolute;
       background-image:url("../assets/images/new/vip/golden.png");
       background-repeat: no-repeat;
+      background-size:100%;
     }
     .el-dialog__body-wrap{
       overflow: hidden;
@@ -271,7 +275,7 @@ export default {
               height:.08rem;
               background-color: rgba(255,255,255,.89);
               position: absolute;
-              right: 0;
+              left: -.04rem;
               content: '';
               border-radius:.08rem;
               top:-.01rem;
@@ -339,8 +343,9 @@ export default {
       color: #8F6300;
       background-color: transparent;
     }
-    .el-table td{
+    .el-table td,.el-table th{
       color: #8F6300;
+      border-bottom:.01rem solid rgba(143,99,0,.1);
     }
     .el-table tr {
       background-color: transparent;
@@ -349,7 +354,11 @@ export default {
       font-stretch: normal;
       line-height: 0.48;
       color: #ffdba2;
-      border-bottom:.01rem solid rgba(143,99,0,0.1);
+      &:last-child{
+        td{
+          border:none
+        }
+      }
     }
     .el-table--enable-row-hover .el-table__body tr:hover > td {
       background-color: #212e3e !important;
@@ -360,7 +369,7 @@ export default {
     }
   }
 }
-@media (max-width: 750px) {
+@media (max-width: 1100px) {
   .vipDialog {
     .el-dialog {
       width: 6.6rem;

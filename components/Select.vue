@@ -7,7 +7,6 @@
                     <div>
                         {{$t('Resource.BandWidth')}}<span>{{bindWidth}}</span>
                     </div>
-                    <div>|</div>
                     <div>
                         {{$t('Resource.Energy')}}<span>{{energy}}</span>
                     </div>
@@ -89,7 +88,7 @@
 
 <style scoped lang="scss">
     .select{
-        height: 1.2rem;
+        height: .8rem;
         display: flex;
         flex-direction: row;
         align-items: center;
@@ -120,6 +119,16 @@
                 font-size: .12rem;
                 align-items: center;
                 margin-left: .2rem;
+                &>div{
+                    flex: 1;
+                    &:last-child{
+                        border-left:.01rem solid #8F6300;
+                        padding-left: .1rem;
+                        height: .1rem;
+                        display: flex;
+                        align-items: center;
+                    }
+                }
             }
             .min-stage{
                 position: relative;
@@ -170,7 +179,7 @@
                 margin-left: .06rem;
             }
             &:last-child{
-                margin-left: .3rem;
+                margin-left: .4rem;
             }
         }
         .tab.focus{
@@ -181,7 +190,25 @@
     }
     @media screen and (max-width:1100px){
         .select{
-
+            height: .8rem;
+            margin-bottom: 1.6rem;
+            div.info{
+                height: 1.6rem;
+                padding:.2rem 0;
+                top:100%;
+                flex-direction: column;
+                & > div{
+                    width: 100% !important;
+                    flex: 1;
+                    &>span{
+                        width: 1.6rem;
+                    }
+                    &>div{
+                        flex:1;
+                        padding:0 .2rem !important;
+                    }
+                }
+            }
         }
     }
 </style>

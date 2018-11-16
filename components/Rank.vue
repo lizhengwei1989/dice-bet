@@ -33,10 +33,11 @@
                 </th>
             </tr>
             </thead>
-            <tbody :style="'height:'+(dbToken==0?'2.6':'3.2')+'rem'">
+            <tbody :style="'height:'+(dbToken==0?'2.4':'3')+'rem'">
                 <tr v-for="(item,index) of ranks" v-if="ranks.length > 0">
                     <td>
-                        <span>
+                        <span v-if="index<3"><img :src="require('../assets/images/new/rank'+(index+1)+'.png')" /></span>
+                        <span v-else>
                            {{index+1}}
                         </span>
                     </td>
@@ -291,7 +292,7 @@ export default {
   table {
     padding: 0 0.2rem;
     tr {
-      margin-top: .12rem;
+      margin-top: .08rem;
       display: table;
       width: 100%;
       table-layout: fixed;
@@ -302,12 +303,16 @@ export default {
           height: .38rem;
           font-size: .14rem;
           color: #AF1A1A;
-          vertical-align: center;
           span{
-              display: inline-block;
+              display: flex;
+              justify-content: center;
               width: 100%;
               height: .2rem;
-              border-right:0.01rem solid #C53028;
+              border-right:0.01rem solid #FFA5AA;
+              &:first-child{
+
+                  align-items: center;
+              }
           }
         &:first-child {
           width: 0.8rem;
@@ -334,12 +339,16 @@ export default {
             border-radius: 0.04rem;
         }
         &::-webkit-scrollbar-thumb {
-            background: #363995;
+            background: #E2BF81;
             border-radius: 0.04rem;
         }
         tr {
         td {
           text-align: center;
+          img{
+              width: .26rem;
+              height: .26rem;
+          }
           &:first-child {
             text-align: center;
             span {
@@ -431,12 +440,8 @@ export default {
         span {
           width: 0.34rem;
           height: 0.34rem;
-          border-radius: 100%;
-          background-color: #64e1f6;
-          border: 0.01rem solid #363995;
           display: inline-block;
           line-height: 0.3rem;
-          color: #1e2169;
           text-align: center;
         }
       }
@@ -471,7 +476,6 @@ export default {
     .last {
       width: 6.26rem;
       padding: 0 0.12rem;
-      //width: calc(100% - 0.2rem);
       .cell {
         &:nth-child(2),
         &:nth-child(3) {

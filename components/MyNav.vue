@@ -6,10 +6,10 @@
       <!--</a>-->
       <div class="nav" ref="nav">
         <!-- 玩法介绍 -->
-        <a class="how" @click="dialogHow = true">{{$t('Nav.Rule')}}</a>
+        <a href="javascript:;" @click="ruleDialog.visible = true">{{$t('Nav.Rule')}}</a>
 
         <!-- 邀请 -->
-        <a href="javascript:;" @click="inviteDialog.visible = true">{{$t('Nav.Invite')}}</a>
+        <a href="javascript:;" @click="()=>{if(this.address.base58){inviteDialog.visible = true}else{this.$store.commit('SET_DIALOG_LOGIN',true)}}">{{$t('Nav.Invite')}}</a>
 
 
 
@@ -17,10 +17,10 @@
         <a class="how" style="display: none">{{$t('Nav.HongLi')}}</a>
 
         <!-- vip等级 -->
-        <a href="javascript:;" @click="vipDialog.visible = true">{{$t('Nav.Vip')}}</a>
+        <a href="javascript:;" @click="()=>{if(this.address.base58){vipDialog.visible = true}else{this.$store.commit('SET_DIALOG_LOGIN',true)}}">{{$t('Nav.Vip')}}</a>
 
         <!-- 幸运抽奖触发 -->
-        <a class="lucky" href="javascript:;" @click="luckyDialog.visible = true">{{$t('Nav.LuckyDraw')}}</a>
+        <a class="lucky" href="javascript:;" @click="()=>{if(this.address.base58){luckyDialog.visible = true}else{this.$store.commit('SET_DIALOG_LOGIN',true)}}">{{$t('Nav.LuckyDraw')}}</a>
         <!-- 幸运抽奖组件 -->
 
         <div class="language-mobile">
@@ -35,21 +35,7 @@
         <!--邀请-->
         <invite v-if="inviteDialog.visible" :inviteDialog="inviteDialog"></invite>
         <!--玩法介绍-->
-        <el-dialog
-                :title="$t('Rule.title')"
-                :visible.sync="dialogHow"
-                width="5.8rem"
-                custom-class="how-dialog">
-          <p v-html="$t('Rule.p1')"></p>
-          <p v-html="$t('Rule.p2')"></p>
-          <p v-html="$t('Rule.p3')"></p>
-          <p v-html="$t('Rule.p4')"></p>
-          <p v-html="$t('Rule.p5')"></p>
-          <p v-html="$t('Rule.p6')"></p>
-          <span slot="footer" class="dialog-footer">
-            <el-button type="primary" @click="dialogHow = false">{{$t('Confirm')}}</el-button>
-          </span>
-        </el-dialog>
+        <rule v-if="ruleDialog.visible" :ruleDialog="ruleDialog"></rule>
         <!--vip-->
         <vip v-if="vipDialog.visible" :vipDialog="vipDialog"></vip>
         <!--抽奖-->
@@ -89,6 +75,7 @@
 <script>
 import { mapState } from "vuex";
 import Vip from "./Vip";
+import Rule from "./Rule";
 import Invite from "./Invite";
 /* 幸运抽奖 */
 import LuckyDraw from "./LuckDraw.vue";
@@ -98,7 +85,8 @@ export default {
   components: {
     LuckyDraw,
     Vip,
-    Invite
+    Invite,
+    Rule
   },
   data() {
     return {
@@ -126,6 +114,13 @@ export default {
           prize: "",
           table: []
         }
+      },
+      ruleDialog: {
+          visible: false,
+          data: {
+              prize: "",
+              table: []
+          }
       },
       luckyDialog: {
           visible: false,
@@ -168,14 +163,23 @@ export default {
       this.show = !this.show;
     },
     location(lng) {
-      window.location = "/" + lng;
+      if (lng === "en") {
+          window.location = "/";
+      } else {
+          window.location = "/" + lng;
+      }
     },
-    showMenus(){
+    showMenus(e){
         const nav = this.$refs.nav;
+        const p = e.target.parentNode;
         if(nav.className.match(/show/g)){
             nav.classList.remove('show');
+            setTimeout(()=>{
+                p.style.zIndex = '1001';
+            },300);
         }else{
             nav.classList.add('show');
+            p.style.zIndex = '10000';
         }
     }
   }
@@ -185,6 +189,7 @@ export default {
 <style scoped lang="scss">
 .my-nav {
   position: relative;
+  z-index:9999;
   height: 0.8rem;
   width: 100%;
   padding:0 0.4rem;
@@ -194,7 +199,7 @@ export default {
   align-items: center;
   justify-content: space-between;
   border-bottom:.2rem solid transparent;
-  &:after{
+  /*&:after{
     position: absolute;
     width: 100%;
     content:'';
@@ -203,7 +208,7 @@ export default {
     left: 0;
     background-image: url('../assets/images/new/border-bg.png');
     background-position: center center;
-  }
+  }*/
   .logo {
     display: flex;
     justify-content: flex-start;
@@ -227,7 +232,7 @@ export default {
         padding:0 .2rem 0 .36rem;
         height: .31rem;
         line-height: .31rem;
-        background-color: #2babf5;
+        background-color: #F5A623;
         border-radius: .08rem;
         &:before{
           content: '';
@@ -347,17 +352,19 @@ export default {
   .my-nav{
     padding-left:.2rem;
     position: relative;
-    z-index:1000;
+    z-index:1001;
     height: 1rem;
     width: 7.5rem;
     display: flex;
     justify-content: space-between;
-    background-color: #7a1011;
+    background-color: transparent;
+    border:none;
       .menu{
         cursor: pointer;
         display: block;
         font-size: .6rem;
         color: #FFEAC7;
+        position: relative;
       }
       .account{
         margin-left: 0;

@@ -7,6 +7,9 @@
             class="luckyDialog"
             top="10vh"
     >
+        <div class="close">
+            <i class="iconfont icon-close" @click="luckyDialog.visible = false"></i>
+        </div>
         <div class="table">
             <table cellpadding="0" cellspacing="0" width="100%">
                 <thead>

@@ -1,11 +1,7 @@
 html{
   font-size: 100px;
 }
-@media screen and (max-width:1100px){
-  html{
-    font-size: 50px;
-  }
-}
+
 .el-dialog{
   border:.16rem solid #D81734;
   background: #FFFADE;
@@ -27,10 +23,25 @@ html{
 .el-dialog__header .el-dialog__headerbtn{
   display: none;
 }
+.el-dialog__body .close{
+  width: .2rem;
+  height: .2rem;
+  position: absolute;
+  right: 0.2rem;
+  top: 0.2rem;
+  z-index:10;
+}
+.el-dialog__body .close .icon-close{
+  font-size: .3rem;
+  color:#D81734;
+  cursor: pointer;
+
+}
 .el-dialog__body > p{
   font-size: .14rem;
   color: #C53028;
   padding:.06rem 0;
+  position: relative;
 }
 .el-dialog__footer{
   display: flex;
@@ -44,6 +55,12 @@ html{
   border-radius: .25rem;
   border: none;
   font-size: .24rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.el-button:hover{
+  background-color: #F5A623;
 }
 .el-button.how{
   width:auto;
@@ -93,7 +110,7 @@ html{
   height: .42rem;
   left:-.1rem;
   top:-.4rem;
-  color: #000;
+  color: #C53028;
   background-color: transparent;
   background-image: url('../../assets/images/bubble.png');
   background-repeat: no-repeat;
@@ -116,3 +133,10 @@ html{
   line-height:30px;
 }
 
+@media screen and (max-width:1100px){
+  html{
+    font-size: 50px;
+  }
+  .el-dialog{
+  }
+}

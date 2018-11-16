@@ -1,26 +1,32 @@
 <template>
-  <div class="container">
-    <my-nav :languageGroup="languageGroup" />
-    <Loading :isLoading="showLoading"/>
-    <div class="main">
-      <div class="cell">
-        <Select />
-      </div>
-      <div class="cell">
-        <div class="col col-1">
-          <Rank :contractAddress="contractAddress" />
-        </div>
-        <div class="col col-2">
-          <Play />
-        </div>
-      </div>
-      <div class="cell">
-        <Result :contractAddress="contractAddress" />
-      </div>
-      <div class="logo"></div>
+  <div style="position: relative;overflow-x:hidden">
+    <div class="logo">
+      <div class="border"></div>
     </div>
-    <!--<Footer />-->
+    <div class="container">
+      <my-nav :languageGroup="languageGroup" />
+      <Loading :isLoading="showLoading"/>
+      <div class="main">
+        <div class="cell">
+          <Select />
+        </div>
+        <div class="cell">
+          <div class="col col-1">
+            <Rank :contractAddress="contractAddress" />
+          </div>
+          <div class="col col-2">
+            <Play />
+          </div>
+        </div>
+        <div class="cell">
+          <Result :contractAddress="contractAddress" />
+        </div>
+
+      </div>
+      <!--<Footer />-->
+    </div>
   </div>
+
 </template>
 
 <script>
@@ -178,12 +184,57 @@ export default {
 </script>
 
 <style lang="scss">
+.logo{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-image: url("../../assets/images/new/shadow.png");
+    background-position: center top;
+    background-repeat: no-repeat;
+    background-size:100% auto;
+    .border{
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background-image: url('../../assets/images/new/border-bg.png');
+        content:'';
+        background-position:center .56rem;
+        background-repeat:no-repeat;
+        background-size:100% auto;
+    }
+    &:before{
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      left:1rem;
+      background-image: url("../../assets/images/new/decorate.png");
+      background-position:center 0rem;
+      background-repeat: no-repeat;
+    }
+    &:after{
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-image: url("../../assets/images/new/logo.png");
+      background-position: center top;
+      background-repeat: no-repeat;
+    }
+  }
 .container {
   position: relative;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background: -webkit-linear-gradient( top,#530400,#8a1011);
+  background-image:url("../../assets/images/new/tiaoli.png");
+  background-position:center top;
+  background-size:11rem auto;
+  background-repeat:no-repeat;
+  background-color:#951010;
   color: #fff;
   &:before{
      position: absolute;
@@ -194,12 +245,12 @@ export default {
      background-position:center 1rem;
      background-repeat:no-repeat;
      background-size:auto 84%;
-   }
+  }
   a {
     color: #b3a6ff;
   }
   .main {
-    padding-top:1.2rem;
+    padding-top:1.3rem;
     position: relative;
     z-index:1;
     width: 11rem;
@@ -208,35 +259,7 @@ export default {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    .logo{
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
-      top:-.7rem;
-      left: 0;
-      background-image: url("../../assets/images/new/tiaoli.png");
-      background-position: center top;
-      background-repeat: no-repeat;
-      &:before{
-        content: "";
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        background-image: url("../../assets/images/new/decorate.png");
-        background-position:  top;
-        background-repeat: no-repeat;
-      }
-      &:after{
-        content: "";
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        background-image: url("../../assets/images/new/logo.png");
-        background-position: center top;
-        background-repeat: no-repeat;
-      }
-    }
+
 
     & > .cell {
       &:first-child{
@@ -271,23 +294,18 @@ export default {
   }
 }
 @media screen and (max-width:1100px){
+  .logo{
+    .border{
+      background-position:center .8rem;
+      background-size:auto;
+    }
+  }
   .container{
+    overflow-x: hidden;
     .main{
       padding:1.2rem .32rem 0;
       width: 100%;
       z-index:1001;
-      .logo{
-        top:-1rem;
-        background-position: center -1rem;
-        &:before{
-          background-size:100% auto;
-          background-position: center 1rem;
-        }
-        &:after{
-          background-size:30% auto;
-          background-position: center top;
-        }
-      }
       .cell{
         &:nth-child(2){
           flex-direction: column;

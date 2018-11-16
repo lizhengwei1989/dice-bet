@@ -39,6 +39,7 @@
             }
         }
         .r2{
+            margin-top: .1rem;
             font-size: .14rem;
         }
     }

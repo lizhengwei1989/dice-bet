@@ -1,13 +1,47 @@
 html{
   font-size: 100px;
 }
-@media screen and (max-width:1280px){
-  html{
-    font-size: 50px;
-  }
+
+.el-dialog{
+  border:.16rem solid #D81734;
+  background: #FFFADE;
+  box-shadow: 0 4px 24px 0 rgba(52,7,7,0.50), 0 4px 10px 0 rgba(7,52,22,0.20) inset;
+  border-radius: .1rem;
 }
+
 .el-dialog a{
   text-decoration: underline;
+}
+.el-dialog__header{
+  text-align: center;
+}
+.el-dialog__header .el-dialog__title{
+  font-size: .20rem;
+  color: #C53028;
+  text-shadow: 0rem 0rem 0.2rem #C53028;
+}
+.el-dialog__header .el-dialog__headerbtn{
+  display: none;
+}
+.el-dialog__body .close{
+  width: .2rem;
+  height: .2rem;
+  position: absolute;
+  right: 0.2rem;
+  top: 0.2rem;
+  z-index:10;
+}
+.el-dialog__body .close .icon-close{
+  font-size: .3rem;
+  color:#D81734;
+  cursor: pointer;
+
+}
+.el-dialog__body > p{
+  font-size: .14rem;
+  color: #C53028;
+  padding:.06rem 0;
+  position: relative;
 }
 .el-dialog__footer{
   display: flex;
@@ -15,11 +49,12 @@ html{
 }
 .el-button{
   width: 1.74rem;
-  height: .4rem;
-  background-image: linear-gradient(-135deg, #B643FF 0%, #FF6C81 100%);
-  border-radius: .2rem;
-  color: #fff;
-  border:none;
+  height: .5rem;
+  background: #C53028;
+  box-shadow: 0 4px 9px 0 rgba(117,4,0,0.20);
+  border-radius: .25rem;
+  border: none;
+  font-size: .24rem;
 }
 .el-button.how{
   width:auto;
@@ -35,67 +70,7 @@ html{
   opacity:.5;
 }
 
-.how-dialog{
-  background: #fff;
-  font-size: .15rem;
-  border-radius:.2rem;
-}
-.how-dialog .el-dialog__close{
-  height: 38px;
-  width: 38px;
-  /*background-image: url('../images/close.png');*/
-  background-repeat:no-repeat;
-  display: none;
-}
-.how-dialog .el-dialog__close:before{
-  content:''
-}
-.how-dialog .el-dialog__header{
-  text-align: center;
-  padding-top: .4rem;
-  padding-bottom:0px;
 
-}
-.how-dialog .el-dialog__header .el-dialog__title{
-
-}
-.how-dialog .lucky-tron{
-  margin:10px auto 0;
-  display: flex;
-  height:60px;
-  width:500px;
-  background:rgba(0,0,0,0.45);
-  box-shadow: 2px 2px 8px rgba(0,0,0,0.3);
-  color: #fff;
-  padding: 0 30px;
-  justify-content: space-between;
-  align-items: center;
-}
-.how-dialog .lucky-tron:first-child{
-  margin-top:0
-}
-.how-dialog .el-dialog__body{
-  font-size: .15rem;
-  padding: .1rem .3rem;
-}
-.how-dialog .el-dialog__body p{
-  margin-top: .1rem;
-}
-.how-dialog button.draw{
-  position: relative;
-  width: 160px;
-  height: 60px;
-  background-image: linear-gradient(0deg, #51B7FF 27%, #9A35FF 100%);
-  border-radius: 3px;
-  font-size: 30px;
-  line-height: 60px;
-  text-align: center;
-  color: #fff;
-  border:none;
-  margin:0 auto;
-  display: block;
-  cursor: pointer;
-}
 
 .el-slider{
   width: 100%;
@@ -127,8 +102,8 @@ html{
   content:attr(data-before);
   width: .46rem;
   height: .42rem;
-  left:.1rem;
-  top:-.3rem;
+  left:-.1rem;
+  top:-.4rem;
   color: #000;
   background-color: transparent;
   background-image: url('../../assets/images/bubble.png');
@@ -152,3 +127,10 @@ html{
   line-height:30px;
 }
 
+@media screen and (max-width:1100px){
+  html{
+    font-size: 50px;
+  }
+  .el-dialog{
+  }
+}
