@@ -2,7 +2,7 @@
     <div class="select" ref="select">
         <div class="info">
             <div class="resource" v-if="address.base58">
-                <span>当前账号资源</span>
+                <span>{{$t('select.t2')}}</span>
                 <div class="bar">
                     <div>
                         <span>{{$t('Resource.BandWidth')}}</span><span>{{bindWidth}}</span>
@@ -15,10 +15,10 @@
             </div>
 
             <div class="min-stage">
-                <span>当前为第{{minStage.stage}}阶段</span>
+                <span>{{$t('select.t1')}}</span>
                 <div class="min">
                     <span class="process" :style="'width:'+Math.ceil((minStage.left/minStage.diceCount)*100)/100+'%'"></span>
-                    <span>第 {{minStage.stage}}/7轮</span>
+                    <span>{{$t('select.number')}} {{minStage.stage}}/7 {{$t('select.stage')}}</span>
                     <span>{{minStage.left}}/{{minStage.diceCount}}</span>
                 </div>
 
@@ -104,7 +104,7 @@
             flex-direction: row;
             align-items: center;
             justify-content: space-between;
-            font-size: .14rem;
+            font-size: .15rem;
             color: #F7D008;
             .bar{
                 position: relative;
@@ -118,11 +118,10 @@
                 color: #8F6300;
                 font-size: .12rem;
                 align-items: center;
-                margin-left: .2rem;
+                margin-left: 0.05rem;
                 &>div{
                     flex: 1;
                     &:last-child{
-                        border-left:.01rem solid #8F6300;
                         padding-left: .1rem;
                         height: .1rem;
                         display: flex;
@@ -138,6 +137,7 @@
                 height: .4rem;
                 align-items: center;
                 .min{
+                    height: 0.28rem;
                     @extend .bar;
                     span.process{
                         position: absolute;
@@ -157,6 +157,9 @@
                 flex-direction: row;
                 align-items: center;
                 justify-content: space-between;
+                .bar {
+                    height: 0.28rem;
+                }
             }
         }
         .tab{

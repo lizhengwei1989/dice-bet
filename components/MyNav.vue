@@ -294,7 +294,7 @@ export default {
       display: flex;
       align-items: center;
       img {
-        width: 32px;
+        width: 28px;
       }
     }
     .telegram {
@@ -305,7 +305,7 @@ export default {
       display: flex;
       align-items: center;
       img {
-        width: 32px;
+        width: 28px;
       }
     }
     .whitepaper {
