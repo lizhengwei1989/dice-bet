@@ -18,7 +18,8 @@
     "Rule":"规则",
     "Vip":"Vip",
     "LuckyDraw":"幸运抽奖",
-    "HongLi": "红利"
+    "HongLi": "红利",
+    "Whitepaper": "白皮书"
   },
   "Play": {
     "Bet": {
@@ -122,5 +123,10 @@
     "footer2": "每日排行结果将于第二天零点公布。",
     "copyright": "* 本活动最终解释权归trondice.org所有"
   },
-  "NoData":"暂无数据"
+  "NoData":"暂无数据",
+  "marquee": {
+    "congratulation": "恭喜",
+    "win": "赢取",
+    "odds": "赔率"
+  }
 }

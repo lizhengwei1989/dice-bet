@@ -28,9 +28,9 @@
                 <th>
                     <span>{{$t('TotalMount')}}</span>
                 </th>
-                <th>
+                <!-- <th>
                     <span>{{$t('Prize')}}</span>
-                </th>
+                </th> -->
             </tr>
             </thead>
             <tbody :style="'height:'+(dbToken==0?'2.4':'3')+'rem'">
@@ -51,11 +51,11 @@
                             {{item.total|fromSun}} TRX
                         </span>
                     </td>
-                    <td>
+                    <!-- <td>
                         <span>
                             {{item.prize}} TRX
                         </span>
-                    </td>
+                    </td> -->
                 </tr>
                 <tr v-if="ranks.length === 0">
                   <td colspan="5" class="span" v-if="isLoading">
@@ -78,17 +78,17 @@
         </table>
         <div v-if="ranks.length>0" class="last">
             <div class="cell">
-                <span>{{ownerData.ranking}}</span>
+                <span>{{ownerData.ranking === 0 ? '-' : ownerData.ranking}}</span>
             </div>
-            <div class="cell">
+            <div class="cell" style="text-align: center;">
                 {{ownerData.userAddress|hiddenAddress}}
             </div>
-            <div class="cell">
-                {{ownerData.totalBet|fromSun}} TRX
+            <div class="cell" style="text-align: center;">
+              {{ownerData.totalBet|fromSun}} TRX
             </div>
-            <div class="cell">
+            <!-- <div class="cell">
                 {{ranks[ranks.length-1].prize}} TRX
-            </div>
+            </div> -->
         </div>
         <!--奖励规则-->
         <el-dialog
