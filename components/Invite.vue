@@ -26,9 +26,9 @@
         <b>{{$t('Invite.result.prize')}}：<span>{{prize/1000000}} TRX </span></b>
         <el-button @click="extract">{{$t('extract')}}</el-button> </p>
     </el-row>
-    <el-row>
-      {{$t('vip.copyRight')}}
-    </el-row>
+    <!--<el-row>-->
+      <!--{{$t('vip.copyRight')}}-->
+    <!--</el-row>-->
     <span slot="footer" class="dialog-footer">
         <el-button type="primary" @click="inviteDialog.visible = false">{{$t('Confirm')}}</el-button>
     </span>
@@ -331,10 +331,15 @@ export default {
       .invite-url{
         height: 2rem;
       }
+      .copyContent{
+        padding:0;
+      }
       .record {
         position: relative;
-        height: 1.8rem;
-        padding:.36rem .2rem;
+        height: 1.4rem;
+        padding:.3rem .2rem;
+        margin-bottom:.3rem;
+        font-size: .32rem;
         p{
           display: flex;
           align-items: center;

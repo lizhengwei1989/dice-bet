@@ -180,6 +180,7 @@ export default {
     ])
   },
   mounted() {
+    window.roll = this.roll;
     // 获取邀请人地址
     this.inviteAddress = location.search.indexOf('from') !== -1
                          ? /\?from=(\S+)/.exec(location.search)[1]

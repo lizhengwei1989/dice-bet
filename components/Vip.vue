@@ -30,7 +30,7 @@
         <template>
           <el-table
                   :data="tableData"
-                  style="width: 100%"
+                  style="width: 84%;margin:auto;overflow:hidden"
                   size="mini"
                   v-loading="tableLoading"
                   element-loading-background="transparent"
@@ -43,7 +43,7 @@
               </template>
 
             </el-table-column>
-            <el-table-column prop="allBets" :label="$t('vip.table.amount')" width="150px">
+            <el-table-column prop="allBets" :label="$t('vip.table.amount')" width="120" >
               <template slot-scope="scope">
                 {{scope.row.totalAmount/1000000}} TRX
               </template>
@@ -259,7 +259,7 @@ export default {
         flex-direction: column;
         .process{
           position: relative;
-          width: 3.4rem;
+          width: 100%;
           height: .06rem;
           background: #C69125;
           border-radius: 4px;
@@ -370,12 +370,28 @@ export default {
   }
 }
 @media (max-width: 1100px) {
+  .el-table--scrollable-x .el-table__body-wrapper{
+    overflow-x: hidden !important;
+  }
   .vipDialog {
     .el-dialog {
       width: 6.6rem;
+      height: 10.4rem;
+    }
+    .el-dialog--center .el-dialog__body .el-dialog__body-wrap{
+      &:before{
+        left:-1.72rem;
+        top:-6.6rem;
+      }
     }
     .card {
-      height: 2.4rem;
+      height: 2.4rem !important;
+      .level-process{
+        margin-top:0.1rem;
+        .desc{
+          margin-top:0.1rem;
+        }
+      }
       .message {
         .vip-logo {
           width: 15%;
@@ -392,16 +408,36 @@ export default {
           }
         }
       }
+      button{
+        margin-top: .2rem !important;
+        width: 1.35rem !important;
+        height: .48rem !important;
+        border:none !important;
+        background-color:transparent;
+      }
     }
     .table {
+      width: 6rem !important;
       height: 6rem;
+      margin-top: .28rem;
+      .el-table__body-wrapper{}
       .el-table::before {
         height: 0px;
       }
       .table-content {
         margin: 0.1rem 0;
       }
+
       td {
+        .cell{
+          display: flex;
+          align-items: center;
+          line-height:.6rem;
+        }
+        img{
+          height: .4rem;
+          width: auto;
+        }
         padding: 0;
       }
     }
