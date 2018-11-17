@@ -233,6 +233,7 @@ export default {
             a.push({ select, result, player, input, output, time, token,transactionId });
           });
           this.all = a;
+          this.$store.commit('SET_ALLBETLIST', a)
           logs = logs.filter(v => {
             const player = window.tronWeb.address.fromHex(
               v.result["_addr"].replace(/^0x/, "41")

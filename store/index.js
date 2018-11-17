@@ -40,7 +40,8 @@ export const state = () => ({
       left:0, //剩余进阶 的 dice
       stage:1, //阶段数
       diceCount: 500000000
-  }
+  },
+  allBetList: []
 });
 
 export const mutations = {
@@ -102,6 +103,9 @@ export const mutations = {
   },
   SET_MIN_STAGE(state, obj) {
     state.minStage = { ...state.minStage, ...obj };
+  },
+  SET_ALLBETLIST(state, allBetList) {
+    state.allBetList = allBetList;
   }
 };
 

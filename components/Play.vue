@@ -128,15 +128,14 @@ export default {
         v = Math.min(v, this.limit[this.dbToken].max ,Math.floor(n));
         v = Math.max(v, this.limit[this.dbToken].min);
         this.$store.commit('SET_STAKE',v);
-        animate(this.$refs["balance"], n, o);
-
+        animate(this.$refs["balance"], Number(n).toFixed(3), o);
     },
     diceBalance(n, o) {
         let v = this.stake;
         v = Math.min(v, this.limit[this.dbToken].max ,Math.floor(n));
         v = Math.max(v, this.limit[this.dbToken].min);
         this.$store.commit('SET_STAKE',v);
-        animate(this.$refs["diceBalance"], n, o);
+        animate(this.$refs["diceBalance"], Number(n).toFixed(3), o);
 
     },
     myBetsLength(n, o) {

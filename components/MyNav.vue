@@ -6,10 +6,10 @@
       <!--</a>-->
       <div class="nav" ref="nav">
         <!-- 玩法介绍 -->
-        <a href="javascript:;" @click="ruleDialog.visible = true">{{$t('Nav.Rule')}}</a>
+        <a class="hover-style" href="javascript:;" @click="ruleDialog.visible = true">{{$t('Nav.Rule')}}</a>
 
         <!-- 邀请 -->
-        <a href="javascript:;" @click="()=>{if(this.address.base58){inviteDialog.visible = true}else{this.$store.commit('SET_DIALOG_LOGIN',true)}}">{{$t('Nav.Invite')}}</a>
+        <a class="hover-style" href="javascript:;" @click="()=>{if(this.address.base58){inviteDialog.visible = true}else{this.$store.commit('SET_DIALOG_LOGIN',true)}}">{{$t('Nav.Invite')}}</a>
 
 
 
@@ -17,7 +17,7 @@
         <a class="how" style="display: none">{{$t('Nav.HongLi')}}</a>
 
         <!-- vip等级 -->
-        <a href="javascript:;" @click="()=>{if(this.address.base58){vipDialog.visible = true}else{this.$store.commit('SET_DIALOG_LOGIN',true)}}">{{$t('Nav.Vip')}}</a>
+        <a class="hover-style" href="javascript:;" @click="()=>{if(this.address.base58){vipDialog.visible = true}else{this.$store.commit('SET_DIALOG_LOGIN',true)}}">{{$t('Nav.Vip')}}</a>
 
         <!-- 幸运抽奖触发 -->
         <a class="lucky" href="javascript:;" @click="()=>{if(this.address.base58){luckyDialog.visible = true}else{this.$store.commit('SET_DIALOG_LOGIN',true)}}">{{$t('Nav.LuckyDraw')}}</a>
@@ -43,6 +43,15 @@
 
       </div>
       <div class="right">
+        <a href="https://twitter.com/DiceBet_TRON" target="_blank" class="twitter hover-style">
+          <img src="/images/twitter.png" alt="">
+        </a>
+        <a href="https://t.me/dicebet" target="_blank" class="telegram hover-style">
+          <img src="/images/telegram.png" alt="">
+        </a>
+        <a href="#" target="_blank" class="whitepaper hover-style">
+          {{$t('Nav.Whitepaper')}}
+        </a>
         <div v-if="address && address.base58" class="account">
           {{address.base58 | hiddenAddress}}
         </div>
@@ -61,10 +70,10 @@
         </el-dialog>
         <div class="language">
           <!--<img :src="icon?`/images/icon-${icon}.png`:''">-->
-          <span>{{txt}}</span>
+          <img :src="`/images/${icon}.png`">
           <div class="group">
-            <div v-for="item of languages" class="item" @click="location(item.lng)">
-              <img :src="`/images/icon-${item.icon}.png`"><span>{{$t(item.txt)}}</span>
+            <div v-for="item of pcLanguage" class="item" @click="location(item.lng)">
+              <img :src="`/images/${item.icon}.png`">
             </div>
           </div>
         </div>
@@ -91,7 +100,7 @@ export default {
   data() {
     return {
       txt: "",
-      icon: "",
+      icon: "en",
       show: false,
       dialogHow: false,
       luckyList: [
@@ -100,6 +109,10 @@ export default {
         { area: "1000-4999", prize: 20 },
         { area: "5000-9999", prize: 200 },
         { area: "10000", prize: 1000 }
+      ],
+      pcLanguage: [
+        { lng: "en", txt: "",icon:'en' },
+        { lng: "ch", txt: "",icon:'ch' },
       ],
       vipDialog: {
         visible: false,
@@ -133,18 +146,7 @@ export default {
     };
   },
   created() {
-    let languageGroup = this.languageGroup.filter(v=>{
-        if(v.lng  !== this.locale){
-            return v;
-        }
-    });
-    this.languages = languageGroup;
-    this.languageGroup.forEach(v => {
-      if (v.lng === this.locale) {
-        this.txt = this.$t(v.txt);
-        this.icon = v.icon;
-      }
-    });
+    
   },
   watch: {
     address: {
@@ -154,7 +156,35 @@ export default {
       deep: true
     }
   },
-  mounted() {},
+  mounted() {
+    if (window.innerWidth > 750) {
+      let pcLanguage = this.pcLanguage.filter(v=>{
+          if(v.lng  !== this.locale){
+              return v;
+          }
+      });
+      this.languages = pcLanguage;
+      this.pcLanguage.forEach(v => {
+        if (v.lng === this.locale) {
+          this.txt = this.$t(v.txt);
+          this.icon = v.icon;
+        }
+      });
+    } else {
+      let languageGroup = this.languageGroup.filter(v=>{
+        if(v.lng  !== this.locale){
+            return v;
+        }
+      });
+      this.languages = languageGroup;
+      this.languageGroup.forEach(v => {
+        if (v.lng === this.locale) {
+          this.txt = this.$t(v.txt);
+          this.icon = v.icon;
+        }
+      });
+    }
+  },
   computed: {
     ...mapState(["address", "locale", "dialogLogin"])
   },
@@ -209,6 +239,9 @@ export default {
     background-image: url('../assets/images/new/border-bg.png');
     background-position: center center;
   }*/
+  .hover-style:hover {
+    opacity: 0.7;
+  }
   .logo {
     display: flex;
     justify-content: flex-start;
@@ -253,18 +286,48 @@ export default {
   .right{
     display: flex;
     flex-direction: row;
-    .account {
-      order:2;
+    .twitter {
+      order: 1;
+      margin-left: 0.3rem;
+      letter-spacing: 0.01rem;
+      font-size: 0.16rem;
+      display: flex;
+      align-items: center;
+      img {
+        width: 32px;
+      }
+    }
+    .telegram {
+      order: 2;
+      margin-left: 0.3rem;
+      letter-spacing: 0.01rem;
+      font-size: 0.16rem;
+      display: flex;
+      align-items: center;
+      img {
+        width: 32px;
+      }
+    }
+    .whitepaper {
+      order: 3;
       margin-left: 0.3rem;
       letter-spacing: 0.01rem;
       font-size: 0.16rem;
       display: flex;
       align-items: center;
       color: #FFEAC7;
-      text-decoration: underline;
+    }
+    .account {
+      order: 4;
+      margin-left: 0.3rem;
+      letter-spacing: 0.01rem;
+      font-size: 0.16rem;
+      display: flex;
+      align-items: center;
+      color: #FFEAC7;
     }
     .language {
-      order:1;
+      order: 5;
       position: relative;
       z-index: 10;
       margin-left: .1rem;
@@ -290,39 +353,39 @@ export default {
           display: block;
         }
       }
-      &:after {
-        content: "";
-        position: absolute;
-        top: 0.12rem;
-        right: 0.05rem;
-        width: 0;
-        height: 0;
-        border-top: 0.04rem solid #FFEAC7;
-        border-bottom: 0.04rem solid transparent;
-        border-left: 0.04rem solid transparent;
-        border-right: 0.04rem solid transparent;
-      }
+      // &:after {
+      //   content: "";
+      //   position: absolute;
+      //   top: 0.12rem;
+      //   right: 0.05rem;
+      //   width: 0;
+      //   height: 0;
+      //   border-top: 0.04rem solid #FFEAC7;
+      //   border-bottom: 0.04rem solid transparent;
+      //   border-left: 0.04rem solid transparent;
+      //   border-right: 0.04rem solid transparent;
+      // }
       .group {
         display: none;
         position: absolute;
         right: 0;
         top: .3rem;
-        width: 1.2rem;
+        width: .6rem;
         background:#a8abe4;
         padding:0.01rem;
         border-radius:.08rem;
-        &:after{
-          content:'';
-          width: 0;
-          height: 0;
-          position: absolute;
-          border-bottom:.06rem solid #a8abe4;
-          border-left:.06rem solid transparent;
-          border-top:.06rem solid transparent;
-          border-right:.06rem solid transparent;
-          top: -0.12rem;
-          right: 0.1rem;
-        }
+        // &:after{
+        //   content:'';
+        //   width: 0;
+        //   height: 0;
+        //   position: absolute;
+        //   border-bottom:.06rem solid #a8abe4;
+        //   border-left:.06rem solid transparent;
+        //   border-top:.06rem solid transparent;
+        //   border-right:.06rem solid transparent;
+        //   top: -0.12rem;
+        //   right: 0.2rem;
+        // }
         .item {
           height: 0.36rem;
           padding: 0 0.2rem;

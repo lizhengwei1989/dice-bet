@@ -3,6 +3,21 @@
     <div class="logo">
       <div class="border"></div>
     </div>
+    <marquee scrollamount="3" class="marquee-box">
+      <span v-if="v.output" v-for="(v, i) in allBetList" :key="i">
+        <span>🚀 {{$t('marquee.congratulation')}} 🚀 </span>
+        <!-- 地址 -->
+        <span>{{v.player | hiddenAddress}}</span>
+        <span>{{$t('marquee.win')}}</span>
+        <!-- 金额 -->
+        <span class="t-shadow">{{v.output}} TRX,</span>
+        <span>{{$t('marquee.odds')}}</span>
+        <span class="t-shadow">x{{(v.output/v.input).toFixed(4)}}</span>
+        !
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      </span>
+    </marquee>
     <div class="container">
       <my-nav :languageGroup="languageGroup" />
       <Loading :isLoading="showLoading"/>
@@ -73,7 +88,7 @@ export default {
     //this.$store.dispatch("getToken");
   },
   computed: {
-    ...mapState(["showLoading","address","contractInstance","contractAddress"])
+    ...mapState(["showLoading","address","contractInstance","contractAddress", 'allBetList']),
   },
   async mounted() {
     noDebug();
@@ -293,6 +308,21 @@ export default {
     }
   }
 }
+.marquee-box {
+  position: absolute;
+  width: 80%;
+  height: 50px;
+  line-height: 50px;
+  color: #ffde00;
+  top: 175px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: url('../../assets/images/bg_adspace.png') no-repeat center;
+  z-index: 100;
+  .t-shadow {
+    text-shadow: 0 0 3px hsla(0,0%,100%,.8);
+  } 
+}
 @media screen and (max-width:1100px){
   .logo{
     .border{
@@ -334,6 +364,14 @@ export default {
         }
       }
     }
+  }
+
+  .marquee-box {
+    width: 100%;
+    height: 40px;
+    line-height: 40px;
+    top: 120px;
+    font-size: 16px;
   }
 }
 </style>

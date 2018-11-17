@@ -18,7 +18,8 @@
     "Rule":"Rule",
     "Vip":"Vip",
     "LuckyDraw":"Lucky Draw",
-    "HongLi": "Payout"
+    "HongLi": "Payout",
+    "Whitepaper": "Whitepaper"
   },
   "Play": {
     "Bet": {
@@ -125,5 +126,10 @@
   "NoData":"No Data",
   "Msg":{
     "BalanceNotEnough":"Balance not enough"
+  },
+  "marquee": {
+    "congratulation": "High Roller",
+    "win": "has won",
+    "odds": "Odds"
   }
 }
