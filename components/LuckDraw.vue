@@ -79,11 +79,10 @@
         <el-row class="supplement">
           <p>{{$t('LuckyDraw.supplement.p1')}}</p>
           <p>{{$t('LuckyDraw.supplement.p2')}}</p>
-          <p>{{$t('LuckyDraw.supplement.p2')}}</p>
         </el-row>
         <!-- 解释权 -->
         <el-row class="explanation">
-          <p>{{'*' + $t('LuckyDraw.explanation')}}</p>
+          <p>{{$t('vip.copyRight')}}</p>
         </el-row>
       </div>
     </div>

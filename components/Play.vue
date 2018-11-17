@@ -124,7 +124,6 @@ export default {
         this.animate("balance", n, o);
     },
     myBetsLength(n, o) {
-      console.log(n, o, '------------------')
       if (n != 0) {
         if(o != 0){
             this.r = this.$store.state.random;
@@ -138,17 +137,17 @@ export default {
         this.watchBalance();
         //添加交易
         if(this.transactionId){
-            if(this.dbToken==0){
-                let data = {
-                    dappId: this.dapp,
-                    contractAddress: this.contractAddress,
-                    trxHash: this.transactionId,
-                    amount: Number(window.tronWeb.toSun(this.stake)),
-                    userAddress: this.address.base58 || "",
-                    status: 1
-                };
-                addTransition(data);
-            }
+            // if(this.dbToken==0){
+            //     let data = {
+            //         dappId: this.dapp,
+            //         contractAddress: this.contractAddress,
+            //         trxHash: this.transactionId,
+            //         amount: Number(window.tronWeb.toSun(this.stake)),
+            //         userAddress: this.address.base58 || "",
+            //         status: 1
+            //     };
+            //     addTransition(data);
+            // }
             if(this.r >= this.number){
                 this.$refs.lose.style.display="block";
             }else{
@@ -241,18 +240,17 @@ export default {
               shouldPollResponse: false //是否等待响应
           })
           .catch(err => {
+              console.log(err);
               this.disabled = false;
           });
+
       }else{
         const stake = Number(window.tronWeb.toSun(this.stake));
-        console.log(stake);
         transactionId = await this.diceContractInstance
           .diceBet(this.number,stake)
-          .send({
-            //callValue: window.tronWeb.toSun(this.stake), //投注金额
-            shouldPollResponse: false //是否等待响应
-          })
+          .send()
           .catch(err => {
+            console.log(err);
             this.disabled = false;
           });
       }
@@ -267,6 +265,7 @@ export default {
       this.$refs.lose.style.display="none";
       this.timer = setInterval(async _ => {
         const res = await window.tronWeb.getEventByTransactionID(transactionId);
+        //console.log(res);
         if (res.length > 0) {
           // const random = res2[3].toString();
           // clearInterval(rolling);
@@ -415,7 +414,10 @@ export default {
       display: flex;
       align-items: center;
       font-size: 0.14rem;
-      color: #787ab7;
+      color: #fff;
+      span{
+        color: #e7b01a;
+      }
     }
   }
   .win {

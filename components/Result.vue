@@ -36,14 +36,14 @@
             <td>{{item.select}}</td>
             <td>{{item.input}} {{item.token==0?'TRX':'DICE'}}</td>
             <td>{{item.result}}</td>
-            <td>{{item.output?item.output+(item.token==0?'TRX':'DICE'):''}}</td>
+            <td>{{item.output?Math.floor(item.output * 1000)/1000+' '+(item.token==0?'TRX':'DICE'):'-'}}</td>
           </tr>
         </tbody>
         <tbody v-else>
           <tr>
           </tr>
           <tr>
-            <td colspan="5" class="span">
+            <td colspan="5" class="span" v-if="isLoading">
               <div class="cell"></div>
               <div class="cell"></div>
               <div class="cell"></div>
@@ -54,6 +54,9 @@
               <div class="cell"></div>
               <div class="cell"></div>
               <div class="cell"></div>
+            </td>
+            <td colspan="5" style="text-align: center" v-else>
+                {{$t('NoData')}}
             </td>
           </tr>
         </tbody>
@@ -88,7 +91,7 @@
           <td>{{item.select}}</td>
           <td>{{item.input}} {{item.token==0?'TRX':'DICE'}}</td>
           <td>{{item.result}}</td>
-          <td>{{item.output?item.output+'TRX':''}}</td>
+          <td>{{item.output?Math.floor(item.output * 1000)/1000+' '+(item.token==0?'TRX':'DICE'):'-'}}</td>
         </tr>
         </tbody>
       </table>
@@ -103,11 +106,13 @@ export default {
   name: "Result",
   data() {
     return {
+      myLen:0,
       all: [],
       my: [],
       lucky: [],
-      myLen: 0,
-      maxNum: 30
+      isLoading:true,
+      localMy:[],
+      maxNum:30
     };
   },
   computed: {
@@ -187,6 +192,7 @@ export default {
         );
 
         Promise.all([success, fail, dice_success, dice_fail]).then(logs => {
+          this.isLoading = false;
           let trxLogs = [],
             diceLogs = [];
           trxLogs = logs[0].concat(logs[1]);
@@ -208,8 +214,7 @@ export default {
               return v;
             }
           });
-          let a = [],
-            b = [];
+          let a = [], b = [];
           logs.forEach(v => {
             const player = window.tronWeb.address.fromHex(
               v.result["_addr"].replace(/^0x/, "41")
@@ -222,7 +227,8 @@ export default {
               : "";
             const time = formatTime(v.timestamp);
             const token = v.token ? v.token : 0;
-            a.push({ select, result, player, input, output, time, token });
+            const transactionId = v.transaction;
+            a.push({ select, result, player, input, output, time, token,transactionId });
           });
           this.all = a;
           logs = logs.filter(v => {
@@ -246,6 +252,7 @@ export default {
             const time = formatTime(v.timestamp);
             const timestamp = v.timestamp;
             const token = v.token ? v.token : 0;
+            const transactionId = v.transaction;
             b.push({
               select,
               result,
@@ -254,14 +261,17 @@ export default {
               output,
               time,
               token,
-              timestamp
+              timestamp,
+              transactionId
             });
           });
-
-          //  本地存储30条
+          //this.my = b;
+          // 本地存储30条
           this.localMy = JSON.parse(localStorage.getItem(this.address.base58));
+
           if (this.localMy && this.localMy.length != 0) {
             let arr = b.concat(this.localMy);
+            console.log(111,b,arr)
             arr = arr.length > this.maxNum ? arr.slice(0, this.maxNum) : arr;
 
             arr = this.deworming(arr, "transactionId");
@@ -270,8 +280,8 @@ export default {
           } else {
             this.my = b;
           }
-
           this.my = this.sort(this.my, "timestamp");
+          console.log(this.my);
           localStorage.setItem(this.address.base58, JSON.stringify(this.my));
         });
       }, 3000);

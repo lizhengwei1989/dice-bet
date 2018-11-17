@@ -18,7 +18,7 @@ module.exports = {
       { property: "og:description", content: pkg.description },
       { name: "twitter:site", content: "https://trongame.top" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:image", content: "/images/share.png" }
+      { name: "twitter:image", content: "/images/logo.png" }
     ],
     link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" },{rel:"stylesheet",href:"//at.alicdn.com/t/font_905800_0qi6hlgu8tz.css"},{rel:"stylesheet",href:"//at.alicdn.com/t/font_887145_qo7ihcn4u5.css"}],
     script: [{ src: "/js/rem.js" }]

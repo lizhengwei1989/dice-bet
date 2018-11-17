@@ -3,23 +3,25 @@
     <div class="inner">
       <span class="menu iconfont icon-menu" @click="showMenus"></span>
       <a class="logo" href="javascript:window.location.reload();">
-        <!--<img :src="require('../assets/images/logo.png')">-->
+        <img :src="require('../assets/images/logo.png')">
       </a>
       <div class="nav" ref="nav">
-        <!-- 邀请 -->
-        <a href="javascript:;" @click="inviteDialog.visible = true">{{$t('invite.button')}}</a>
-
         <!-- 玩法介绍 -->
-        <a class="how" @click="dialogHow = true">{{$t('HowToPlay')}}</a>
+        <a class="how" @click="dialogHow = true">{{$t('Nav.Rule')}}</a>
+
+        <!-- 邀请 -->
+        <a href="javascript:;" @click="inviteDialog.visible = true">{{$t('Nav.Invite')}}</a>
+
+
 
         <!-- 红利 -->
-        <a class="how" @click="dialogHow = true">{{$t('Nav.HongLi')}}</a>
+        <a class="how" style="display: none">{{$t('Nav.HongLi')}}</a>
 
         <!-- vip等级 -->
-        <a href="javascript:;" @click="vipDialog.visible = true">{{$t('vip.button')}}</a>
+        <a href="javascript:;" @click="vipDialog.visible = true">{{$t('Nav.Vip')}}</a>
 
         <!-- 幸运抽奖触发 -->
-        <a class="lucky" href="javascript:;" @click="drawDialog = true">{{$t('LuckyDraw.btn')}}</a>
+        <a class="lucky" href="javascript:;" @click="drawDialog = true">{{$t('Nav.LuckyDraw')}}</a>
         <!-- 幸运抽奖组件 -->
 
         <div class="language-mobile">
@@ -35,18 +37,16 @@
         <invite v-if="inviteDialog.visible" :inviteDialog="inviteDialog"></invite>
         <!--玩法介绍-->
         <el-dialog
-                :title="$t('HowToPlay')"
+                :title="$t('Rule.title')"
                 :visible.sync="dialogHow"
                 width="5.8rem"
                 custom-class="how-dialog">
-          <p v-html="$t('Rule.P1')"></p>
-          <p v-html="$t('Rule.P2')"></p>
-          <p v-html="$t('Rule.P3')"></p>
-          <p v-html="$t('Rule.P4')"></p>
-          <p v-html="$t('Rule.P5')"></p>
-          <p v-html="$t('Rule.P6')"></p>
-          <p v-html="$t('Rule.P7')"></p>
-          <p v-html="$t('Rule.RuleTip')"></p>
+          <p v-html="$t('Rule.p1')"></p>
+          <p v-html="$t('Rule.p2')"></p>
+          <p v-html="$t('Rule.p3')"></p>
+          <p v-html="$t('Rule.p4')"></p>
+          <p v-html="$t('Rule.p5')"></p>
+          <p v-html="$t('Rule.p6')"></p>
           <span slot="footer" class="dialog-footer">
             <el-button type="primary" @click="dialogHow = false">{{$t('Confirm')}}</el-button>
           </span>
@@ -370,6 +370,7 @@ export default {
           display: flex;
           font-size: .28rem;
           align-items: center;
+          cursor: pointer !important;
           &:nth-child(1){
             order:2;
           }

@@ -58,6 +58,53 @@ const getRanks = async (address, time, type, func) => {
   return data;
 };
 
+const getMinStage = (t)=>{
+    let rate = 0,left = 0,stage=0,diceCount = 0;
+    const yi = 100000000,precision=1000000;
+    if (t < 5 * yi * precision) {
+        rate = 1;
+        left = t;
+        stage = 1;
+        diceCount = 5 * yi;
+    } else if (t < 10 * yi * precision) {
+        rate = 2;
+        left = (t - 5 * yi)/rate;
+        stage = 2;
+        diceCount = 5 * yi / rate;
+    } else if (t < 20 * yi * precision) {
+        rate = 4;
+        left = (t - 10 * yi * precision)/rate;
+        stage = 3;
+        diceCount = 5 * yi / rate;
+    } else if (t < 40 * yi * precision) {
+        rate = 8;
+        left = (t - 20 * yi * precision)/rate;
+        stage = 4;
+        diceCount = 5 * yi / rate;
+    } else if (t < 120 * yi * precision) {
+        rate = 12;
+        left = (t - 40 * yi * precision)/rate;
+        stage = 5;
+        diceCount = 10 * yi / rate;
+    } else if (t < 160 * yi * precision) {
+        rate = 16;
+        left = (t - 120 * yi * precision)/rate;
+        stage = 6;
+        diceCount = 10 * yi / rate;
+    } else if (t < 200 * yi * precision) {
+        rate = 20;
+        left = (t - 160 * yi * precision)/rate;
+        stage = 7;
+        diceCount = 10 * yi / rate;
+    }
+    return {
+        rate,
+        left:window.tronWeb.fromSun(left),
+        stage,
+        diceCount
+    }
+};
+
 function noDebug(address) {
   var threshold = 160;
   if (window) {
@@ -72,4 +119,4 @@ function noDebug(address) {
   }
 }
 
-export { getOdds, formatTime, getPoint, getBalance, getRanks, noDebug };
+export { getOdds, formatTime, getPoint, getBalance, getRanks, noDebug,getMinStage };
