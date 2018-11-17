@@ -30,20 +30,20 @@
         <template>
           <el-table
                   :data="tableData"
-                  style="width: 84%;margin:auto;overflow:hidden"
+                  style="width: 80%;margin:auto;overflow:hidden"
                   size="mini"
                   v-loading="tableLoading"
                   element-loading-background="transparent"
                   class="table-content"
           >
-            <el-table-column prop="grade" :label="$t('vip.table.level')">
+            <el-table-column prop="grade" :label="$t('vip.table.level')" width="50">
               <template slot-scope="scope">
 
                 <img class="vip-img" :src="require('../assets/images/new/vip/vip'+scope.row.level+'.png')">
               </template>
 
             </el-table-column>
-            <el-table-column prop="allBets" :label="$t('vip.table.amount')" width="120" >
+            <el-table-column prop="allBets" :label="$t('vip.table.amount')" width="140" >
               <template slot-scope="scope">
                 {{scope.row.totalAmount/1000000}} TRX
               </template>
@@ -125,7 +125,7 @@ export default {
     async getTableData() {
       let tableData = await getVipList();
       tableData = tableData.filter((v,i)=>{
-          if(v.level!=0 && v.level!=9 && v.level!=10){
+          if(v.level!=0){
               return v;
           }
       })
@@ -185,7 +185,7 @@ export default {
   .el-dialog__header{
     display: none;
   }
-  .el-dialog--center .el-dialog__body {
+  .el-dialog__body {
     padding:0;
     position: relative;
     .golden{
@@ -220,7 +220,7 @@ export default {
         left: 0;
         top: 0;
         width: 5.3rem;
-        height:6.96rem;
+        height:3rem;
         content:'';
         position: absolute;
         background-image: url('../assets/images/new/vip/vip-dot.png');
@@ -376,7 +376,7 @@ export default {
   .vipDialog {
     .el-dialog {
       width: 6.6rem;
-      height: 10.4rem;
+      height: 11rem;
     }
     .el-dialog--center .el-dialog__body .el-dialog__body-wrap{
       &:before{
@@ -384,12 +384,16 @@ export default {
         top:-6.6rem;
       }
     }
+    .el-table__body{
+      width: 100% !important;
+    }
     .card {
       height: 2.4rem !important;
       .level-process{
         margin-top:0.1rem;
         .desc{
           margin-top:0.1rem;
+          font-size: .2rem !important;
         }
       }
       .message {
@@ -413,33 +417,47 @@ export default {
         width: 1.35rem !important;
         height: .48rem !important;
         border:none !important;
+        font-size: .24rem !important;
         background-color:transparent;
       }
     }
     .table {
       width: 6rem !important;
-      height: 6rem;
+      height: 7rem;
       margin-top: .28rem;
-      .el-table__body-wrapper{}
-      .el-table::before {
-        height: 0px;
+      .el-table{
+        &:before{
+          height: 0px;
+        }
+        th,td{
+          font-size: .24rem;
+        }
+        th{
+          &>div{
+            padding:0;
+          }
+        }
+        td {
+          &>div{
+            padding:0;
+          }
+          .cell{
+            display: flex;
+            align-items: center;
+            line-height:.6rem;
+          }
+          img{
+            height: .4rem;
+            width: auto;
+          }
+          padding: 0;
+        }
       }
       .table-content {
         margin: 0.1rem 0;
       }
 
-      td {
-        .cell{
-          display: flex;
-          align-items: center;
-          line-height:.6rem;
-        }
-        img{
-          height: .4rem;
-          width: auto;
-        }
-        padding: 0;
-      }
+
     }
   }
 }

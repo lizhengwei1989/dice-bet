@@ -193,12 +193,14 @@
             height: .8rem;
             margin-bottom: 1.8rem;
             div.info{
+                font-size: .24rem;
                 height: 1.8rem;
                 padding:.2rem 0;
                 top:100%;
                 flex-direction: column;
                 .bar{
                     height:.4rem;
+                    font-size: .24rem;
                     div{
                         display: flex;
                         align-items: center;
@@ -210,6 +212,7 @@
                 .min-stage{
                     .min{
                         height:.4rem;
+                        font-size: .24rem;
                     }
                 }
                 & > div{

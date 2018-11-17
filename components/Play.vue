@@ -385,7 +385,7 @@ export default {
   .input-group {
     height: 0.5rem;
     border-radius: 0.06rem;
-    border: 0.01rem solid #C53028;
+    border: 1px solid #C53028;
     .input {
       flex:1;
       position: relative;
@@ -434,7 +434,7 @@ export default {
         background-repeat: no-repeat;
         background-position: 0.12rem center;
         background-size: auto 70%;
-        border-right: .01rem solid #C53028;
+        border-right: 1px solid #C53028;
         &:before {
           color: #C53028;
         }
@@ -455,7 +455,7 @@ export default {
         color: #C53028;;
         span {
           cursor: pointer;
-          border:.01rem solid #C53028;
+          border:1px solid #C53028;
           width: .44rem;
           height: .26rem;
           border-radius:.02rem;
@@ -660,6 +660,15 @@ export default {
       .input{
         padding-right: .6rem;
         height: .56rem;
+        input{
+          font-size: .24rem;
+        }
+        &:before{
+          font-size: .24rem;
+        }
+        &:after{
+          font-size: .24rem;
+        }
       }
       .percentage{
         height: .58rem;
@@ -685,7 +694,10 @@ export default {
         flex-wrap: wrap;
         .available{
           width: 100%;
-          font-size: .12rem;
+          font-size: .24rem;
+        }
+        .balance-trx,.balance-dice{
+          font-size: .24rem;
         }
       }
       .input-group{
@@ -694,8 +706,10 @@ export default {
           span{
             width: .62rem;
             height: .34rem;
+            font-size: .24rem;
           }
         }
+
         .input{
           position: relative;
           left:.01rem;
@@ -712,6 +726,11 @@ export default {
       .row-2{
         margin-top: .3rem;
       }
+      .row-3{
+        button{
+          font-size: .32rem;
+        }
+      }
     }
     .light{
       width: 104%;
@@ -719,9 +738,24 @@ export default {
       background-size:100% 100%;
     }
     .show{
+      .row-1{
+        .cell {
+          .t{
+            font-size: .24rem;
+          }
+          .c{
+            font-size: .36rem;
+          }
+        }
+      }
       .row-2{
         .line{
-          width: 4.48rem;
+          width: 100%;
+          .cell{
+            &:before,&:after{
+              font-size: .24rem;
+            }
+          }
         }
       }
     }

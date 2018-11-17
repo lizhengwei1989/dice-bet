@@ -309,7 +309,7 @@ export default {
         justify-content: space-between;
         .el-button {
           margin: 0;
-          border:.01rem solid #8F6300;
+          border:1px solid #8F6300;
           border-radius: .08rem;
           background: transparent;
           color: #8F6300;
@@ -331,6 +331,9 @@ export default {
       .invite-url{
         height: 2rem;
       }
+      .center{
+        font-size: .24rem;
+      }
       .copyContent{
         padding:0;
       }
@@ -341,8 +344,12 @@ export default {
         margin-bottom:.3rem;
         font-size: .32rem;
         p{
+          font-size: .24rem;
           display: flex;
           align-items: center;
+          span{
+            font-size: .24rem;
+          }
           &:last-child{
             flex-direction: row;
             justify-content: space-between;
@@ -350,7 +357,6 @@ export default {
               width: auto;
               height: 0.4rem;
               padding:0 .2rem;
-
             }
           }
 
