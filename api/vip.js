@@ -65,7 +65,7 @@ export function getVipInfo(param) {
     return new Promise(
       function (resolve, reject) {
         request({
-          url: `${url}/api/common/user/queryInviteReturnList`,
+          url: `${url}/common/user/queryUserInviteList`,
           method: 'get',
           params:params
         }).then(response => {

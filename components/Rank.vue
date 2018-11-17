@@ -466,14 +466,30 @@ export default {
 @media screen and (max-width: 1100px) {
   .rank {
       width: 6.66rem;
+      height: 100%;
     table{
+        tr{
+            height: .52rem;
+            td{
+                img{
+                    height: .3rem !important;
+                    width:auto !important;
+                }
+            }
+        }
         td,th{
             span{
                 margin-top: .05rem;
+                height:.3rem !important;
             }
         }
+
+    }
+    .title{
+        font-size: .28rem;
     }
     .last {
+      height:.52rem;
       width: 6.26rem;
       padding: 0 0.12rem;
       .cell {

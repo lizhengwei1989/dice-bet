@@ -38,7 +38,7 @@ import Rank from "~/components/Rank.vue";
 import Play from "~/components/Play.vue";
 import Result from "~/components/Result.vue";
 import Loading from "~/components/loading.vue";
-import { getBalance, noDebug, getWeeklyRank,getMinStage } from "~/static/js/Util";
+import { getBalance, noDebug, getWeeklyRank,getMinStage,isMobile } from "~/static/js/Util";
 import { addInviteUser } from '~/api/user'
 
 let contractAddress = ""; //测试网
@@ -78,6 +78,10 @@ export default {
   async mounted() {
     noDebug();
     this.limit = this.$store.state.limit;
+    if(isMobile() && window.iTron){
+        require("~/static/js/mTronWeb");
+    }
+
     let isLoadTronWeb = await this.isHasTronWeb();
     if (isLoadTronWeb) {
       await this.timeout(500);
@@ -259,11 +263,8 @@ export default {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-
-
     & > .cell {
-      &:first-child{
-      }
+      &:first-child{}
       &:nth-child(2) {
         display: flex;
         flex-direction: row;
@@ -280,7 +281,6 @@ export default {
         }
         .col.col-1 {
           flex-direction: column;
-
         }
         .col.col-2 {
           flex-direction: column;
@@ -299,11 +299,18 @@ export default {
       background-position:center .8rem;
       background-size:auto;
     }
+    &:after{
+      background-size:56% auto;
+    }
+    &:before{
+      background-position:left 1.5rem;
+      background-size:120% auto;
+    }
   }
   .container{
     overflow-x: hidden;
     .main{
-      padding:1.2rem .32rem 0;
+      padding:2rem .32rem 0;
       width: 100%;
       z-index:1001;
       .cell{
@@ -311,12 +318,18 @@ export default {
           flex-direction: column;
           .col{
             width: 100%;
-            &:last-child{
-              margin-top: .35rem;
-            }
+          }
+          .col-1{
+            height:5.8rem;
+            padding:.2rem 0;
+            order:2;
+            margin-top: .35rem;
           }
           .col-2{
-            margin-top: .12rem;
+            height:6rem;
+            padding:.2rem 0;
+            order:1;
+            margin-top:0;
           }
         }
       }

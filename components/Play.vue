@@ -17,7 +17,7 @@
           {{$t('Play.Bet.Left')}}
         </div>
         <div class="balance-trx">
-          &nbsp;&nbsp;<span ref="balance"></span> TRX
+          <span ref="balance"></span> TRX
         </div>
         <span>&nbsp;/&nbsp;</span>
         <div class="balance-dice">
@@ -388,7 +388,7 @@ export default {
     .input {
       flex:1;
       position: relative;
-      padding-right: .58rem;
+      padding-right: .5rem;
       border-radius:.06rem 0 0 .06rem;
       input {
         width: 100%;
@@ -411,7 +411,7 @@ export default {
       &:after {
         content:attr(data-after);
         position: absolute;
-        width: 0.68rem;
+        width: 0.5rem;
         height: 100%;
         right: 0;
         top: 0;
@@ -653,6 +653,65 @@ export default {
 @media screen and (max-width:1100px){
   .play{
     width: 6.66rem;
+    height: 100%;
+    .input-group{
+      height: .6rem;
+      .input{
+        padding-right: .6rem;
+        height: .56rem;
+      }
+      .percentage{
+        height: .58rem;
+      }
+      &>div{
+        height: .48rem;
+      }
+    }
+    .win{
+      .input-group{
+        .input{
+          &:after{
+            width: .66rem;
+          }
+        }
+      }
+    }
+    .bet{
+      width: 100%;
+      .desc{
+        height: .8rem;
+        padding:.1rem 0;
+        flex-wrap: wrap;
+        .available{
+          width: 100%;
+          font-size: .12rem;
+        }
+      }
+      .input-group{
+        .percentage{
+          width: 2.8rem;
+          span{
+            width: .62rem;
+            height: .34rem;
+          }
+        }
+        .input{
+          position: relative;
+          left:.01rem;
+          &:after{
+            width: .66rem;
+          }
+        }
+      }
+    }
+    .show{
+      .row-1{
+        padding-left:.2rem;
+      }
+      .row-2{
+        margin-top: .3rem;
+      }
+    }
     .light{
       width: 104%;
       height: 105%;

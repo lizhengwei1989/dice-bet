@@ -7,7 +7,7 @@
     center class="inviteDialog"
     top="10vh"
     >
-    <p class="center">{{$t('Invite.desc')}}</p>
+    <p class="center" v-html="$t('Invite.desc')"></p>
     <el-row class="invite-url">
       <p class="url">{{inviteUrl}}</p>
       <el-button @click="copy" class="copyContent" :data-clipboard-text="inviteUrl">
@@ -24,7 +24,7 @@
       <p>{{$t('Invite.result.number')}}：<span>{{page.total}}</span></p>
       <p>
         <b>{{$t('Invite.result.prize')}}：<span>{{prize/1000000}} TRX </span></b>
-        <el-button>{{$t('extract')}}</el-button> </p>
+        <el-button @click="extract">{{$t('extract')}}</el-button> </p>
     </el-row>
     <el-row>
       {{$t('vip.copyRight')}}
@@ -36,7 +36,7 @@
 </template>
 <script>
 import Clipboard from "clipboard";
-// import { getInviteList } from "~/api/vip";
+import { getInviteList } from "~/api/vip";
 import moment from "moment";
 
 export default {
@@ -72,7 +72,7 @@ export default {
     let tronWeb = window.tronWeb;
     this.contractInstance = await tronWeb.contract().at(this.activityAddress);
     await this.getBalance();
-    // this.getTableData();
+    this.getTableData();
 
     this.url = window.location.origin;
 
@@ -88,8 +88,8 @@ export default {
       this.page.start = (this.page.current - 1) * this.page.limit;
       let data = {
         contractAddress: this.activityAddress,
-        inviterAddress: this.$store.state.address.base58 || "",
-        dappid: 1,
+        userAddress: this.$store.state.address.base58 || "",
+        dappId: '1',
         start: this.page.start,
         limit: this.page.limit
       };
@@ -146,21 +146,21 @@ export default {
     },
     handleSizeChange(val) {
       this.page.limit = val;
-      // this.getTableData();
+      this.getTableData();
     },
     handleCurrentChange(val) {
       this.page.current = val;
-      // this.getTableData();
+      this.getTableData();
     },
-    // async getTableData() {
-    //   let data = this.postData;
-    //   let response = await getInviteList(data);
+    async getTableData() {
+      let data = this.postData;
+      let response = await getInviteList(data);
 
-    //   this.tableData = response.data;
-    //   this.page.total = response.total;
+      // this.tableData = response.data;
+      this.page.total = response.total;
 
-    //   this.tableLoading = false;
-    // }
+      // this.tableLoading = false;
+    }
   }
 };
 </script>
@@ -324,24 +324,37 @@ export default {
 
   }
 }
-@media (max-width: 750px) {
+@media (max-width: 1100px) {
   .inviteDialog {
     .el-dialog {
       width: 7rem;
-    }
-    .record {
-      position: relative;
-      height: 1.4rem;
-      .el-button {
-        width: auto;
-        height: 0.38rem;
-        padding: 0 0.2rem;
-        position: absolute;
-        left: 50%;
-        bottom: 0.2rem;
-        transform: translateX(-50%);
+      .invite-url{
+        height: 2rem;
+      }
+      .record {
+        position: relative;
+        height: 1.8rem;
+        padding:.36rem .2rem;
+        p{
+          display: flex;
+          align-items: center;
+          &:last-child{
+            flex-direction: row;
+            justify-content: space-between;
+            .el-button {
+              width: auto;
+              height: 0.4rem;
+              padding:0 .2rem;
+
+            }
+          }
+
+        }
+
       }
     }
+
+
   }
 }
 </style>

@@ -5,10 +5,10 @@
                 <span>当前账号资源</span>
                 <div class="bar">
                     <div>
-                        {{$t('Resource.BandWidth')}}<span>{{bindWidth}}</span>
+                        <span>{{$t('Resource.BandWidth')}}</span><span>{{bindWidth}}</span>
                     </div>
                     <div>
-                        {{$t('Resource.Energy')}}<span>{{energy}}</span>
+                        <span>{{$t('Resource.Energy')}}</span><span>{{energy}}</span>
                     </div>
                 </div>
 
@@ -191,12 +191,27 @@
     @media screen and (max-width:1100px){
         .select{
             height: .8rem;
-            margin-bottom: 1.6rem;
+            margin-bottom: 1.8rem;
             div.info{
-                height: 1.6rem;
+                height: 1.8rem;
                 padding:.2rem 0;
                 top:100%;
                 flex-direction: column;
+                .bar{
+                    height:.4rem;
+                    div{
+                        display: flex;
+                        align-items: center;
+                        &:last-child{
+                            height: .2rem;
+                        }
+                    }
+                }
+                .min-stage{
+                    .min{
+                        height:.4rem;
+                    }
+                }
                 & > div{
                     width: 100% !important;
                     flex: 1;
@@ -207,6 +222,17 @@
                         flex:1;
                         padding:0 .2rem !important;
                     }
+                }
+            }
+            .tab{
+                width: 1.65rem;
+                height: .57rem;
+                font-size: .26rem;
+                img{
+                    width: .24rem;
+                }
+                span{
+                    margin-left: .1rem;
                 }
             }
         }

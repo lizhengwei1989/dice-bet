@@ -31,7 +31,7 @@
                 <div>
                     所得奖励：<span>{{balance}} TRX</span>
                 </div>
-                <button>{{$t('extract')}}</button>
+                <button @click="withdraw">{{$t('extract')}}</button>
             </div>
             <div>
                 <div>余抽奖次数： <span>{{times}}</span></div>
@@ -46,94 +46,6 @@
             <el-button type="primary" @click="getLuckyNum">开始抽奖</el-button>
         </div>
     </el-dialog>
-  <!--<article  class="root">-->
-    <!--<div class="mask">-->
-      <!--<div class="content">-->
-        <!--<i class="el-icon-close" @click="close" style="color:grey"></i>-->
-        <!--&lt;!&ndash; 标题 &ndash;&gt;-->
-        <!--<el-row>-->
-          <!--<h1 class="title">{{$t('LuckyDraw.title')}}</h1>-->
-        <!--</el-row>-->
-        <!--&lt;!&ndash; 玩法说明 &ndash;&gt;-->
-        <!--&lt;!&ndash; <el-row>-->
-          <!--<span class="introduct">{{$t('LuckyDraw.introductions')}}</span>-->
-        <!--</el-row> &ndash;&gt;-->
-        <!--&lt;!&ndash; 列表 &ndash;&gt;-->
-        <!--<el-row>-->
-          <!--<table cellspacing="0" cellpadding="0" class="list">-->
-            <!--<thead>-->
-              <!--<tr>-->
-                <!--<td>{{$t('LuckyDraw.number')}}</td>-->
-                <!--<td>{{$t('LuckyDraw.reward')}}</td>-->
-              <!--</tr>-->
-            <!--</thead>-->
-            <!--<tbody>-->
-              <!--<tr v-for="(item, index) in rewardList" :key="index">-->
-                <!--<td>{{item.number}}</td>-->
-                <!--<td>{{item.reward}}</td>-->
-              <!--</tr>-->
-            <!--</tbody>-->
-          <!--</table>-->
-        <!--</el-row>-->
-        <!--<el-row class="record">-->
-            <!--<el-col :span="3">-->
-                <!--<img :src="require('../assets/images/user-1.png')" class="user-img">-->
-            <!--</el-col>-->
-            <!--<el-col :span="16" class="prize">-->
-                <!--<div>{{$t('LuckyDraw.rewardText')}} <span>{{balance + ' TRX'}}</span></div>-->
-
-            <!--</el-col>-->
-            <!--<el-col class="btn-withdraw" :span="5">-->
-                <!--<button class="with-draw" @click="withdraw" v-loading="isLoading"-->
-            <!--element-loading-text="loading..."-->
-            <!--element-loading-spinner="el-icon-loading"-->
-            <!--element-loading-background="rgba(0, 0, 0, 0.6)">-->
-                  <!--{{$t('LuckyDraw.withdraw')}}-->
-                <!--</button>-->
-            <!--</el-col>-->
-        <!--</el-row>-->
-        <!--&lt;!&ndash; 抽奖 &ndash;&gt;-->
-        <!--<el-row class="lottery">-->
-          <!--&lt;!&ndash; 开奖结果 &ndash;&gt;-->
-          <!--&lt;!&ndash; <el-col :span="8">-->
-            <!--<div class="t1">-->
-
-            <!--</div>-->
-          <!--</el-col> &ndash;&gt;-->
-          <!--&lt;!&ndash; 抽奖触发 &ndash;&gt;-->
-          <!--<el-col :span="24" style="text-align: center;margin-bottom:0.1rem;position:relative">-->
-              <!--<div class="lucky-num" v-show="luckyNumShow">-->
-                  <!--{{$t('LuckyDraw.winText') + ' ' + luckyNum}}-->
-              <!--</div>-->
-              <!--<button @click="getLuckyNum" class="roll">-->
-                <!--{{times+' '+ $t('LuckyDraw.times')}}-->
-              <!--</button>-->
-          <!--</el-col>-->
-          <!--&lt;!&ndash; 奖金 &ndash;&gt;-->
-          <!--&lt;!&ndash; <el-col-->
-            <!--:span="8"-->
-            <!--v-loading="isLoading"-->
-            <!--element-loading-text="loading..."-->
-            <!--element-loading-spinner="el-icon-loading"-->
-            <!--element-loading-background="rgba(0, 0, 0, 0.6)"-->
-          <!--&gt;-->
-            <!--<div>{{$t('LuckyDraw.rewardText')}}</div>-->
-            <!--<span>{{balance + ' TRX'}}</span>-->
-            <!--<a @click="withdraw" class="withdraw" href="javascript:;">{{$t('LuckyDraw.withdraw')}}</a>-->
-          <!--</el-col> &ndash;&gt;-->
-        <!--</el-row>-->
-        <!--&lt;!&ndash; 补充说明 &ndash;&gt;-->
-        <!--<el-row class="supplement">-->
-          <!--<p>{{$t('LuckyDraw.supplement.p1')}}</p>-->
-          <!--<p>{{$t('LuckyDraw.supplement.p2')}}</p>-->
-        <!--</el-row>-->
-        <!--&lt;!&ndash; 解释权 &ndash;&gt;-->
-        <!--<el-row class="explanation">-->
-          <!--<p>{{$t('vip.copyRight')}}</p>-->
-        <!--</el-row>-->
-      <!--</div>-->
-    <!--</div>-->
-  <!--</article>-->
 </template>
 
 <script>

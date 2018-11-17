@@ -55,6 +55,12 @@ html{
   border-radius: .25rem;
   border: none;
   font-size: .24rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.el-button:hover{
+  background-color: #F5A623;
 }
 .el-button.how{
   width:auto;
@@ -104,7 +110,7 @@ html{
   height: .42rem;
   left:-.1rem;
   top:-.4rem;
-  color: #000;
+  color: #C53028;
   background-color: transparent;
   background-image: url('../../assets/images/bubble.png');
   background-repeat: no-repeat;

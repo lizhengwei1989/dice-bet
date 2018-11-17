@@ -151,7 +151,7 @@ export default {
 
       const txId = await this.contractInstance.withDraw(0).send();
       let checkBalance = setInterval(async () => {
-        const res = await tronWeb.getEventByTransacionID(txId);
+        const res = await window.tronWeb.getEventByTransactionID(txId);
         if (res.length > 0) {
           res.every(v => {
             if (v.name === "VipWithDraw") {
