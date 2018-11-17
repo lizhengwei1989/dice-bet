@@ -9,7 +9,7 @@ module.exports = {
     title: pkg.title,
     meta: [
       { charset: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1" },
+      { name: "viewport", content: "width=device-width, user-scalable=no ,initial-scale=1" },
       { hid: "description", name: "description", content: pkg.description },
       { property: "og:url", content: "https://trongame.top" },
       { property: "og:type", content: "website" },

@@ -470,7 +470,7 @@ export default {
           }
           &:nth-child(4){
             order:5;
-            border-bottom:0.01rem solid #FFEAC7;
+            border-bottom:1px solid #FFEAC7;
           }
           &:nth-child(5){
             margin-top: .2rem;
@@ -511,7 +511,7 @@ export default {
             display: flex;
             align-items: center;
             padding:.12rem;
-            border:.01rem solid #FFEAC7;
+            border:1px solid #FFEAC7;
             color: #FFEAC7;
             border-radius:.28rem;
             img{

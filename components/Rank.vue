@@ -296,7 +296,7 @@ export default {
       display: table;
       width: 100%;
       table-layout: fixed;
-      border: .01rem solid #C53028;
+      border: 1px solid #C53028;
       border-radius: .1rem;
       th,
       td {
@@ -308,7 +308,7 @@ export default {
               justify-content: center;
               width: 100%;
               height: .2rem;
-              border-right:0.01rem solid #FFA5AA;
+              border-right:1px solid #FFA5AA;
               &:first-child{
 
                   align-items: center;
@@ -467,17 +467,23 @@ export default {
   .rank {
       width: 6.66rem;
       height: 100%;
+      font-size: .24rem !important;
     table{
         tr{
             height: .52rem;
             td{
+                font-size: .24rem;
                 img{
                     height: .3rem !important;
                     width:auto !important;
                 }
             }
+            th{
+                font-size: .24rem;
+            }
         }
         td,th{
+
             span{
                 margin-top: .05rem;
                 height:.3rem !important;

@@ -46,6 +46,10 @@
     @media screen and (max-width:1100px){
         .other-prize{
             width: 100%;
+            font-size: .24rem;
+            .r1,.r2{
+                font-size: .24rem;
+            }
         }
     }
 </style>

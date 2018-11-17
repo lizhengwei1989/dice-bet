@@ -315,6 +315,7 @@ export default {
 
 <style scoped lang="scss">
 .result {
+  font-size: .24rem;
   height: 5.3rem;
   background-image: linear-gradient(0deg, #FAD961 0%, #F76B1C 100%);
   box-shadow: 0 4px 24px 0 rgba(52,7,7,0.50);
@@ -345,7 +346,7 @@ export default {
         margin-left: 0.15rem;
         color: #9A6666;;
         border-bottom: none;
-        border-radius: 0.1rem 0.1rem 0 0;
+        border-radius: 1px 0.1rem 0 0;
         transition: all 0.2s ease-in-out;
       }
       a.focus {
@@ -511,13 +512,21 @@ export default {
     .wrap{
       width: 6.5rem;
       height:4.94rem;
-      table {
-        tr {
-          th,
-          td {
-            &:nth-child(3),
-            &:nth-child(4) {
-              display: none;
+      .tab{
+        a{
+          font-size: .24rem;
+        }
+      }
+      .output{
+        table {
+          tr {
+            th,
+            td {
+              font-size: .24rem;
+              &:nth-child(3),
+              &:nth-child(4) {
+                display: none;
+              }
             }
           }
         }

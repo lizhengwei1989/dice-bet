@@ -310,6 +310,47 @@ export default {
         }
     }
 }
+@media screen and (max-width: 1100px) {
+    .luckyDialog{
+        .el-dialog{
+            width: 6rem;
+            .el-dialog__body{
+                padding:0;
+            }
+            .table{
+                width: 5rem;
+                table{
+                    tr{
+                        th{
+                            height: .6rem;
+                        }
+                        td{
+                            height: .64rem;
+                        }
+                    }
+                }
+            }
+            .desc{
+                width: 5rem;
+                padding:.2rem 0;
+                height: 1.4rem;
+                line-height: .36rem;
+                button{
+                    width:auto !important;
+                    font-size: .24rem !important;
+                    color: #8F6300;
+                }
+                &>div{
+                    span{
+                        font-size: .28rem;
+                    }
+                }
+            }
+        }
+    }
+
+}
+
 /* 打开动画 */
 @keyframes dialogOpen {
   0% {
