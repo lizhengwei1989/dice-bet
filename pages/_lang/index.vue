@@ -4,7 +4,7 @@
       <div class="border"></div>
     </div>
     <marquee scrollamount="3" class="marquee-box">
-      <span v-if="v.output" v-for="(v, i) in allBetList" :key="i">
+      <span v-if="v.output && v.output > 1000" v-for="(v, i) in allBetList" :key="i">
         <span>🚀 {{$t('marquee.congratulation')}} 🚀 </span>
         <!-- 地址 -->
         <span>{{v.player | hiddenAddress}}</span>
@@ -320,7 +320,7 @@ export default {
   background: url('../../assets/images/bg_adspace.png') no-repeat center;
   z-index: 100;
   .t-shadow {
-    text-shadow: 0 0 3px hsla(0,0%,100%,.8);
+    text-shadow: 0 0 5px hsla(0,0%,100%,.8);
   } 
 }
 @media screen and (max-width:1100px){
