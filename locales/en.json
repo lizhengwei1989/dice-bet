@@ -90,7 +90,7 @@
   "Invite": {
     "button": "Invite",
     "title": "Refer a friend",
-    "desc": "Refer a friend and get 0.2% of their betting! <br>Copy your exclusive link and send out your invitation!",
+    "desc": "Refer a friend and get 0.2% of their betting! Copy your exclusive link and send out your invitation!",
     "prize": "Referral bonus",
     "prizeRule": {
       "p1": "The referral bonus for each account will be calculated once at 12:00 (GMT+8) every day.",

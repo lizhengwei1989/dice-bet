@@ -28,6 +28,11 @@
     }
 </script>
 
-<style scoped>
-
+<style lang="scss" scoped>
+    .dialog-footer{
+        margin-top: .1rem;
+        button{
+            font-size: .22rem;
+        }
+    }
 </style>

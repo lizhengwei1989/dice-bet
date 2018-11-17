@@ -30,20 +30,20 @@
         <template>
           <el-table
                   :data="tableData"
-                  style="width: 80%;margin:auto;overflow:hidden"
+                  style="width: 90%;margin:auto;overflow:hidden"
                   size="mini"
                   v-loading="tableLoading"
                   element-loading-background="transparent"
                   class="table-content"
           >
-            <el-table-column prop="grade" :label="$t('vip.table.level')" width="50">
+            <el-table-column prop="grade" :label="$t('vip.table.level')" width="60">
               <template slot-scope="scope">
 
                 <img class="vip-img" :src="require('../assets/images/new/vip/vip'+scope.row.level+'.png')">
               </template>
 
             </el-table-column>
-            <el-table-column prop="allBets" :label="$t('vip.table.amount')" width="140" >
+            <el-table-column prop="allBets" :label="$t('vip.table.amount')" width="150" >
               <template slot-scope="scope">
                 {{scope.row.totalAmount/1000000}} TRX
               </template>
@@ -172,11 +172,12 @@ export default {
     width: auto;
     height: 0.26rem;
   }
+
   .el-dialog {
     position: relative;
     z-index:0;
     width: 5.3rem;
-    height:7.4rem;
+    height:8.4rem;
     background-color: #FFFADE;
     box-shadow: 0 4px 24px 0 rgba(52,7,7,0.50);
     border-radius: .04rem;
@@ -225,7 +226,7 @@ export default {
         position: absolute;
         background-image: url('../assets/images/new/vip/vip-dot.png');
         background-repeat: no-repeat;
-        background-position: center top;
+        background-position: center .5rem;
         background-size:80% auto;
       }
     }
@@ -257,6 +258,7 @@ export default {
       .level-process{
         display: flex;
         flex-direction: column;
+        width: 3.64rem;
         .process{
           position: relative;
           width: 100%;
@@ -275,7 +277,7 @@ export default {
               height:.08rem;
               background-color: rgba(255,255,255,.89);
               position: absolute;
-              left: -.04rem;
+              right: -.04rem;
               content: '';
               border-radius:.08rem;
               top:-.01rem;
@@ -329,7 +331,7 @@ export default {
   .table {
     width: 3.3rem;
     height: 5.63rem;
-    margin: 0.1rem auto;
+    margin: 0.4rem auto;
     .table-content {
       margin: 0.2rem 0;
     }
@@ -342,6 +344,10 @@ export default {
       font-stretch: normal;
       color: #8F6300;
       background-color: transparent;
+      .cell{
+        height: .3rem;
+        line-height:.3rem;
+      }
     }
     .el-table td,.el-table th{
       color: #8F6300;
@@ -354,6 +360,9 @@ export default {
       font-stretch: normal;
       line-height: 0.48;
       color: #ffdba2;
+      &:hover{
+        background-color:transparent !important;
+      }
       &:last-child{
         td{
           border:none
@@ -364,9 +373,6 @@ export default {
       background-color: #212e3e !important;
     }
 
-    .el-table td,
-    .el-table th.is-leaf {
-    }
   }
 }
 @media (max-width: 1100px) {

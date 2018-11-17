@@ -41,7 +41,8 @@ export const state = () => ({
       stage:1, //阶段数
       diceCount: 500000000
   },
-  allBetList: []
+  allBetList: [],
+  vipLevel:0
 });
 
 export const mutations = {
@@ -106,6 +107,9 @@ export const mutations = {
   },
   SET_ALLBETLIST(state, allBetList) {
     state.allBetList = allBetList;
+  },
+  SET_VIP_LEVEL(state, vipLevel){
+    state.vipLevel = vipLevel;
   }
 };
 

@@ -106,6 +106,11 @@
             justify-content: space-between;
             font-size: .15rem;
             color: #F7D008;
+            &>div{
+                span{
+                    font-weight: bold;
+                }
+            }
             .bar{
                 position: relative;
                 width: 2.6rem;
@@ -202,7 +207,7 @@
                 top:100%;
                 flex-direction: column;
                 .bar{
-                    height:.4rem;
+                    height:.4rem !important;
                     font-size: .24rem;
                     div{
                         display: flex;
@@ -222,7 +227,7 @@
                     width: 100% !important;
                     flex: 1;
                     &>span{
-                        width: 1.6rem;
+                        width: 2.4rem;
                     }
                     &>div{
                         flex:1;

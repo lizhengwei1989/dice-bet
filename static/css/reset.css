@@ -16,11 +16,12 @@ body{
 }
 .el-dialog__header{
   text-align: center;
+  padding:.2rem 0;
 }
 .el-dialog__header .el-dialog__title{
-  font-size: .40rem;
+  font-size: .22rem;
   color: #C53028;
-  text-shadow: 0rem 0rem 0.2rem #C53028;
+  text-shadow: 0rem 0rem 0.4rem #C53028;
 }
 .el-dialog__header .el-dialog__headerbtn{
   display: none;
@@ -53,6 +54,7 @@ body{
 .el-dialog__footer{
   display: flex;
   justify-content: center;
+  padding:.2rem 0;
 }
 .el-button{
   width: 1.74rem;
@@ -67,7 +69,7 @@ body{
   align-items: center;
   justify-content: center;
 }
-.el-button:hover{
+.el-button:hover,.el-button:active{
   background-color: #F5A623;
 }
 .el-button.how{
@@ -152,3 +154,46 @@ body{
     line-height:.46rem;
   }
 }
+
+.spin i {
+  height: .2rem;
+  width: .2rem;
+  border-radius: 100%;
+  background: #C53028;
+  display: block;
+  margin: 1rem auto;
+  animation: spin 2s ease infinite;
+}
+.spin i:before,.spin i:after {
+  content: '';
+  display: block;
+  position: absolute;
+  height: inherit;
+  width: inherit;
+  background: inherit;
+  border-radius: inherit;
+  animation: spin 2s ease infinite;
+}
+.spin i:before {
+  left: -0.2rem;
+}
+.spin i:after {
+  left: 0.2rem;
+}
+
+@keyframes spin {
+  0% {
+    top: 0;
+    transform: rotate(0deg);
+  }
+  50% {
+    top: -0.2rem;
+    transform: rotate(-180deg);
+  }
+  100% {
+    top: 0;
+    transform: rotate(-360deg);
+  }
+}
+
+

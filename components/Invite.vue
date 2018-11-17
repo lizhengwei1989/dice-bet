@@ -166,6 +166,12 @@ export default {
 </script>
 <style lang="scss">
 .inviteDialog {
+  .el-button{
+    &:hover{
+      border-color:#C53028 !important;
+      color: #C53028 !important;
+    }
+  }
   .el-dialog {
     color: #0a0a30;
     width: 5.6rem;
@@ -174,11 +180,10 @@ export default {
   .el-dialog__title {
   }
   .center {
-    text-align: center;
-    font-size: 0.18rem;
+    font-size: 0.14rem;
     font-weight: normal;
-    font-stretch: normal;
-    line-height: 0.48rem;
+    padding:.2rem 0 0;
+    text-align: left;
   }
   .invite-url {
     height: 1.61rem;
@@ -188,7 +193,6 @@ export default {
     box-sizing: border-box;
     text-align: center;
     position: relative;
-
     .url {
       font-weight: normal;
       font-stretch: normal;
@@ -200,6 +204,7 @@ export default {
       color: #8F6300;
     }
     .copyContent {
+      font-size: .14rem;
       color: #8F6300;
       position: absolute;
       bottom: 0.15rem;
@@ -266,7 +271,7 @@ export default {
   }
 
   .el-row {
-    margin-top: 20px;
+    margin-top: 14px;
   }
 
   .el-table__empty-block {

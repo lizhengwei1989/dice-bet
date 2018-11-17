@@ -269,6 +269,8 @@ export default {
             display: flex;
             flex-direction: column;
             height: 1rem;
+            padding:.1rem 0;
+            margin-bottom:-.1rem;
             &>div{
                 flex: 1;
                 color: #8F6300;
@@ -287,6 +289,11 @@ export default {
                     background-color: transparent;
                     font-size: .16rem;
                     cursor: pointer;
+                    color: #8F6300;
+                    &:hover{
+                        border:1px solid #C53028;
+                        color: #C53028;
+                    }
                 }
             }
         }
@@ -307,6 +314,9 @@ export default {
             font-size: .18rem;
             align-items: center;
             justify-content: center;
+        }
+        .el-dialog__footer{
+            padding-top:.1rem;
         }
     }
 }

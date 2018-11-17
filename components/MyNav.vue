@@ -23,6 +23,19 @@
         <a class="lucky" href="javascript:;" @click="()=>{if(this.address.base58){luckyDialog.visible = true}else{this.$store.commit('SET_DIALOG_LOGIN',true)}}">{{$t('Nav.LuckyDraw')}}</a>
         <!-- 幸运抽奖组件 -->
 
+        <a href="#" target="_blank" class="whitepaper hover-style">
+          {{$t('Nav.Whitepaper')}}
+        </a>
+
+        <a href="https://twitter.com/DiceBet_TRON" target="_blank" class="twitter hover-style">
+          <!--<img src="/images/twitter.png" alt="">-->
+          twitter
+        </a>
+        <a href="https://t.me/dicebet" target="_blank" class="telegram hover-style">
+          telegram
+          <!--<img src="/images/telegram.png" alt="">-->
+        </a>
+
         <div class="language-mobile">
           <div class="cell" :class="item.lng === locale?'focus':''" v-for="item of languageGroup" @click="location(item.lng)">
             <img :src="icon?`/images/icon-${item.icon}.png`:''">
@@ -52,6 +65,8 @@
         <a href="#" target="_blank" class="whitepaper hover-style">
           {{$t('Nav.Whitepaper')}}
         </a>
+        <img v-if="vipLevel!=0" :src="require('../assets/images/new/vip/vip'+vipLevel+'.png')" style="order:4;margin-left:.3rem" />
+
         <div v-if="address && address.base58" class="account">
           {{address.base58 | hiddenAddress}}
         </div>
@@ -186,7 +201,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(["address", "locale", "dialogLogin"])
+    ...mapState(["address", "locale", "dialogLogin","vipLevel"])
   },
   methods: {
     selectLanguage() {
@@ -280,6 +295,9 @@ export default {
 
         }
       }
+      &:nth-child(6),&:nth-child(7),&:nth-child(8){
+        display: none;
+      }
     }
     a.lucky{}
   }
@@ -319,7 +337,7 @@ export default {
     }
     .account {
       order: 4;
-      margin-left: 0.3rem;
+      margin-left: 0.06rem;
       letter-spacing: 0.01rem;
       font-size: 0.16rem;
       display: flex;
@@ -423,6 +441,17 @@ export default {
     justify-content: space-between;
     background-color: transparent;
     border:none;
+    .right{
+      & > img{
+        display: none;
+      }
+      .how{
+        display: none;
+      }
+      a{
+        display: none !important;
+      }
+    }
       .menu{
         cursor: pointer;
         display: block;
@@ -432,8 +461,8 @@ export default {
       }
       .account{
         margin-left: 0;
-        width: .8rem;
-        text-indent:-1.2rem;
+        font-size: .26rem !important;
+        padding-right:.2rem;
       }
       .nav{
         transition:all .3s ease-in-out;
@@ -446,8 +475,7 @@ export default {
         left:0;
         top: 1rem;
         background-color: #7a1011;
-        box-shadow: -0.2px 11px 46px 0px
-        rgba(14, 13, 62, 0.52);
+        box-shadow: -0.2px 11px 46px 0px rgba(14, 13, 62, 0.52);
         flex-direction: column;
         align-items: flex-start;
         justify-content: flex-start;
@@ -470,7 +498,6 @@ export default {
           }
           &:nth-child(4){
             order:5;
-            border-bottom:1px solid #FFEAC7;
           }
           &:nth-child(5){
             margin-top: .2rem;
@@ -481,16 +508,7 @@ export default {
             line-height: .6rem;
             padding-left:.6rem;
             padding-right:.2rem;
-            background-image: linear-gradient(142deg,
-                    #2babf5 0%,
-                    #4786f9 50%,
-                    #6260fd 100%),
-            linear-gradient(
-                            #de5cff,
-                            #de5cff);
-            background-blend-mode: normal,
-            normal;
-            border-radius: .1rem;
+
             &:before{
               width: .4rem;
               height: .4rem;
@@ -498,15 +516,28 @@ export default {
               top: .1rem;
             }
           }
+          &:nth-child(6){
+            order:6;
+          }
+          &:nth-child(7){
+            order:7;
+          }
+          &:nth-child(8){
+            order:8;
+          }
+          &:nth-child(6),&:nth-child(7),&:nth-child(8){
+            display: flex;
+          }
         }
         .language-mobile{
-          order:6;
+          border-top:1px solid #FFEAC7;
+          order:9;
           height: 1rem;
           width: 100%;
           top:5.9rem;
           display: flex;
           align-items: center;
-          justify-content: space-between;
+          justify-content: center;
           .cell{
             display: flex;
             align-items: center;
@@ -528,7 +559,7 @@ export default {
         }
       }
       .nav.show{
-        height: 4.8rem;
+        height: 8rem;
       }
       .language{
         display: none !important;

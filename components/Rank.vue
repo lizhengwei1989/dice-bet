@@ -58,17 +58,8 @@
                     </td> -->
                 </tr>
                 <tr v-if="ranks.length === 0">
-                  <td colspan="5" class="span" v-if="isLoading">
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
-                    <div class="cell"></div>
+                  <td colspan="5" class="spin" v-if="isLoading">
+                      <i></i>
                   </td>
                   <td v-else>
                        {{$t('NoData')}}
@@ -278,6 +269,7 @@ export default {
     padding: 0 0.2rem;
     color: #C53028;
     text-shadow:0rem 0rem .2rem #C53028;
+      font-weight: bold;
     .grey {
       color: grey;
     }
@@ -483,7 +475,6 @@ export default {
             }
         }
         td,th{
-
             span{
                 margin-top: .05rem;
                 height:.3rem !important;

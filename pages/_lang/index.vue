@@ -54,7 +54,8 @@ import Play from "~/components/Play.vue";
 import Result from "~/components/Result.vue";
 import Loading from "~/components/loading.vue";
 import { getBalance, noDebug, getWeeklyRank,getMinStage,isMobile } from "~/static/js/Util";
-import { addInviteUser } from '~/api/user'
+import { addInviteUser } from '~/api/user';
+import { getVipInfo } from '~/api/vip';
 
 let contractAddress = ""; //测试网
 let activityAddress = "";
@@ -79,13 +80,14 @@ export default {
       languageGroup: [
         { lng: "en", txt: "English",icon:'england' },
         { lng: "ch", txt: "Chinese",icon:'china' },
-        { lng: "rus", txt: "Russian",icon:'russia' },
-        { lng: "kor", txt: "Korean",icon:'korea' },
+        // { lng: "rus", txt: "Russian",icon:'russia' },
+        // { lng: "kor", txt: "Korean",icon:'korea' },
       ]
     };
   },
   created() {
     //this.$store.dispatch("getToken");
+
   },
   computed: {
     ...mapState(["showLoading","address","contractInstance","contractAddress", 'allBetList']),
@@ -96,7 +98,6 @@ export default {
     if(isMobile() && window.iTron){
         require("~/static/js/mTronWeb");
     }
-
     let isLoadTronWeb = await this.isHasTronWeb();
     if (isLoadTronWeb) {
       await this.timeout(500);
@@ -104,6 +105,9 @@ export default {
       if (!this.checkLogin()) return;
       this.checkEnv();
       this.$store.commit("SET_ADDRESS", this.tronWeb.defaultAddress);
+      const vip = await getVipInfo(this.address.base58);
+      console.log(vip);
+      this.$store.commit('SET_VIP_LEVEL',vip.level);
       const balance = await getBalance(this.address.hex);
       this.$store.commit("SET_BALANCE", this.tronWeb.fromSun(balance));
       const contractInstance = await this.tronWeb
@@ -370,7 +374,7 @@ export default {
     width: 100%;
     height: 40px;
     line-height: 40px;
-    top: 120px;
+    top: 9%;
     font-size: 16px;
   }
 }
