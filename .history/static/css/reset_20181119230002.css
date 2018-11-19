@@ -21,8 +21,8 @@ body {
 }
 .el-dialog__header .el-dialog__title {
   font-size: 0.22rem;
-  color: #bc0e05;
-  /* text-shadow: 0rem 0rem 0.4rem #bc0e05; */
+  color: #c53028;
+  text-shadow: 0rem 0rem 0.4rem #c53028;
 }
 .el-dialog__header .el-dialog__headerbtn {
   display: none;
@@ -47,7 +47,7 @@ body {
   cursor: pointer;
 }
 .el-dialog__body > p {
-  color: #310000;
+  color: #c53028;
   padding: 0.06rem 0;
   position: relative;
 }
@@ -157,7 +157,7 @@ body {
   height: 0.2rem;
   width: 0.2rem;
   border-radius: 100%;
-  background: #bc0e05;
+  background: #c53028;
   display: block;
   margin: 1rem auto;
   animation: spin 2s ease infinite;
