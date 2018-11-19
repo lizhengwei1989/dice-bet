@@ -324,9 +324,7 @@ export default {
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  background: #fffade;
-  box-shadow: inset 0 0.04rem 0.1rem 0 rgba(7, 52, 22, 0.2);
-  border-radius: 0.1rem;
+  box-shadow: inset 0 .04rem .1rem 0 rgba(7,52,22,0.20);
   .title {
     height: 0.7rem;
     line-height: 0.72rem;

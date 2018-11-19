@@ -1,6 +1,16 @@
 <template>
   <div class="play">
     <div ref="light" class="light light1"></div>
+    <div class="row-1" ref="select">
+      <div class="tab focus" @click="tab(0)">
+        <img src="../assets/images/icons/icon-trx.png" alt="">
+        <span>TRX</span>
+      </div>
+      <div class="tab" @click="tab(1)">
+        <img src="../assets/images/icons/icon-bet.png" alt="">
+        <span>BET</span>
+      </div>
+    </div>
     <div class="bet">
       <div class="input-group">
         <div class="input" :data-before="$t('Play.Bet.Title')" :data-after="unit">
@@ -126,7 +136,6 @@ export default {
                         this.clearRoll(newVal[0].result);
                     }
                 }
-
             }
         }
 
@@ -165,36 +174,6 @@ export default {
         v = Math.max(v, this.limit[this.dbToken].min);
         this.$store.commit('SET_STAKE',v);
         animate(this.$refs["diceBalance"], Number(n).toFixed(3), o);
-    },
-
-    myBetsLength(n, o) {
-      // if (n != 0) {
-      //   if(o != 0 && o < n){
-      //       this.r = this.$store.state.random;
-      //       this.watchBalance();
-      //   }
-      //   clearInterval(this.timer);
-      //   clearInterval(this.rolling);
-      //   this.timer=null;
-      //   this.rolling=null;
-      //   setTimeout(() => {
-      //     this.r = "";
-      //     this.disabled = false;
-      //       if(this.isAuto){
-      //         this.roll();
-      //       }
-      //   }, 3000);
-      //
-      //   //添加交易
-      //   if(this.transactionId){
-      //       if(this.r >= this.number){
-      //           this.$refs.lose.style.display="block";
-      //       }else{
-      //           this.$refs.win.style.display="block";
-      //       }
-      //   }
-      // }
-
     }
   },
   computed: {
@@ -227,6 +206,35 @@ export default {
     this.odds = Math.floor(odds * 10000) / 10000;
   },
   methods: {
+      async getResource(address){
+          let resource,energy,bindWidth;
+          resource = await window.tronWeb.trx.getAccountResources(address.base58);
+          energy = resource.EnergyUsed?(resource.EnergyLimit - resource.EnergyUsed):0;
+          bindWidth = await window.tronWeb.trx.getBandwidth(this.address.base58);
+          this.$store.commit('SET_BAND_WIDTH',bindWidth);
+          this.$store.commit('SET_ENERGY',energy);
+      },
+      watchResource(address){
+          this.getResource(address);
+          setInterval(async _=>{
+              this.getResource(address);
+          },3000)
+      },
+      async tab(dbToken){
+          if(dbToken == this.dbToken){
+              return false;
+          }else{
+              //let balance;
+              //balance = dbToken == 0 ? await getBalance(this.address.hex):(await this.diceContractInstance.getBalanceOf(this.address.hex.replace('/^41/','0x')).call()).toString();
+              //this.$store.commit('SET_BALANCE',window.tronWeb.fromSun(balance));
+              const tabs = this.$refs.select.getElementsByClassName('tab');
+              for(let i=0;i<tabs.length;i++){
+                  tabs[i].classList.remove('focus');
+              }
+              tabs[dbToken].classList.add('focus');
+              this.$store.commit('SET_DB_TOKEN',dbToken);
+          }
+      },
     clearRoll(res){
         this.watchBalance();
         clearInterval(this.timer);
@@ -240,7 +248,6 @@ export default {
                 this.roll();
             }
         }, 3000);
-
         //添加交易
         if(this.transactionId){
             if(this.r >= this.number){
@@ -423,15 +430,12 @@ export default {
   color: #de5cff;
 }
 .play {
-  position: relative;
+  position:relative;
   width: 4.98rem;
   height: 4.98rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: #FFFADE;
-  box-shadow: inset 0 0.04rem 0.1rem 0 rgba(7, 52, 22, 0.2);
-  border-radius: .1rem;
   padding: 0.2rem 0.25rem 0;
   z-index:0;
   .light{
@@ -449,7 +453,25 @@ export default {
   .light2{
     background-image: url('../assets/images/new/light2.png');
   }
-  .input-group {
+  .row-1{
+    height: .5rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    .tab{
+      width: 1.02rem;
+      height: .32rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background:#e58700;
+      box-shadow:0 2px 4px 0 rgba(117,4,0,0.20);
+      border-radius:6px;
+      margin:0 .15rem;
+    }
+  }
+  /*.input-group {
     height: 0.5rem;
     border-radius: 0.06rem;
     border: 1px solid #C53028;
@@ -721,7 +743,7 @@ export default {
         right:0;
       }
     }
-  }
+  }*/
 }
 @media screen and (max-width:1100px){
   .play{

@@ -1,8 +1,5 @@
 <template>
-  <div style="position: relative;overflow-x:hidden">
-    <div class="logo">
-      <div class="border"></div>
-    </div>
+  <div class="total-wrap" style="position: relative;overflow-x:hidden">
     <marquee scrollamount="3" class="marquee-box">
       <span v-if="v.output && v.output > 1000" v-for="(v, i) in allBetList" :key="i">
         <span>🚀 {{$t('marquee.congratulation')}} 🚀 </span>
@@ -208,68 +205,27 @@ export default {
 </script>
 
 <style lang="scss">
-.logo{
+.total-wrap{
+  background-image: url('../../assets/images/new/bg.png');
+  background-position:center top;
+  &:before{
+    content:'';
     position: absolute;
-    width: 100%;
-    height: 100%;
-    z-index: 1;
-    top: 0;
-    left: 0;
-    background-image: url("../../assets/images/new/shadow.png");
-    background-position: center top;
+    background-image: url("../../assets/images/new/logo.png");
     background-repeat: no-repeat;
-    background-size:100% auto;
-    .border{
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        background-image: url('../../assets/images/new/border-bg.png');
-        content:'';
-        background-position:center .56rem;
-        background-repeat:no-repeat;
-        background-size:100% auto;
-    }
-    &:before{
-      content: "";
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      left:1rem;
-      background-image: url("../../assets/images/new/decorate.png");
-      background-position:center 0rem;
-      background-repeat: no-repeat;
-    }
-    &:after{
-      content: "";
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      background-image: url("../../assets/images/new/logo.png");
-      background-position: center top;
-      background-repeat: no-repeat;
-    }
+    left:50%;
+    top:0;
+    margin-left:-.71rem;
+    width: 1.42rem;
+    height: 1.18rem;
   }
+}
 .container {
   position: relative;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background-image:url("../../assets/images/new/tiaoli.png");
-  background-position:center top;
-  background-size:11rem auto;
-  background-repeat:no-repeat;
-  background-color:#951010;
   color: #AF1A1A;
-  &:before{
-     position: absolute;
-     width: 100%;
-     height: 100%;
-     background-image: url("../../assets/images/new/bg.png");
-     content:'';
-     background-position:center 1rem;
-     background-repeat:no-repeat;
-     background-size:auto 84%;
-  }
   a {
     color: #b3a6ff;
   }
@@ -295,7 +251,8 @@ export default {
           display: flex;
           align-items: center;
           justify-content: center;
-          background-image: linear-gradient(-180deg, #C71121 0%, #D81734 100%);
+          background-image: url("../../assets/images/new/cell-bg.png");
+          background-size:100% 100%;
           box-shadow: 0 .04rem .24rem 0 rgba(52,7,7,0.50);
           border-radius: .1rem;
         }
@@ -308,6 +265,8 @@ export default {
         }
       }
       &:nth-child(3) {
+        background-image: url("../../assets/images/new/result-bg.png");
+        background-size:100% 100%;
         margin-top: 0.35rem;
       }
     }

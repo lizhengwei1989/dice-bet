@@ -323,18 +323,12 @@ export default {
 .result {
   font-size: 0.24rem;
   height: 5.3rem;
-  background-image: linear-gradient(0deg, #fad961 0%, #f76b1c 100%);
-  box-shadow: 0 4px 24px 0 rgba(52, 7, 7, 0.5);
-  border-radius: 0.1rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+
+
   & > .wrap {
     width: 10.68rem;
     height: 4.97rem;
-    background: #fffade;
-    box-shadow: inset 0 4px 10px 0 rgba(7, 52, 22, 0.2);
-    border-radius: 0.1rem;
+    border-radius: .1rem;
     .tab {
       position: relative;
       z-index: 1;
