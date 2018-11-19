@@ -63,7 +63,7 @@ module.exports = {
 
   env: {
     BASE_API: "",
-    ACTIVITY_API: "http://47.90.189.80:9080/api"
+    ACTIVITY_API: "https://dicebet.io/api"
   },
 
   /*

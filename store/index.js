@@ -24,6 +24,7 @@ export const state = () => ({
   diceContractInstance: null,
   dialogLogin: false,
   myBetsLength: 0,
+  myBets: [],
   showLoading: true,
   random: 0,
   activityAddress: "",
@@ -74,6 +75,9 @@ export const mutations = {
   },
   SET_MY_BETS_LENGTH(state, myBetsLength) {
     state.myBetsLength = myBetsLength;
+  },
+  SET_MY_BETS(state, myBets) {
+      state.myBets = myBets;
   },
   SET_RANDOM(state, random) {
     state.random = random;

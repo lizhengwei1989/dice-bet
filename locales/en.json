@@ -46,7 +46,7 @@
   "English": "English",
   "Rule": {
     "title":"Rule",
-    "p1": "1. Make sure you have a TronLink wallet. Click to download the <a target='_blank' href='https://goo.gl/Yb4NRU'>TronLink</a> wallet",
+    "p1": "1. Make sure you have a TronLink wallet. Click to download the <a target='_blank' href='https://chrome.google.com/webstore/detail/tronpay/gjdneabihbmcpobmfhcnljaojmgoihfk'>TronPay</a> wallet",
     "p2": "2. To participate in the game you must own TRX, the underlying cryptocurrency that powers the TRON network.",
     "p3": "3. Set your bet amount, that is, the number of TRX you want to bet on.",
     "p4": "4. You can adjust the slider to the predicted number range you want. When moving the slider, you can win the total amount, win rate, reward multiple will be automatically adjusted.",
@@ -66,11 +66,13 @@
   "LuckyDraw": {
     "title": "Lucky Draw",
     "number": "Lucky Number",
-    "reward": "Lucky Prize",
+    "reward": "Lucky Prize:",
     "winText": "Lucky number for this round",
     "rewardText": "Lucky Prize",
-    "times": "to Draw",
+    "times": "The rest times of drawing:",
     "withdraw": "Extract",
+    "Draw":"Draw",
+    "Congratulation":"Congratulation",
     "supplement": {
       "p1": "You will win an extra opportunity to draw for free for each betting over 10 TRX! ",
       "p2": "A maximum of 10 opportunities (every day) to draw!"
@@ -85,12 +87,12 @@
       "prize": "Rewards"
     },
     "remainingBet": "A betting of {trx} TRX will make you VIP",
-    "copyRight": "* DiceBet reserves the right of final interpretation of the campaign"
+    "copyRight": "The award of invitation will be updated at every 00:00 (UTC)."
   },
   "Invite": {
     "button": "Invite",
     "title": "Refer a friend",
-    "desc": "Refer a friend and get 0.2% of their betting! Copy your exclusive link and send out your invitation!",
+    "desc": "Refer a friend and get 0.4% of their betting! Copy your exclusive link and send out your invitation!",
     "prize": "Referral bonus",
     "prizeRule": {
       "p1": "The referral bonus for each account will be calculated once at 12:00 (GMT+8) every day.",
@@ -124,9 +126,11 @@
     "copyright": "* 本活动最终解释权归trondice.org所有"
   },
   "NoData":"No Data",
+  "NoDataForLogin":"No data. Please login.",
   "Msg":{
     "BalanceNotEnough":"Balance not enough"
   },
+  "WhitepaperUrl":"http://7xodvi.com1.z0.glb.clouddn.com/ef908b22a4647f6271en.pdf",
   "marquee": {
     "congratulation": "High Roller",
     "win": "has won",
@@ -137,5 +141,9 @@
     "t2": "Current Resource",
     "number": "No.",
     "stage": "stage"
+  },
+  "AutoBet":{
+    "txt":"Auto Bet",
+    "explain":"<h6>自动投注新手引导：</h6><p>亲爱的玩家，现在你可以通过“自动投注”功能来便捷地参与DiceBet投骰子游戏：</p><p>-输入你期望的下注数量，点击\"确认\"即可开始</p><p>-我们将按照你设定的数值进行单倍循环投注，一次结果完成后立即开始第二次投注</p><p>-为了获得最好的投注效果，请将我们加入钱包的白名单，以免不断授权</p><p>-刷新页面操作会中断您的下注及扣费，请勿在投注过程中刷新页面</p>"
   }
 }

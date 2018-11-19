@@ -17,18 +17,18 @@
           {{$t('Play.Bet.Left')}}
         </div>
         <div class="balance-trx">
-          <span ref="balance"></span> TRX
+          <span ref="balance">{{balance}}</span> TRX
         </div>
         <span>&nbsp;/&nbsp;</span>
         <div class="balance-dice">
-          <span ref="diceBalance"></span> BET
+          <span ref="diceBalance">{{diceBalance}}</span> BET
         </div>
       </div>
     </div>
     <div class="win">
       <div class="input-group">
         <div class="input" :data-before="$t('Play.WinTitle')" :data-after="unit">
-          <input type="text" name="" :value="Math.floor(stake * odds * 1000)/1000" readonly />
+          <input type="text" name="" :value="Math.ceil(stake * odds * 1000)/1000" readonly />
         </div>
       </div>
     </div>
@@ -76,11 +76,19 @@
         <button class="roll" @click="roll" :disabled="disabled">
           {{r?r:$t('Play.Roll')}}
         </button>
+        <div class="auto-bet">
+          <el-switch v-model="isAuto" active-color="#C53028" @change="handleAutoBet">
+          </el-switch>
+          <span>{{$t('AutoBet.txt')}}</span>
+          <el-tooltip placement="right">
+            <div slot="content" v-html="$t('AutoBet.explain')"></div>
+            <i class="el-icon-question el-tooltip"></i>
+          </el-tooltip>
+        </div>
       </div>
     </div>
   </div>
 </template>
-
 <script>
 import { mapState } from "vuex";
 import { getOdds, getBalance, formatTime } from "@/static/js/Util";
@@ -99,9 +107,30 @@ export default {
       timer: null,
       unit:'TRX',
       gap:'0',
+      isAuto:false
     };
   },
   watch: {
+    myBets: {
+        deep: true,
+        handler(newVal, oldVal){
+            if(this.disabled){
+                if (oldVal.length == 0 && newVal.length === 1) {
+                    this.clearRoll(newVal[0].result);
+                    return;
+                }
+                if (newVal.length > 1) {
+                    let newTimeTemp = newVal[0].timestamp;
+                    let oldTimeTemp = oldVal[0].timestamp;
+                    if (newTimeTemp > oldTimeTemp) {
+                        this.clearRoll(newVal[0].result);
+                    }
+                }
+
+            }
+        }
+
+    },
     dbToken(n){
         if(n==0){
             this.unit = 'TRX';
@@ -136,30 +165,36 @@ export default {
         v = Math.max(v, this.limit[this.dbToken].min);
         this.$store.commit('SET_STAKE',v);
         animate(this.$refs["diceBalance"], Number(n).toFixed(3), o);
-
     },
-    myBetsLength(n, o) {
-      if (n != 0) {
-        if(o != 0){
-            this.r = this.$store.state.random;
-            this.watchBalance();
-        }
-        clearInterval(this.timer);
-        clearInterval(this.rolling);
-        this.disabled = false;
-        setTimeout(() => {
-          this.r = "";
-        }, 3000);
 
-        //添加交易
-        if(this.transactionId){
-            if(this.r >= this.number){
-                this.$refs.lose.style.display="block";
-            }else{
-                this.$refs.win.style.display="block";
-            }
-        }
-      }
+    myBetsLength(n, o) {
+      // if (n != 0) {
+      //   if(o != 0 && o < n){
+      //       this.r = this.$store.state.random;
+      //       this.watchBalance();
+      //   }
+      //   clearInterval(this.timer);
+      //   clearInterval(this.rolling);
+      //   this.timer=null;
+      //   this.rolling=null;
+      //   setTimeout(() => {
+      //     this.r = "";
+      //     this.disabled = false;
+      //       if(this.isAuto){
+      //         this.roll();
+      //       }
+      //   }, 3000);
+      //
+      //   //添加交易
+      //   if(this.transactionId){
+      //       if(this.r >= this.number){
+      //           this.$refs.lose.style.display="block";
+      //       }else{
+      //           this.$refs.win.style.display="block";
+      //       }
+      //   }
+      // }
+
     }
   },
   computed: {
@@ -169,6 +204,7 @@ export default {
       "contractInstance",
       "random",
       "myBetsLength",
+      "myBets",
       "contractAddress",
       "dapp",
       "dbToken",
@@ -191,14 +227,38 @@ export default {
     this.odds = Math.floor(odds * 10000) / 10000;
   },
   methods: {
+    clearRoll(res){
+        this.watchBalance();
+        clearInterval(this.timer);
+        clearInterval(this.rolling);
+        this.r = res;
+        this.$store.commit('SET_RANDOM',res)
+        setTimeout(() => {
+            this.r = "";
+            this.disabled = false;
+            if(this.isAuto){
+                this.roll();
+            }
+        }, 3000);
+
+        //添加交易
+        if(this.transactionId){
+            if(this.r >= this.number){
+                this.$refs.lose.style.display="block";
+            }else{
+                this.$refs.win.style.display="block";
+            }
+        }
+    },
     changeState(num) {
       const odds = getOdds(num);
       this.odds = Math.floor(odds * 10000) / 10000;
     },
     handleInput(e) {
+      const balance = this.dbToken == 0 ? this.balance : this.diceBalance;
       let v = e.target.value;
       v = v.replace(/\D/g, "");
-      v = Math.min(v, Math.ceil(this.balance), this.limit[this.dbToken].max);
+      v = Math.min(v, Math.ceil(balance), this.limit[this.dbToken].max);
       v = v ? v : '';
       e.target.value = v;
       this.$store.commit('SET_STAKE',v);
@@ -211,6 +271,7 @@ export default {
     },
     handlePercentage(p, index) {
       let v;
+      const balance = this.dbToken == 0 ? this.balance : this.diceBalance;
       const cells = this.$refs["percentage"].getElementsByTagName("span");
       for (let i = 0; i < cells.length; i++) {
         cells[i].classList.remove("green");
@@ -223,10 +284,13 @@ export default {
       }else{
           v = this.balance;
       }
-      v = Math.min(v, this.limit[this.dbToken].max ,this.balance);
+      v = Math.min(v, this.limit[this.dbToken].max ,balance);
       v = Math.max(v, this.limit[this.dbToken].min);
       v = Math.floor(v);
       this.$store.commit('SET_STAKE',v);
+    },
+    handleAutoBet(){
+      if(this.isAuto)this.roll();
     },
     async roll() {
       if(!this.address.base58){
@@ -273,7 +337,7 @@ export default {
         this.r = Math.ceil(Math.random() * 100);
         const c = this.$refs.light.className;
         this.$refs.light.className = c.match(/1/) ? c.replace('1','2'):c.replace('2','1')
-      }, 200);
+      }, 100);
       this.$refs.win.style.display="none";
       this.$refs.lose.style.display="none";
       this.timer = setInterval(async _ => {
@@ -317,8 +381,12 @@ export default {
       let gap;
       const dom = this.$refs['gap'];
       const balance =  await getBalance(this.address.hex);
-      const diceBalance = (await this.diceContractInstance.getBalanceOf(this.address.hex.replace('/^41/','0x')).call()).toString();
-      gap = window.tronWeb.fromSun(balance) - this.balance != 0 ? (window.tronWeb.fromSun(balance) - this.balance):(window.tronWeb.fromSun(diceBalance) - this.diceBalance);
+      const diceBalance = this.address.hex ? (await this.diceContractInstance.getBalanceOf(this.address.hex.replace('/^41/','0x')).call()).toString():0;
+      if(this.dbToken==0){
+          gap = window.tronWeb.fromSun(balance) - this.balance;
+      }else{
+          gap = window.tronWeb.fromSun(diceBalance) - this.diceBalance;
+      }
       gap = Math.ceil(gap * 100)/100;
       this.gap = gap > 0 ? '+'+gap:gap;
       dom.classList.add('animate');
@@ -476,6 +544,7 @@ export default {
       color: #C53028;
       .available{
         color: #9A6666;
+        margin-right: .1rem;
       }
       .balance-trx,.balance-dice{
         font-size: .16rem;
@@ -646,6 +715,10 @@ export default {
         font-size: .24rem;
         border:none;
         color: #fff;
+      }
+      .auto-bet{
+        position: absolute;
+        right:0;
       }
     }
   }

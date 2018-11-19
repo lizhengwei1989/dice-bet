@@ -46,7 +46,7 @@
   "English": "English",
   "Rule": {
     "title":"规则",
-    "p1": "1. 确保您有一个TRONLink钱包。点击下载<a target='_blank' href='https://goo.gl/Yb4NRU'>TRONLINK</a>钱包",
+    "p1": "1. 确保您有一个TRONLink钱包。点击下载<a target='_blank' href='https://chrome.google.com/webstore/detail/tronpay/gjdneabihbmcpobmfhcnljaojmgoihfk'>TRONLINK</a>钱包",
     "p2": "2. 要参与游戏您必须拥有TRX，这是为TRON网络提供动力的基础加密货币。",
     "p3": "3. 设置您的投注额度，也就是您要下注的TRX数量。",
     "p4": "4. 您可以调整滑块至您想要的预测编号范围。移动滑块时，您可赢得的总金额、胜率、奖励倍数都将自动调整。",
@@ -66,11 +66,13 @@
   "LuckyDraw": {
     "title": "幸运抽奖",
     "number": "幸运号码",
-    "reward": "幸运奖金",
+    "reward": "所得奖励：",
     "winText": "本次幸运抽奖数字",
     "rewardText": "幸运奖金",
-    "times": "次机会",
+    "times": "剩余抽奖次数：",
     "withdraw": "提现",
+    "Draw":"开始抽奖",
+    "Congratulation":"恭喜中奖",
     "supplement": {
       "p1": "当你每次投注≥10 TRX，即可额外获得一次免费抽奖机会！",
       "p2": "每天共计10次抽奖机会！"
@@ -85,12 +87,12 @@
       "prize": "奖励"
     },
     "remainingBet": "只需投注 {trx} TRX 即可成为VIP",
-    "copyRight": "* 活动最终解释权归 DiceBet 所有"
+    "copyRight": "邀请奖励 每天00:00 （UTC）更新。"
   },
   "Invite": {
     "button": "Invite",
     "title": "邀请好友",
-    "desc": "邀请好友即可获得他们 0.2% 的投注额！快复制您的专属链接发出邀请吧！",
+    "desc": "邀请好友即可获得他们 0.4% 的投注额！快复制您的专属链接发出邀请吧！",
     "prize": "邀请奖励",
     "prizeRule": {
       "p1": "账户邀请返现金额每天结算一次，结算时间为12:00（GMT+8）。",
@@ -124,6 +126,8 @@
     "copyright": "* 本活动最终解释权归trondice.org所有"
   },
   "NoData":"暂无数据",
+  "NoDataForLogin":"暂无数据。请登录钱包查看",
+  "WhitepaperUrl":"http://7xodvi.com1.z0.glb.clouddn.com/3b9457c08ac0393a8ccn.pdf",
   "marquee": {
     "congratulation": "恭喜",
     "win": "赢取",
@@ -134,5 +138,8 @@
     "t2": "当前账户资源",
     "number": "第",
     "stage": "轮"
+  },
+  "AutoBet":{
+     "txt":"自动投注"
   }
 }

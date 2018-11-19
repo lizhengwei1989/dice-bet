@@ -26,9 +26,9 @@
         <b>{{$t('Invite.result.prize')}}：<span>{{prize/1000000}} TRX </span></b>
         <el-button @click="extract">{{$t('extract')}}</el-button> </p>
     </el-row>
-    <!--<el-row>-->
-      <!--{{$t('vip.copyRight')}}-->
-    <!--</el-row>-->
+    <el-row>
+      {{$t('vip.copyRight')}}
+    </el-row>
     <span slot="footer" class="dialog-footer">
         <el-button type="primary" @click="inviteDialog.visible = false">{{$t('Confirm')}}</el-button>
     </span>
@@ -63,7 +63,8 @@ export default {
         current: 1
       },
       prize: 0,
-      tableLoading: true
+      tableLoading: true,
+      inviteUrl:  window.location.origin+'?from='+this.$store.state.address.base58
     };
   },
 
@@ -74,20 +75,19 @@ export default {
     await this.getBalance();
     this.getTableData();
 
-    this.url = window.location.origin;
 
     // this.contractInstance.setInvitationBalance('TN7KpFteYkkGUPM4wQ8uKRLCzq2M3ngkmc',200).send();
   },
   computed: {
-    inviteUrl() {
-      let address = this.$store.state.address || {};
-      let finalUrl = `${this.url}?from=${address.base58}`;
-      return finalUrl;
-    },
+    // inviteUrl() {
+    //   let address = this.$store.state.address || {};
+    //   let finalUrl = `${this.url}?from=${address.base58}`;
+    //   return finalUrl;
+    // },
     postData() {
       this.page.start = (this.page.current - 1) * this.page.limit;
       let data = {
-        contractAddress: this.activityAddress,
+        contractAddress: this.$store.state.contractAddress,
         userAddress: this.$store.state.address.base58 || "",
         dappId: '1',
         start: this.page.start,
@@ -304,7 +304,7 @@ export default {
       b{
         font-weight: normal;
       }
-      span{
+      & > span{
         font-size: .18rem;
       }
       &:last-child{
@@ -323,6 +323,7 @@ export default {
           text-align: center;
           padding:0;
           box-shadow: none;
+          font-size: .14rem;
         }
       }
     }

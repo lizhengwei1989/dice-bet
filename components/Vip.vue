@@ -148,7 +148,6 @@ export default {
       }
 
       this.extractLoading = true;
-
       const txId = await this.contractInstance.withDraw(0).send();
       let checkBalance = setInterval(async () => {
         const res = await window.tronWeb.getEventByTransactionID(txId);
@@ -324,6 +323,7 @@ export default {
         color: #8F6300;
         border:none;
         margin-top: .2rem;
+        outline: none;
       }
     }
 
@@ -370,7 +370,7 @@ export default {
       }
     }
     .el-table--enable-row-hover .el-table__body tr:hover > td {
-      background-color: #212e3e !important;
+      background-color: transparent !important;
     }
 
   }

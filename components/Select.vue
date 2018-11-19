@@ -1,19 +1,18 @@
 <template>
     <div class="select" ref="select">
         <div class="info">
-            <div class="resource" v-if="address.base58">
+            <div class="resource">
                 <span>{{$t('select.t2')}}</span>
                 <div class="bar">
                     <div>
-                        <span>{{$t('Resource.BandWidth')}}</span><span>{{bindWidth}}</span>
+                        <span>{{$t('Resource.BandWidth')}}</span><span>{{address.base58?bindWidth:'-'}}</span>
                     </div>
                     <div>
-                        <span>{{$t('Resource.Energy')}}</span><span>{{energy}}</span>
+                        <span>{{$t('Resource.Energy')}}</span><span>{{address.base58?energy:'-'}}</span>
                     </div>
                 </div>
 
             </div>
-
             <div class="min-stage">
                 <span>{{$t('select.t1')}}</span>
                 <div class="min">
@@ -43,21 +42,23 @@
             return {}
         },
         watch:{
-            address(n){
-              this.watchResource(n);
+            address:{
+                handler(n){
+                    this.watchResource(n);
+                },
+                deep:true
             }
         },
         computed:{
             ...mapState(["dbToken","diceAddress","address","diceContractInstance","bindWidth","energy","minStage"])
         },
-        async mounted(){
-
-        },
+        async mounted(){},
         methods:{
             async getResource(address){
-                const resource = await window.tronWeb.trx.getAccountResources(address.base58);
-                const energy = resource.EnergyUsed?(resource.EnergyLimit - resource.EnergyUsed):0;
-                const bindWidth = await window.tronWeb.trx.getBandwidth(this.address.base58);
+                let resource,energy,bindWidth;
+                resource = await window.tronWeb.trx.getAccountResources(address.base58);
+                energy = resource.EnergyUsed?(resource.EnergyLimit - resource.EnergyUsed):0;
+                bindWidth = await window.tronWeb.trx.getBandwidth(this.address.base58);
                 this.$store.commit('SET_BAND_WIDTH',bindWidth);
                 this.$store.commit('SET_ENERGY',energy);
             },
@@ -227,7 +228,7 @@
                     width: 100% !important;
                     flex: 1;
                     &>span{
-                        width: 2.4rem;
+                        width: 2.2rem;
                     }
                     &>div{
                         flex:1;

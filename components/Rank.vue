@@ -33,7 +33,7 @@
                 </th> -->
             </tr>
             </thead>
-            <tbody :style="'height:'+(dbToken==0?'2.4':'3')+'rem'">
+            <tbody :style="'height:'+(dbToken==0?'2.4':'2.9')+'rem'">
                 <tr v-for="(item,index) of ranks" v-if="ranks.length > 0">
                     <td>
                         <span v-if="index<3"><img :src="require('../assets/images/new/rank'+(index+1)+'.png')" /></span>
@@ -68,14 +68,16 @@
             </tbody>
         </table>
         <div v-if="ranks.length>0" class="last">
-            <div class="cell">
-                <span>{{ownerData.ranking === 0 ? '-' : ownerData.ranking}}</span>
-            </div>
-            <div class="cell" style="text-align: center;">
-                {{ownerData.userAddress|hiddenAddress}}
-            </div>
-            <div class="cell" style="text-align: center;">
-              {{ownerData.totalBet|fromSun}} TRX
+            <div>
+                <div class="cell">
+                    <span>{{ownerData.ranking === 0 ? '-' : ownerData.ranking}}</span>
+                </div>
+                <div class="cell" style="text-align: center;">
+                    {{ownerData.userAddress|hiddenAddress}}
+                </div>
+                <div class="cell" style="text-align: center;">
+                    {{ownerData.totalBet|fromSun}} TRX
+                </div>
             </div>
             <!-- <div class="cell">
                 {{ranks[ranks.length-1].prize}} TRX
@@ -142,15 +144,17 @@ export default {
     async contractAddress(n) {
       let time = moment(this.date, "YYYY.MM.DD").format("YYYYMMDD");
       this.getData(this.date);
+      setInterval(_=>{
+        this.getData();
+      },5000);
     }
   },
   methods: {
-    getData(date) {
+    getData() {
       let ranks = [];
-      this.isLoading = true;
-      this.ranks = [];
+      //this.isLoading = true;
       const all = getRankList({dappId:this.dappId,contractAddress:this.contractAddress});
-      const my = getRankList({dappId:this.dappId,contractAddress:this.contractAddress,userAddress:this.address.base58});
+      const my =  getRankList({dappId:this.dappId,contractAddress:this.contractAddress,userAddress:this.address.base58});
       Promise.all([all,my]).then((res)=>{
           this.isLoading = false;
           res[0].rankingData.forEach((v,i)=>{
@@ -178,10 +182,10 @@ export default {
                   total: v.totalBet,
                   prize: prize
               });
+              this.ranks = ranks;
           });
           this.ownerData=res[1].ownerData;
       });
-      this.ranks = ranks;
     },
     changeTime(type) {
       //如果数据没回来，就不可点击
@@ -224,7 +228,6 @@ export default {
       let time = moment(this.date, "YYYY.MM.DD").format("YYYYMMDD");
 
       this.getData(time);
-
       if (dateTimeStemp >= currentDateTimeStemp && type === "+") {
         this.isClick = false;
         return;
@@ -416,42 +419,52 @@ export default {
   }
   .last {
     width: 4.58rem;
-    height: 0.4rem;
-    background-color: #C53028;;
-    border-radius: 0.1rem;
-    margin: 0.12rem 0;
+    flex:1;
     display: flex;
     flex-direction: row;
     align-items: center;
-    color: #DAFFCF;;
-    .cell {
-      &:first-child {
-        width: 0.8rem;
+    color: #DAFFCF;
+    &>div{
         display: flex;
-        justify-content: center;
-        span {
-          width: 0.34rem;
-          height: 0.34rem;
-          display: inline-block;
-          line-height: 0.3rem;
-          text-align: center;
+        flex-direction: row;
+        align-items: center;
+        width: 100%;
+        height: 0.4rem;
+        background-color: #C53028;;
+        border-radius: 0.1rem;
+        .cell {
+            &:first-child {
+                width: 0.8rem;
+                display: flex;
+                justify-content: center;
+                span {
+                    width: 0.34rem;
+                    height: 0.34rem;
+                    display: inline-block;
+                    line-height: 0.3rem;
+                    text-align: center;
+                }
+            }
+            &:nth-child(2) {
+                text-align: left;
+                flex:1;
+            }
+            &:nth-child(3){
+                flex:1;
+            }
+            &:nth-child(3),
+            &:nth-child(4) {
+                text-align: right;
+            }
+            &:nth-child(4) {
+                padding-right: 0.3rem;
+            }
+            &:nth-child(2),
+            &:nth-child(3),
+            &:nth-child(4) {
+                width: 1.73rem;
+            }
         }
-      }
-      &:nth-child(2) {
-        text-align: left;
-      }
-      &:nth-child(3),
-      &:nth-child(4) {
-        text-align: right;
-      }
-      &:nth-child(4) {
-        padding-right: 0.3rem;
-      }
-      &:nth-child(2),
-      &:nth-child(3),
-      &:nth-child(4) {
-        width: 1.73rem;
-      }
     }
   }
 }
@@ -486,9 +499,10 @@ export default {
         font-size: .28rem;
     }
     .last {
-      height:.52rem;
       width: 6.26rem;
-      padding: 0 0.12rem;
+      &>div{
+          height: .52rem;
+      }
       .cell {
         &:nth-child(2),
         &:nth-child(3) {

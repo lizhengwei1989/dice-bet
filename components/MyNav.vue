@@ -1,5 +1,5 @@
 <template>
-  <div class="my-nav">
+  <div class="my-nav" :style="'z-index:'+(dialogLogin?'10000':'3000')">
       <span class="menu iconfont icon-menu" @click="showMenus"></span>
       <!--<a class="logo" href="javascript:window.location.reload();">-->
         <!--<img :src="require('../assets/images/logo.png')">-->
@@ -23,7 +23,7 @@
         <a class="lucky" href="javascript:;" @click="()=>{if(this.address.base58){luckyDialog.visible = true}else{this.$store.commit('SET_DIALOG_LOGIN',true)}}">{{$t('Nav.LuckyDraw')}}</a>
         <!-- 幸运抽奖组件 -->
 
-        <a href="#" target="_blank" class="whitepaper hover-style">
+        <a :href="$t('WhitepaperUrl')" target="_blank" class="whitepaper hover-style">
           {{$t('Nav.Whitepaper')}}
         </a>
 
@@ -62,7 +62,7 @@
         <a href="https://t.me/dicebet" target="_blank" class="telegram hover-style">
           <img src="/images/telegram.png" alt="">
         </a>
-        <a href="#" target="_blank" class="whitepaper hover-style">
+        <a :href="$t('WhitepaperUrl')" target="_blank" class="whitepaper hover-style">
           {{$t('Nav.Whitepaper')}}
         </a>
         <img v-if="vipLevel!=0" :src="require('../assets/images/new/vip/vip'+vipLevel+'.png')" style="order:4;margin-left:.3rem" />
@@ -70,9 +70,9 @@
         <div v-if="address && address.base58" class="account">
           {{address.base58 | hiddenAddress}}
         </div>
-        <el-button v-else class="how" style="margin-left:.3rem" @click="$store.commit('SET_DIALOG_LOGIN',true)">
+        <a href="javascript:;" v-else class="account hover-style" style="margin-left:.3rem" @click="$store.commit('SET_DIALOG_LOGIN',true)">
           {{$t('Login')}}
-        </el-button>
+        </a>
         <el-dialog
                 :title="$t('LoginTipTitle')"
                 :visible.sync="dialogLogin"
@@ -315,6 +315,10 @@ export default {
         width: 28px;
       }
     }
+    & > img{
+      width: .24rem;
+      height:.26rem;
+    }
     .telegram {
       order: 2;
       margin-left: 0.3rem;
@@ -371,18 +375,18 @@ export default {
           display: block;
         }
       }
-      // &:after {
-      //   content: "";
-      //   position: absolute;
-      //   top: 0.12rem;
-      //   right: 0.05rem;
-      //   width: 0;
-      //   height: 0;
-      //   border-top: 0.04rem solid #FFEAC7;
-      //   border-bottom: 0.04rem solid transparent;
-      //   border-left: 0.04rem solid transparent;
-      //   border-right: 0.04rem solid transparent;
-      // }
+      &:after {
+         content: "";
+         position: absolute;
+         top: 0.12rem;
+         right: 0.05rem;
+         width: 0;
+         height: 0;
+         border-top: 0.04rem solid #FFEAC7;
+         border-bottom: 0.04rem solid transparent;
+         border-left: 0.04rem solid transparent;
+         border-right: 0.04rem solid transparent;
+       }
       .group {
         display: none;
         position: absolute;
@@ -539,6 +543,7 @@ export default {
           align-items: center;
           justify-content: center;
           .cell{
+            margin: 0 .2rem;
             display: flex;
             align-items: center;
             padding:.12rem;

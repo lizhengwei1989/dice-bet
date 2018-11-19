@@ -2,7 +2,7 @@ import xhr from "axios";
 
 //计算赔率（与区块链算法保持一致）
 const getOdds = point => {
-  let r = 98; //返现率
+  let r = 98.5; //返现率
   if (point == 1) {
     return r;
   }
@@ -60,42 +60,42 @@ const getRanks = async (address, time, type, func) => {
 
 const getMinStage = (t)=>{
     let rate = 0,left = 0,stage=0,diceCount = 0;
-    const yi = 100000000,precision=1000000;
-    if (t < 5 * yi * precision) {
+    const yi = 100000000, precision=1000000;
+    if (t < 10 * yi * precision) {
         rate = 1;
         left = t;
         stage = 1;
-        diceCount = 5 * yi;
-    } else if (t < 10 * yi * precision) {
+        diceCount = 10 * yi;
+    } else if (t < 30 * yi * precision) {
         rate = 2;
-        left = (t - 5 * yi)/rate;
+        left = (t - 10 * yi)/rate;
         stage = 2;
-        diceCount = 5 * yi / rate;
-    } else if (t < 20 * yi * precision) {
+        diceCount = 20 * yi / rate;
+    } else if (t < 70 * yi * precision) {
         rate = 4;
-        left = (t - 10 * yi * precision)/rate;
+        left = (t - 30 * yi * precision)/rate;
         stage = 3;
-        diceCount = 5 * yi / rate;
-    } else if (t < 40 * yi * precision) {
+        diceCount = 40 * yi / rate;
+    } else if (t < 150 * yi * precision) {
         rate = 8;
-        left = (t - 20 * yi * precision)/rate;
+        left = (t - 70 * yi * precision)/rate;
         stage = 4;
-        diceCount = 5 * yi / rate;
-    } else if (t < 120 * yi * precision) {
+        diceCount = 80 * yi / rate;
+    } else if (t < 390 * yi * precision) {
         rate = 12;
-        left = (t - 40 * yi * precision)/rate;
+        left = (t - 150 * yi * precision)/rate;
         stage = 5;
-        diceCount = 10 * yi / rate;
-    } else if (t < 160 * yi * precision) {
+        diceCount = 240 * yi / rate;
+    } else if (t < 710 * yi * precision) {
         rate = 16;
-        left = (t - 120 * yi * precision)/rate;
+        left = (t - 390 * yi * precision)/rate;
         stage = 6;
-        diceCount = 10 * yi / rate;
-    } else if (t < 200 * yi * precision) {
+        diceCount = 320 * yi / rate;
+    } else if (t < 1110 * yi * precision) {
         rate = 20;
-        left = (t - 160 * yi * precision)/rate;
+        left = (t - 710 * yi * precision)/rate;
         stage = 7;
-        diceCount = 10 * yi / rate;
+        diceCount = 400 * yi / rate;
     }
     return {
         rate,

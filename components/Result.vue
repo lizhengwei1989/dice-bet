@@ -31,25 +31,28 @@
           </tr>
           </thead>
           <tbody v-if="all.length!=0">
-          <tr v-for="item of all" :class="item.output ? 'win':'lose'">
-            <td>{{item.time}}</td>
-            <td>{{item.player | hiddenAddress}}</td>
-            <td>{{item.select}}</td>
-            <td>{{item.input}} {{item.token==0?'TRX':'DICE'}}</td>
-            <td>{{item.result}}</td>
-            <td>{{item.output?Math.floor(item.output * 1000)/1000+' '+(item.token==0?'TRX':'DICE'):'-'}}</td>
-          </tr>
+            <tr v-for="item of all" :class="item.output ? 'win':'lose'">
+              <td>{{item.time}}</td>
+              <td>{{item.player | hiddenAddress}}</td>
+              <td>{{item.select}}</td>
+              <td>{{item.input}} {{item.token==0?'TRX':'BET'}}</td>
+              <td>{{item.result}}</td>
+              <td>{{item.output?Math.floor(item.output * 1000)/1000+' '+(item.token==0?'TRX':'BET'):'-'}}</td>
+            </tr>
           </tbody>
           <tbody v-else>
-          <tr>
-          </tr>
-          <tr>
-            <td colspan="5" class="spin" v-if="isLoading">
-              <i></i>
-            </td>
-            <td colspan="5" style="text-align: center" v-else>
-              {{$t('NoData')}}
-            </td>
+            <tr v-if="!address.base58">
+              <td style="text-align: center;color:#C53028" colspan="6">
+                {{$t('NoDataForLogin')}}
+              </td>
+            </tr>
+            <tr v-else>
+              <td colspan="5" class="spin" v-if="isLoading">
+                <i></i>
+              </td>
+              <td colspan="5" style="text-align: center" v-else>
+                {{$t('NoData')}}
+              </td>
           </tr>
           </tbody>
         </table>
@@ -81,9 +84,9 @@
             <td>{{item.time}}</td>
             <td>{{item.player | hiddenAddress}}</td>
             <td>{{item.select}}</td>
-            <td>{{item.input}} {{item.token==0?'TRX':'DICE'}}</td>
+            <td>{{item.input}} {{item.token==0?'TRX':'BET'}}</td>
             <td>{{item.result}}</td>
-            <td>{{item.output?Math.floor(item.output * 1000)/1000+' '+(item.token==0?'TRX':'DICE'):'-'}}</td>
+            <td>{{item.output?Math.floor(item.output * 1000)/1000+' '+(item.token==0?'TRX':'BET'):'-'}}</td>
           </tr>
           </tbody>
         </table>
@@ -118,14 +121,16 @@ export default {
   },
   watch: {
     contractAddress(n) {
-      this.getAllBets(n, this.diceAddress);
+      if(window.tronWeb){
+          this.getAllBets(n, this.diceAddress);
+      }
     },
     my(n, o) {
-      this.myLen = n.length;
+      this.$store.commit("SET_MY_BETS", n);
     },
     myLen(n, o) {
-      this.$store.commit("SET_MY_BETS_LENGTH", n);
-      this.$store.commit("SET_RANDOM", this.my[0].result);
+      //this.$store.commit("SET_MY_BETS_LENGTH", n);
+      //this.$store.commit("SET_RANDOM", this.my[0].result);
     },
     address: {
       deep: true,
@@ -262,7 +267,6 @@ export default {
           //this.my = b;
           // 本地存储30条
           this.localMy = JSON.parse(localStorage.getItem(this.address.base58));
-
           if (this.localMy && this.localMy.length != 0) {
             let arr = b.concat(this.localMy);
             arr = arr.length > this.maxNum ? arr.slice(0, this.maxNum) : arr;

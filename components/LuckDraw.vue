@@ -29,21 +29,24 @@
         <div class="desc">
             <div>
                 <div>
-                    所得奖励：<span>{{balance}} TRX</span>
+                    {{$t('LuckyDraw.reward')}}<span>{{balance}} TRX</span>
                 </div>
-                <button @click="withdraw">{{$t('extract')}}</button>
+                <button @click="withdraw">{{$t('LuckyDraw.withdraw')}}</button>
             </div>
             <div>
-                <div>余抽奖次数： <span>{{times}}</span></div>
+                <div>{{$t('LuckyDraw.times')}} <span>{{times}}</span></div>
             </div>
+        </div>
+        <div class="rule">
+            <p>{{$t('LuckyDraw.supplement.p1')}}</p>
+            <p>{{$t('LuckyDraw.supplement.p2')}}</p>
         </div>
         <div slot="footer" class="dialog-footer" style="position: relative;">
             <div class="tip" v-if="luckyNumShow">
                 <span>{{luckyNum}}</span>
-                <span v-if="luckyInfoShow">恭喜中奖 <br /> +{{getReward}} TRX </span>
-
+                <span v-if="luckyInfoShow">{{$t('Congratulation')}} <br /> +{{getReward}} TRX </span>
             </div>
-            <el-button type="primary" @click="getLuckyNum">开始抽奖</el-button>
+            <el-button type="primary" @click="getLuckyNum">{{$t('LuckyDraw.Draw')}}</el-button>
         </div>
     </el-dialog>
 </template>
@@ -103,7 +106,10 @@ export default {
         this.isLoading = true;
         this.flagObj.withdraw = false;
         // 获取交易id
-        let transctionId = await this.contractObj.withDraw(2).send();
+        let transctionId = await this.contractObj.withDraw(2).send().catch(err=>{
+            console.log(err);
+        });
+        console.log(transctionId)
         this.eventServer(
           transctionId,
           res => {
@@ -264,6 +270,9 @@ export default {
 
             }
         }
+        .rule{
+            padding:.1rem 0;
+        }
         .desc{
             width: 3.9rem;
             display: flex;
@@ -287,9 +296,10 @@ export default {
                     width:.7rem;
                     height: .36rem;
                     background-color: transparent;
-                    font-size: .16rem;
+                    font-size: .14rem;
                     cursor: pointer;
                     color: #8F6300;
+                    outline: none;
                     &:hover{
                         border:1px solid #C53028;
                         color: #C53028;
@@ -340,6 +350,7 @@ export default {
                     }
                 }
             }
+
             .desc{
                 width: 5rem;
                 padding:.2rem 0;

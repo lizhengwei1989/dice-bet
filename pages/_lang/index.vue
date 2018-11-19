@@ -12,10 +12,7 @@
         <!-- 金额 -->
         <span class="t-shadow">{{v.output}} TRX,</span>
         <span>{{$t('marquee.odds')}}</span>
-        <span class="t-shadow">x{{(v.output/v.input).toFixed(4)}}</span>
-        !
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <span class="t-shadow">x{{(v.output/v.input).toFixed(4)}}</span>!
       </span>
     </marquee>
     <div class="container">
@@ -74,7 +71,6 @@ export default {
   },
   data() {
     return {
-      tronWeb: null,
       rollBtnDisabled: false,
       lastRollNum: null,
       languageGroup: [
@@ -90,7 +86,7 @@ export default {
 
   },
   computed: {
-    ...mapState(["showLoading","address","contractInstance","contractAddress", 'allBetList']),
+    ...mapState(["showLoading","address","contractInstance","contractAddress", "allBetList"]),
   },
   async mounted() {
     noDebug();
@@ -101,35 +97,41 @@ export default {
     let isLoadTronWeb = await this.isHasTronWeb();
     if (isLoadTronWeb) {
       await this.timeout(500);
-      this.tronWeb = window.tronWeb;
-      if (!this.checkLogin()) return;
+      //if (!this.checkLogin()) return;
       this.checkEnv();
-      this.$store.commit("SET_ADDRESS", this.tronWeb.defaultAddress);
-      const vip = await getVipInfo(this.address.base58);
-      console.log(vip);
-      this.$store.commit('SET_VIP_LEVEL',vip.level);
-      const balance = await getBalance(this.address.hex);
-      this.$store.commit("SET_BALANCE", this.tronWeb.fromSun(balance));
-      const contractInstance = await this.tronWeb
-        .contract()
-        .at(contractAddress);
-      const diceContractInstance = await this.tronWeb
-          .contract()
-          .at(diceAddress);
-      const diceBalance = (await diceContractInstance.getBalanceOf(this.address.hex.replace('/^41/','0x')).call()).toString();
-      this.$store.commit("SET_DICE_BALANCE",window.tronWeb.fromSun(diceBalance));
-      this.$store.commit("SET_CONTRACT_INSTANCE", contractInstance);
-      this.$store.commit("SET_DICE_CONTRACT_INSTANCE", diceContractInstance);
-      this.watchMinStage();
-      this.addInviteUser();
+      if(window.tronWeb){
+          if(window.tronWeb.defaultAddress){
+              this.$store.commit("SET_ADDRESS", window.tronWeb.defaultAddress);
+          }
+          if(this.address.base58){
+              const vip = await getVipInfo(this.address.base58);
+              this.$store.commit('SET_VIP_LEVEL',vip.level);
+              const balance = await getBalance(this.address.hex);
+              this.$store.commit("SET_BALANCE", window.tronWeb.fromSun(balance));
+          }
+          const contractInstance = await window.tronWeb
+              .contract()
+              .at(contractAddress);
+          const diceContractInstance = await window.tronWeb
+              .contract()
+              .at(diceAddress);
+          const diceBalance = this.address.hex ? (await diceContractInstance.getBalanceOf(this.address.hex.replace('/^41/','0x')).call()).toString():0;
+          this.$store.commit("SET_DICE_BALANCE",window.tronWeb.fromSun(diceBalance));
+          this.$store.commit("SET_CONTRACT_INSTANCE", contractInstance);
+          this.$store.commit("SET_DICE_CONTRACT_INSTANCE", diceContractInstance);
+          this.watchMinStage();
+          this.addInviteUser();
+      }
+
     } else {
-      this.checkLogin();
+      //this.checkLogin();
     }
   },
   methods: {
     async watchMinStage(){
       const payInTotal = await this.contractInstance.payInTotal().call();
       const o = getMinStage(payInTotal.toString());
+      console.log(payInTotal.toString())
       this.$store.commit('SET_MIN_STAGE',o);
       setInterval(async _=>{
           const payInTotal = await this.contractInstance.payInTotal().call();
@@ -174,7 +176,7 @@ export default {
       });
     },
     checkLogin() {
-      if (!window.tronWeb && !window.tronWeb.defaultAddress.base58) {
+      if (!window.tronWeb || !window.tronWeb.defaultAddress.base58) {
         this.$store.commit("SET_DIALOG_LOGIN", true);
         return false;
       } else {
@@ -182,12 +184,11 @@ export default {
       }
     },
     checkEnv() {
-      const server =  (typeof window.tronWeb.eventServer).toUpperCase() === 'OBJECT'?window.tronWeb.eventServer.host:window.tronWeb.eventServer;
+      const server =  window.tronWeb?((typeof window.tronWeb.eventServer).toUpperCase() === 'OBJECT'?window.tronWeb.eventServer.host:window.tronWeb.eventServer):'https://api.shasta.trongrid.io';
       if (server === "https://api.shasta.trongrid.io") {
-        contractAddress = "TSdKwnD8dhiFuoPsVsVov4FwvK3sL3Fsps";
-        activityAddress = "TXd32KL68KrNFtkULgY9Ww5A2xVdhK7rhj";
-        //diceAddress = "THrENu48be4VuU1f6688fSbazQwRHkDKKQ";
-        diceAddress = "TELzUo7wKhn6SWW9uELzBMrAbWaWh9bYqM";
+        contractAddress = "TZGe3dYuVoTfsGYiFVbCSJWwFeUE2LVqKp";
+        activityAddress = "TAxMGX9RvKGdZ4w8YBbeLhAhaL75qGBz2n";
+        diceAddress = "THZP41aUockHon7n8vmSjcr55z1q9Ye7Gx";
       } else {
         contractAddress = "TPUZherbdW4CQi9t4RbzvJmsoSzgTgBQRQ";
         activityAddress = "";
@@ -258,7 +259,7 @@ export default {
   background-size:11rem auto;
   background-repeat:no-repeat;
   background-color:#951010;
-  color: #fff;
+  color: #AF1A1A;
   &:before{
      position: absolute;
      width: 100%;

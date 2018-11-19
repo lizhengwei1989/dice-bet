@@ -2,7 +2,7 @@ import xhr from "axios";
 
 //计算赔率（与区块链算法保持一致）
 const getOdds = point => {
-  let r = 98; //返现率
+  let r = 98.5; //返现率
   if (point == 1) {
     return r;
   }
