@@ -125,7 +125,7 @@ export async function setContext(app, context) {
       payload: context.payload,
       error: context.error,
       base: '/',
-      env: {"BASE_API":"","ACTIVITY_API":"https://dicebet.io/api"}
+      env: {"BASE_API":"","ACTIVITY_API":"https://dicebet.io/long/api"}
     }
     // Only set once
     if (context.req) app.context.req = context.req
