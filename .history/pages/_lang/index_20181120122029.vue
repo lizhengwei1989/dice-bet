@@ -329,7 +329,7 @@ export default {
   .container {
     overflow-x: hidden;
     .main {
-      padding: 1.2rem 0.32rem 0;
+      padding: 2rem 0.32rem 0;
       width: 100%;
       z-index: 1001;
       .cell {
@@ -345,7 +345,7 @@ export default {
             margin-top: 0.35rem;
           }
           .col-2 {
-            height: 7rem;
+            height: 6rem;
             padding: 0.2rem 0;
             order: 1;
             margin-top: 0;
@@ -361,7 +361,6 @@ export default {
     line-height: 40px;
     top: 9%;
     font-size: 16px;
-    top: 1.2rem;
   }
   .total-wrap:before {
     width: 1.234rem;

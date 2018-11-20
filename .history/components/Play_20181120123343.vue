@@ -895,32 +895,6 @@ export default {
         height: 0.5rem !important;
       }
     }
-    .row-3 {
-      font-size: 12px;
-    }
-    .row-4 {
-      height: 0.8rem;
-      .percentage {
-        width: 2.5rem;
-        span {
-          width: 0.7rem;
-          height: 0.4rem;
-        }
-      }
-    }
-    .input {
-      height: 0.6rem;
-      font-size: 14px;
-      input {
-        font-size: 14px;
-        padding-right: 0.6rem;
-      }
-      &:before {
-        width: 1rem;
-        padding-left: 0.3rem;
-        background-size: auto 60%;
-      }
-    }
   }
 }
 </style>

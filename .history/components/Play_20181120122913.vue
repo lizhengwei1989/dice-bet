@@ -877,50 +877,53 @@ export default {
         }
       }
     }
+    .show {
+      .row-1 {
+        padding-left: 0.2rem;
+      }
+      .row-2 {
+        margin-top: 0.3rem;
+      }
+      .row-3 {
+        button {
+          font-size: 0.32rem;
+        }
+      }
+    }
     .light {
       width: 104%;
       height: 105%;
       background-size: 100% 100%;
     }
-
-    .row-2 {
-      height: 0.8rem;
-      .bar {
-        height: 0.5rem;
+    .show {
+      .row-1 {
+        .cell {
+          .t {
+            font-size: 0.24rem;
+          }
+          .c {
+            font-size: 0.36rem;
+          }
+        }
       }
-    }
-    .row-1 {
-      .tab {
-        width: 1.2rem !important;
-        height: 0.5rem !important;
-      }
-    }
-    .row-3 {
-      font-size: 12px;
-    }
-    .row-4 {
-      height: 0.8rem;
-      .percentage {
-        width: 2.5rem;
-        span {
-          width: 0.7rem;
-          height: 0.4rem;
+      .row-2 {
+        .line {
+          width: 100%;
+          .cell {
+            &:before,
+            &:after {
+              font-size: 0.24rem;
+            }
+          }
         }
       }
     }
-    .input {
-      height: 0.6rem;
-      font-size: 14px;
-      input {
-        font-size: 14px;
-        padding-right: 0.6rem;
-      }
-      &:before {
-        width: 1rem;
-        padding-left: 0.3rem;
-        background-size: auto 60%;
-      }
-    }
+  }
+
+  .row-2 {
+    height: 0.7rem;
+  }
+  .play .row-3 .available {
   }
 }
 </style>

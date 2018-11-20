@@ -305,9 +305,8 @@ export default {
   top: 120px;
   left: 50%;
   transform: translateX(-50%);
-  background: url("../../assets/images/new/scroll.png") no-repeat center;
+  background: url("../../assets/images/bg_adspace.png") no-repeat center;
   z-index: 100;
-  background-size: 100% 100%;
   .t-shadow {
     text-shadow: 0 0 5px hsla(0, 0%, 100%, 0.8);
   }
@@ -329,7 +328,7 @@ export default {
   .container {
     overflow-x: hidden;
     .main {
-      padding: 1.2rem 0.32rem 0;
+      padding: 2rem 0.32rem 0;
       width: 100%;
       z-index: 1001;
       .cell {
@@ -345,7 +344,7 @@ export default {
             margin-top: 0.35rem;
           }
           .col-2 {
-            height: 7rem;
+            height: 6rem;
             padding: 0.2rem 0;
             order: 1;
             margin-top: 0;
@@ -361,11 +360,6 @@ export default {
     line-height: 40px;
     top: 9%;
     font-size: 16px;
-    top: 1.2rem;
-  }
-  .total-wrap:before {
-    width: 1.234rem;
-    height: 1rem;
   }
 }
 </style>

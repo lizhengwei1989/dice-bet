@@ -329,7 +329,7 @@ export default {
   .container {
     overflow-x: hidden;
     .main {
-      padding: 1.2rem 0.32rem 0;
+      padding: 1rem 0.32rem 0;
       width: 100%;
       z-index: 1001;
       .cell {

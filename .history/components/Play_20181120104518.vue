@@ -115,40 +115,41 @@ export default {
       number: 50,
       disabled: false,
       odds: 2,
-      transactionId: "",
+      transactionId:'',
       r: "",
       rolling: null,
       timer: null,
-      unit: "TRX",
-      gap: "0",
-      isAuto: false
+      unit:'TRX',
+      gap:'0',
+      isAuto:false
     };
   },
   watch: {
     myBets: {
-      deep: true,
-      handler(newVal, oldVal) {
-        if (this.disabled) {
-          if (oldVal.length == 0 && newVal.length === 1) {
-            this.clearRoll(newVal[0].result);
-            return;
-          }
-          if (newVal.length > 1) {
-            let newTimeTemp = newVal[0].timestamp;
-            let oldTimeTemp = oldVal[0].timestamp;
-            if (newTimeTemp > oldTimeTemp) {
-              this.clearRoll(newVal[0].result);
+        deep: true,
+        handler(newVal, oldVal){
+            if(this.disabled){
+                if (oldVal.length == 0 && newVal.length === 1) {
+                    this.clearRoll(newVal[0].result);
+                    return;
+                }
+                if (newVal.length > 1) {
+                    let newTimeTemp = newVal[0].timestamp;
+                    let oldTimeTemp = oldVal[0].timestamp;
+                    if (newTimeTemp > oldTimeTemp) {
+                        this.clearRoll(newVal[0].result);
+                    }
+                }
             }
-          }
         }
-      }
+
     },
-    dbToken(n) {
-      if (n == 0) {
-        this.unit = "TRX";
-      } else if (n == 1) {
-        this.unit = "BET";
-      }
+    dbToken(n){
+        if(n==0){
+            this.unit = 'TRX';
+        }else if(n==1){
+            this.unit = 'BET';
+        }
     },
     number(newVal, oldVal) {
       const tip = document.querySelector(".el-slider__button-wrapper");
@@ -165,18 +166,18 @@ export default {
       this.changeState(this.number);
     },
     balance(n, o) {
-      let v = this.stake;
-      v = Math.min(v, this.limit[this.dbToken].max, Math.floor(n));
-      v = Math.max(v, this.limit[this.dbToken].min);
-      this.$store.commit("SET_STAKE", v);
-      animate(this.$refs["balance"], Number(n).toFixed(3), o);
+        let v = this.stake;
+        v = Math.min(v, this.limit[this.dbToken].max ,Math.floor(n));
+        v = Math.max(v, this.limit[this.dbToken].min);
+        this.$store.commit('SET_STAKE',v);
+        animate(this.$refs["balance"], Number(n).toFixed(3), o);
     },
     diceBalance(n, o) {
-      let v = this.stake;
-      v = Math.min(v, this.limit[this.dbToken].max, Math.floor(n));
-      v = Math.max(v, this.limit[this.dbToken].min);
-      this.$store.commit("SET_STAKE", v);
-      animate(this.$refs["diceBalance"], Number(n).toFixed(3), o);
+        let v = this.stake;
+        v = Math.min(v, this.limit[this.dbToken].max ,Math.floor(n));
+        v = Math.max(v, this.limit[this.dbToken].min);
+        this.$store.commit('SET_STAKE',v);
+        animate(this.$refs["diceBalance"], Number(n).toFixed(3), o);
     }
   },
   computed: {
@@ -202,10 +203,9 @@ export default {
   mounted() {
     window.roll = this.roll;
     // 获取邀请人地址
-    this.inviteAddress =
-      location.search.indexOf("from") !== -1
-        ? /\?from=(\S+)/.exec(location.search)[1]
-        : "0x00";
+    this.inviteAddress = location.search.indexOf('from') !== -1
+                         ? /\?from=(\S+)/.exec(location.search)[1]
+                         : '0x00';
     const odds = getOdds(this.number);
     this.my = localStorage.my ? JSON.parse(localStorage.my) : [];
     const tip = document.querySelector(".el-slider__button-wrapper");
@@ -213,55 +213,53 @@ export default {
     this.odds = Math.floor(odds * 10000) / 10000;
   },
   methods: {
-    async getResource(address) {
-      let resource, energy, bindWidth;
-      resource = await window.tronWeb.trx.getAccountResources(address.base58);
-      energy = resource.EnergyUsed
-        ? resource.EnergyLimit - resource.EnergyUsed
-        : 0;
-      bindWidth = await window.tronWeb.trx.getBandwidth(this.address.base58);
-      this.$store.commit("SET_BAND_WIDTH", bindWidth);
-      this.$store.commit("SET_ENERGY", energy);
-    },
-    watchResource(address) {
-      this.getResource(address);
-      setInterval(async _ => {
-        this.getResource(address);
-      }, 3000);
-    },
-    async tab(dbToken) {
-      if (dbToken == this.dbToken) {
-        return false;
-      } else {
-        const tabs = this.$refs.select.getElementsByClassName("tab");
-        for (let i = 0; i < tabs.length; i++) {
-          tabs[i].classList.remove("focus");
+      async getResource(address){
+          let resource,energy,bindWidth;
+          resource = await window.tronWeb.trx.getAccountResources(address.base58);
+          energy = resource.EnergyUsed?(resource.EnergyLimit - resource.EnergyUsed):0;
+          bindWidth = await window.tronWeb.trx.getBandwidth(this.address.base58);
+          this.$store.commit('SET_BAND_WIDTH',bindWidth);
+          this.$store.commit('SET_ENERGY',energy);
+      },
+      watchResource(address){
+          this.getResource(address);
+          setInterval(async _=>{
+              this.getResource(address);
+          },3000)
+      },
+      async tab(dbToken){
+          if(dbToken == this.dbToken){
+              return false;
+          }else{
+              const tabs = this.$refs.select.getElementsByClassName('tab');
+              for(let i=0;i<tabs.length;i++){
+                  tabs[i].classList.remove('focus');
+              }
+              tabs[dbToken].classList.add('focus');
+              this.$store.commit('SET_DB_TOKEN',dbToken);
+          }
+      },
+    clearRoll(res){
+        this.watchBalance();
+        clearInterval(this.timer);
+        clearInterval(this.rolling);
+        this.r = res;
+        this.$store.commit('SET_RANDOM',res)
+        setTimeout(() => {
+            this.r = "";
+            this.disabled = false;
+            if(this.isAuto){
+                this.roll();
+            }
+        }, 3000);
+        //添加交易
+        if(this.transactionId){
+            if(this.r >= this.number){
+                this.$refs.lose.style.display="block";
+            }else{
+                this.$refs.win.style.display="block";
+            }
         }
-        tabs[dbToken].classList.add("focus");
-        this.$store.commit("SET_DB_TOKEN", dbToken);
-      }
-    },
-    clearRoll(res) {
-      this.watchBalance();
-      clearInterval(this.timer);
-      clearInterval(this.rolling);
-      this.r = res;
-      this.$store.commit("SET_RANDOM", res);
-      setTimeout(() => {
-        this.r = "";
-        this.disabled = false;
-        if (this.isAuto) {
-          this.roll();
-        }
-      }, 3000);
-      //添加交易
-      if (this.transactionId) {
-        if (this.r >= this.number) {
-          this.$refs.lose.style.display = "block";
-        } else {
-          this.$refs.win.style.display = "block";
-        }
-      }
     },
     changeState(num) {
       const odds = getOdds(num);
@@ -272,15 +270,15 @@ export default {
       let v = e.target.value;
       v = v.replace(/\D/g, "");
       v = Math.min(v, Math.ceil(balance), this.limit[this.dbToken].max);
-      v = v ? v : "";
+      v = v ? v : '';
       e.target.value = v;
-      this.$store.commit("SET_STAKE", v);
+      this.$store.commit('SET_STAKE',v);
     },
-    handleBlur(e) {
-      if (e.target.value < this.limit[this.dbToken].min) {
-        e.target.value = this.limit[this.dbToken].min;
-        this.$store.commit("SET_STAKE", this.limit[this.dbToken].min);
-      }
+    handleBlur(e){
+        if(e.target.value < this.limit[this.dbToken].min){
+            e.target.value = this.limit[this.dbToken].min;
+            this.$store.commit('SET_STAKE',this.limit[this.dbToken].min);
+        }
     },
     handlePercentage(p, index) {
       let v;
@@ -290,54 +288,52 @@ export default {
         cells[i].classList.remove("green");
       }
       cells[index].classList.add("green");
-      if (p === "half") {
-        v = this.stake / 2;
-      } else if (p === "double") {
-        v = this.stake * 2;
-      } else {
-        v = this.balance;
+      if(p === 'half'){
+          v = this.stake / 2;
+      }else if(p ==='double'){
+          v = this.stake * 2;
+      }else{
+          v = this.balance;
       }
-      v = Math.min(v, this.limit[this.dbToken].max, balance);
+      v = Math.min(v, this.limit[this.dbToken].max ,balance);
       v = Math.max(v, this.limit[this.dbToken].min);
       v = Math.floor(v);
-      this.$store.commit("SET_STAKE", v);
+      this.$store.commit('SET_STAKE',v);
     },
-    handleAutoBet() {
-      if (this.isAuto) this.roll();
+    handleAutoBet(){
+      if(this.isAuto)this.roll();
     },
     async roll() {
-      if (!this.address.base58) {
-        this.$store.commit("SET_DIALOG_LOGIN", true);
-        return false;
+      if(!this.address.base58){
+          this.$store.commit('SET_DIALOG_LOGIN',true);
+          return false;
       }
-      if (
-        (this.dbToken == 0 && this.balance < this.limit[0].min) ||
-        (this.dbToken == 1 && this.diceBalance < this.limit[1].min)
-      ) {
+      if ((this.dbToken == 0 && this.balance < this.limit[0].min) || (this.dbToken==1 &&  this.diceBalance < this.limit[1].min)) {
         this.$message({
-          message: this.$t("Msg.BalanceNotEnough"),
-          type: "warning"
+            message:this.$t('Msg.BalanceNotEnough'),
+            type: 'warning'
         });
         return false;
       }
       if (this.disabled) return false;
       this.disabled = true;
       let transactionId;
-      if (this.dbToken == 0) {
+      if(this.dbToken==0){
         transactionId = await this.contractInstance
           .bet(this.number)
           .send({
-            callValue: window.tronWeb.toSun(this.stake), //投注金额
-            shouldPollResponse: false //是否等待响应
+              callValue: window.tronWeb.toSun(this.stake), //投注金额
+              shouldPollResponse: false //是否等待响应
           })
           .catch(err => {
-            console.log(err);
-            this.disabled = false;
+              console.log(err);
+              this.disabled = false;
           });
-      } else {
+
+      }else{
         const stake = Number(window.tronWeb.toSun(this.stake));
         transactionId = await this.diceContractInstance
-          .diceBet(this.number, stake)
+          .diceBet(this.number,stake)
           .send()
           .catch(err => {
             console.log(err);
@@ -351,12 +347,10 @@ export default {
       this.rolling = setInterval(_ => {
         this.r = Math.ceil(Math.random() * 100);
         const c = this.$refs.light.className;
-        this.$refs.light.className = c.match(/1/)
-          ? c.replace("1", "2")
-          : c.replace("2", "1");
+        this.$refs.light.className = c.match(/1/) ? c.replace('1','2'):c.replace('2','1')
       }, 100);
-      this.$refs.win.style.display = "none";
-      this.$refs.lose.style.display = "none";
+      this.$refs.win.style.display="none";
+      this.$refs.lose.style.display="none";
       this.timer = setInterval(async _ => {
         const res = await window.tronWeb.getEventByTransactionID(transactionId);
         //console.log(res);
@@ -396,44 +390,37 @@ export default {
     },
     async watchBalance() {
       let gap;
-      const dom = this.$refs["gap"];
-      const balance = await getBalance(this.address.hex);
-      const diceBalance = this.address.hex
-        ? (await this.diceContractInstance
-            .getBalanceOf(this.address.hex.replace("/^41/", "0x"))
-            .call()).toString()
-        : 0;
-      if (this.dbToken == 0) {
-        gap = window.tronWeb.fromSun(balance) - this.balance;
-      } else {
-        gap = window.tronWeb.fromSun(diceBalance) - this.diceBalance;
+      const dom = this.$refs['gap'];
+      const balance =  await getBalance(this.address.hex);
+      const diceBalance = this.address.hex ? (await this.diceContractInstance.getBalanceOf(this.address.hex.replace('/^41/','0x')).call()).toString():0;
+      if(this.dbToken==0){
+          gap = window.tronWeb.fromSun(balance) - this.balance;
+      }else{
+          gap = window.tronWeb.fromSun(diceBalance) - this.diceBalance;
       }
-      gap = Math.ceil(gap * 100) / 100;
-      this.gap = gap > 0 ? "+" + gap : gap;
-      dom.classList.add("animate");
-      dom.addEventListener("animationend", () => {
-        dom.classList.remove("animate");
+      gap = Math.ceil(gap * 100)/100;
+      this.gap = gap > 0 ? '+'+gap:gap;
+      dom.classList.add('animate');
+      dom.addEventListener('animationend',()=>{
+          dom.classList.remove('animate');
       });
 
       this.$store.commit("SET_BALANCE", window.tronWeb.fromSun(balance));
-      this.$store.commit(
-        "SET_DICE_BALANCE",
-        window.tronWeb.fromSun(diceBalance)
-      );
+      this.$store.commit("SET_DICE_BALANCE", window.tronWeb.fromSun(diceBalance));
     },
     animate(ref, newVal, oldVal) {
-      const dom = this.$refs[ref];
-      newVal = parseFloat(newVal);
-      oldVal = parseFloat(oldVal);
-      const t = setInterval(() => {
-        oldVal = oldVal + (newVal - oldVal) / 3;
-        oldVal = Math.floor(oldVal * 100) / 100;
-        dom.innerHTML = oldVal;
-        if (Math.abs(oldVal - newVal) < 0.4) {
-          clearInterval(t);
-          dom.innerHTML = newVal;
-        }
-      }, 30);
+        const dom = this.$refs[ref];
+        newVal = parseFloat(newVal);
+        oldVal = parseFloat(oldVal);
+        const t = setInterval(() => {
+          oldVal = oldVal + (newVal - oldVal) / 3;
+          oldVal = Math.floor(oldVal * 100) / 100;
+          dom.innerHTML = oldVal;
+          if (Math.abs(oldVal - newVal) < 0.4) {
+            clearInterval(t);
+            dom.innerHTML = newVal;
+          }
+        }, 30);
     }
   }
 };
@@ -447,208 +434,210 @@ export default {
   color: #de5cff;
 }
 .play {
-  position: relative;
+  position:relative;
   width: 4.98rem;
   height: 4.98rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 0.2rem 0.25rem 0;
-  z-index: 0;
+  z-index:0;
   font-size: 14px;
-  .light {
+  .light{
     position: absolute;
     width: 5.3rem;
     height: 5.3rem;
     left: -0.14rem;
     top: -0.14rem;
     background-repeat: no-repeat;
-    z-index: -1;
+    z-index:-1;
   }
-  .light1 {
-    background-image: url("../assets/images/new/light1.png");
+  .light1{
+    background-image: url('../assets/images/new/light1.png');
   }
-  .light2 {
-    background-image: url("../assets/images/new/light2.png");
+  .light2{
+    background-image: url('../assets/images/new/light2.png');
   }
-  .input {
-    height: 0.4rem;
+  .input{
+    height: .4rem;
     position: relative;
-    background: #ffffff;
-    border: 1px solid #310000;
-    border-radius: 2px;
+    background:#ffffff;
+    border:1px solid #310000;
+    border-radius:2px;
     font-size: 16px;
-    padding: 0 0.1rem;
-    input {
+    padding:0 .1rem;
+    input{
       width: 100%;
       height: 100%;
-      border: none;
-      background: none;
-      padding-right: 0.36rem;
+      border:none;
+      background:none;
+      padding-right:.36rem;
       outline: none;
       text-align: right;
       font-size: 16px;
       color: #b71c19;
     }
-    &:before {
-      width: 0.57rem;
+    &:before{
+      width: .57rem;
       height: 100%;
-      padding-left: 0.2rem;
+      padding-left: .2rem;
       content: attr(data-before);
       position: absolute;
-      z-index: 0;
+      z-index:0;
       display: flex;
       align-items: center;
       justify-content: center;
-      background-repeat: no-repeat;
-      background-position: left center;
+      background-repeat:no-repeat;
+      background-position:left center;
     }
-    &:after {
+    &:after{
       position: absolute;
-      top: 0;
-      right: 0.1rem;
+      top:0;
+      right:.1rem;
       height: 100%;
       display: flex;
       align-items: center;
-      z-index: 1;
+      z-index:1;
       content: attr(data-after);
       color: #b71c19;
     }
   }
-  .row-1 {
-    height: 0.5rem;
+  .row-1{
+    height: .5rem;
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    .tab {
+    .tab{
       width: 1.02rem;
-      height: 0.32rem;
+      height: .32rem;
       display: flex;
       justify-content: center;
       align-items: center;
-      background: #e58700;
-      box-shadow: 0 2px 4px 0 rgba(117, 4, 0, 0.2);
-      border-radius: 6px;
-      margin: 0 0.15rem;
+      background:#e58700;
+      box-shadow:0 2px 4px 0 rgba(117,4,0,0.20);
+      border-radius:6px;
+      margin:0 .15rem;
       color: #fff;
-      img {
-        width: 0.22rem;
-        height: 0.22rem;
+      img{
+        width: .22rem;
+        height: .22rem;
       }
-      span {
-        margin-left: 0.04rem;
+      span{
+        margin-left: .04rem;
       }
     }
-    .tab.focus {
+    .tab.focus{
       background-color: #bc0e05;
     }
   }
-  .row-2 {
+  .row-2{
     width: 100%;
-    height: 0.5rem;
+    height: .5rem;
     display: flex;
     flex-direction: row;
     align-items: center;
-    .txt {
+    .txt{
       color: #310000;
     }
-    .bar {
+    .bar{
       font-size: 12px;
-      margin-left: 0.08rem;
-      flex: 1;
-      background: #ffe7c7;
-      border: 1px solid #310000;
-      border-radius: 2px;
-      height: 0.2rem;
+      margin-left: .08rem;
+      flex:1;
+      background:#ffe7c7;
+      border:1px solid #310000;
+      border-radius:2px;
+      height:.2rem;
       display: flex;
       flex-direction: row;
       align-items: center;
-      & > div {
-        flex: 1;
+      & > div{
+        flex:1;
         display: flex;
-        padding: 0 0.1rem;
-        height: 0.12rem;
+        padding:0 .1rem;
+        height: .12rem;
         align-items: center;
-        &:last-child {
-          border-left: 1px solid #8f6300;
+        &:last-child{
+          border-left:1px solid #8f6300;
         }
-        span {
+        span{
           color: #310000;
         }
       }
+
     }
   }
-  .row-3 {
+  .row-3{
     width: 100%;
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
     color: #b71c19;
-    .available {
-      margin-right: 0.1rem;
+    .available{
+      margin-right: .1rem;
     }
   }
-  .row-4 {
-    height: 0.52rem;
+  .row-4{
+    height: .52rem;
     display: flex;
     flex-direction: row;
     align-items: center;
     width: 100%;
-    .bet {
-      flex: 1;
-      &:before {
+    .bet{
+      flex:1;
+      &:before{
         background-image: url("../assets/images/icons/icon-input-trx.png");
       }
     }
-    .percentage {
-      margin-left: 0.06rem;
+    .percentage{
+      margin-left: .06rem;
       width: 1.7rem;
-      color: #c53028;
+      color: #C53028;
       display: flex;
       flex-direction: row;
       align-items: center;
       justify-content: space-between;
-      &:before {
+      &:before{
         display: none;
       }
       span {
         cursor: pointer;
-        border: 1px solid #c53028;
-        width: 0.44rem;
-        height: 0.26rem;
-        border-radius: 0.02rem;
+        border:1px solid #C53028;
+        width: .44rem;
+        height: .26rem;
+        border-radius:.02rem;
         display: flex;
         align-items: center;
         justify-content: center;
       }
-      span.green {
-        background-color: #c53028;
+      span.green{
+        background-color: #C53028;
         color: #fff;
       }
     }
   }
-  .row-5 {
-    height: 0.52rem;
+  .row-5{
+    height: .52rem;
     width: 100%;
     display: flex;
     align-items: center;
     flex-direction: row;
-    & > div {
-      &:first-child {
-        &:before {
+    &>div{
+      &:first-child{
+        &:before{
           background-image: url("../assets/images/icons/icon-input-win.png");
         }
       }
-      &:last-child {
-        &:before {
+      &:last-child{
+        &:before{
           background-image: url("../assets/images/icons/icon-input-min.png");
         }
-        margin-left: 0.06rem;
+        margin-left: .06rem;
       }
+
     }
   }
-  .row-6 {
+  .row-6{
     width: 100%;
     display: flex;
     height: 1.2rem;
@@ -656,46 +645,45 @@ export default {
     align-items: center;
     .line {
       position: absolute;
-      height: 0.2rem;
+      height: .2rem;
       width: 4.48rem;
-      top: 0.72rem;
-      .win,
-      .lose {
+      top:.72rem;
+      .win,.lose{
         position: absolute;
-        width: 0.54rem;
-        height: 0.24rem;
+        width: .54rem;
+        height: .24rem;
         color: #fff;
-        line-height: 0.24rem;
+        line-height: .24rem;
         background-repeat: no-repeat;
         background-position: -0.02rem center;
-        background-size: auto 110%;
-        border-radius: 0.11rem;
-        padding-left: 0.22rem;
-        top: 0.06rem;
+        background-size:auto 110%;
+        border-radius: .11rem;
+        padding-left:.22rem;
+        top: .06rem;
         margin-top: 0;
-        margin-left: -0.24rem;
+        margin-left:-.24rem;
         display: none;
         text-align: center;
       }
-      .win {
-        background-image: url("../assets/images/win.png");
-        left: calc(25% - 0.15rem);
+      .win{
+        background-image: url('../assets/images/win.png');
+        left: calc(25% - .15rem);
         background-color: #64e1f6;
       }
-      .lose {
-        background-image: url("../assets/images/lose.png");
+      .lose{
+        background-image: url('../assets/images/lose.png');
         background-color: #fc495b;
-        left: calc(75% - 0.15rem);
+        left: calc(75% - .15rem);
       }
       .cell {
         position: absolute;
         display: flex;
         flex-direction: column;
         align-items: center;
-        width: 0.3rem;
-        font-size: 0.16rem;
+        width: .3rem;
+        font-size: .16rem;
         &:nth-child(1) {
-          left: -0.05rem;
+          left: -.05rem;
         }
         &:nth-child(2) {
           left: calc(25% - 0.15rem);
@@ -710,215 +698,210 @@ export default {
           left: calc(100% - 0.2rem);
         }
         &:before {
-          font-size: 0.12rem;
+          font-size: .12rem;
           color: #979797;
           content: "";
         }
         &:after {
-          font-size: 0.13rem;
+          font-size: .13rem;
           color: #666;
-          margin-top: 0.04rem;
+          margin-top: .04rem;
           content: attr(data-after);
         }
       }
     }
   }
-  .row-7 {
+  .row-7{
     position: relative;
     z-index: -2;
     width: 100%;
-    height: 0.4rem;
+    height: .4rem;
     display: flex;
-    background: #ffe7c7;
-    border: 1px solid #310000;
-    border-radius: 2px;
+    background:#ffe7c7;
+    border:1px solid #310000;
+    border-radius:2px;
     align-items: center;
     .cell {
-      height: 0.2rem;
+      height: .2rem;
       display: flex;
       flex: 1;
       flex-direction: row;
       align-items: center;
       justify-content: center;
       color: #310000;
-      border-left: 1px solid #c53028;
-      &:first-child {
-        border: none;
+      border-left:1px solid #c53028;
+      &:first-child{
+        border:none
       }
       .t {
-        font-size: 0.12rem;
+        font-size: .12rem;
       }
       .c {
-        font-size: 22px;
-        color: #b71c19;
-        margin-left: 0.04rem;
+        font-size:22px;
+        color:#b71c19;
+        margin-left: .04rem;
       }
     }
   }
-  .row-8 {
+  .row-8{
     width: 100%;
     position: relative;
-    margin-bottom: 0.1rem;
+    margin-bottom: .1rem;
     flex: 1;
     display: flex;
     align-items: center;
     justify-content: center;
-    .gap {
+    .gap{
       position: absolute;
-      z-index: -1;
+      z-index:-1;
       width: 1.8rem;
-      height: 0.5rem;
-      text-align: center;
-      font-size: 0.3rem;
+      height: .5rem;
+      text-align:center;
+      font-size: .3rem;
       font-weight: bold;
-      line-height: 0.5rem;
-      top: 50%;
-      left: 50%;
-      margin-left: -0.9rem;
-      margin-top: -0.25rem;
+      line-height:.5rem;
+      top:50%;
+      left:50%;
+      margin-left:-.9rem;
+      margin-top:-.25rem;
       opacity: 0;
-      color: #c53028;
+      color: #C53028;
     }
-    .gap.animate {
+    .gap.animate{
       animation: show 1s ease-in-out;
     }
     @keyframes show {
-      50% {
-        top: 0;
+      50%{
+        top:0;
         opacity: 1;
       }
-      100% {
-        top: -50%;
+      100%{
+        top:-50%;
         opacity: 0;
       }
     }
     button {
       width: 1.8rem;
       height: 0.5rem;
-      background-image: linear-gradient(-180deg, #fad961 0%, #f76b1c 100%);
-      box-shadow: 0 4px 9px 0 rgba(117, 4, 0, 0.2);
+      background-image: linear-gradient(-180deg, #FAD961 0%, #F76B1C 100%);
+      box-shadow: 0 4px 9px 0 rgba(117,4,0,0.20);
       border-radius: 25px;
       cursor: pointer;
-      font-size: 0.24rem;
-      border: none;
+      font-size: .24rem;
+      border:none;
       color: #fff;
     }
-    .auto-bet {
+    .auto-bet{
       position: absolute;
-      right: 0;
+      right:0;
     }
   }
 }
-@media screen and (max-width: 1100px) {
-  .play {
+@media screen and (max-width:1100px){
+  .play{
     width: 6.66rem;
     height: 100%;
-    .input-group {
-      height: 0.6rem;
-      .input {
-        padding-right: 0.6rem;
-        height: 0.56rem;
-        input {
-          font-size: 0.24rem;
+    .input-group{
+      height: .6rem;
+      .input{
+        padding-right: .6rem;
+        height: .56rem;
+        input{
+          font-size: .24rem;
         }
-        &:before {
-          font-size: 0.24rem;
+        &:before{
+          font-size: .24rem;
         }
-        &:after {
-          font-size: 0.24rem;
+        &:after{
+          font-size: .24rem;
         }
       }
-      .percentage {
-        height: 0.58rem;
+      .percentage{
+        height: .58rem;
       }
-      & > div {
-        height: 0.48rem;
+      &>div{
+        height: .48rem;
       }
     }
-    .win {
-      .input-group {
-        .input {
-          &:after {
-            width: 0.66rem;
+    .win{
+      .input-group{
+        .input{
+          &:after{
+            width: .66rem;
           }
         }
       }
     }
-    .bet {
+    .bet{
       width: 100%;
-      .desc {
-        height: 0.8rem;
-        padding: 0.1rem 0;
+      .desc{
+        height: .8rem;
+        padding:.1rem 0;
         flex-wrap: wrap;
-        .available {
+        .available{
           width: 100%;
-          font-size: 0.24rem;
+          font-size: .24rem;
         }
-        .balance-trx,
-        .balance-dice {
-          font-size: 0.24rem;
+        .balance-trx,.balance-dice{
+          font-size: .24rem;
         }
       }
-      .input-group {
-        .percentage {
+      .input-group{
+        .percentage{
           width: 2.8rem;
-          span {
-            width: 0.62rem;
-            height: 0.34rem;
-            font-size: 0.24rem;
+          span{
+            width: .62rem;
+            height: .34rem;
+            font-size: .24rem;
           }
         }
-        .input {
+        .input{
           position: relative;
-          left: 0.01rem;
-          &:after {
-            width: 0.66rem;
+          left:.01rem;
+          &:after{
+            width: .66rem;
           }
         }
       }
     }
-    .light {
+    .show{
+      .row-1{
+        padding-left:.2rem;
+      }
+      .row-2{
+        margin-top: .3rem;
+      }
+      .row-3{
+        button{
+          font-size: .32rem;
+        }
+      }
+    }
+    .light{
       width: 104%;
       height: 105%;
-      background-size: 100% 100%;
+      background-size:100% 100%;
     }
-
-    .row-2 {
-      height: 0.8rem;
-      .bar {
-        height: 0.5rem;
-      }
-    }
-    .row-1 {
-      .tab {
-        width: 1.2rem !important;
-        height: 0.5rem !important;
-      }
-    }
-    .row-3 {
-      font-size: 12px;
-    }
-    .row-4 {
-      height: 0.8rem;
-      .percentage {
-        width: 2.5rem;
-        span {
-          width: 0.7rem;
-          height: 0.4rem;
+    .show{
+      .row-1{
+        .cell {
+          .t{
+            font-size: .24rem;
+          }
+          .c{
+            font-size: .36rem;
+          }
         }
       }
-    }
-    .input {
-      height: 0.6rem;
-      font-size: 14px;
-      input {
-        font-size: 14px;
-        padding-right: 0.6rem;
-      }
-      &:before {
-        width: 1rem;
-        padding-left: 0.3rem;
-        background-size: auto 60%;
+      .row-2{
+        .line{
+          width: 100%;
+          .cell{
+            &:before,&:after{
+              font-size: .24rem;
+            }
+          }
+        }
       }
     }
   }

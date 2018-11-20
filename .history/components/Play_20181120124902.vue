@@ -917,7 +917,7 @@ export default {
       }
       &:before {
         width: 1rem;
-        padding-left: 0.3rem;
+        padding-left: 0.2rem;
         background-size: auto 60%;
       }
     }

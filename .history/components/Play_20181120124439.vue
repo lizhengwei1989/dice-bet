@@ -903,7 +903,7 @@ export default {
       .percentage {
         width: 2.5rem;
         span {
-          width: 0.7rem;
+          width: 0.6rem;
           height: 0.4rem;
         }
       }
@@ -916,9 +916,9 @@ export default {
         padding-right: 0.6rem;
       }
       &:before {
-        width: 1rem;
-        padding-left: 0.3rem;
-        background-size: auto 60%;
+        width: 0.6rem;
+        padding-left: 0.7rem;
+        background-size: 50%;
       }
     }
   }

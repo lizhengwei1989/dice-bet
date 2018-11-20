@@ -367,5 +367,9 @@ export default {
     width: 1.234rem;
     height: 1rem;
   }
+  .play .row-1 .tab {
+    width: 1.2rem;
+    height: 0.5rem;
+  }
 }
 </style>
