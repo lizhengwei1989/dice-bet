@@ -47,9 +47,15 @@ import Rank from "~/components/Rank.vue";
 import Play from "~/components/Play.vue";
 import Result from "~/components/Result.vue";
 import Loading from "~/components/loading.vue";
-import { getBalance, noDebug, getWeeklyRank,getMinStage,isMobile } from "~/static/js/Util";
-import { addInviteUser } from '~/api/user';
-import { getVipInfo } from '~/api/vip';
+import {
+  getBalance,
+  noDebug,
+  getWeeklyRank,
+  getMinStage,
+  isMobile
+} from "~/static/js/Util";
+import { addInviteUser } from "~/api/user";
+import { getVipInfo } from "~/api/vip";
 
 let contractAddress = ""; //测试网
 let activityAddress = "";
@@ -71,8 +77,8 @@ export default {
       rollBtnDisabled: false,
       lastRollNum: null,
       languageGroup: [
-        { lng: "en", txt: "English",icon:'england' },
-        { lng: "ch", txt: "Chinese",icon:'china' },
+        { lng: "en", txt: "English", icon: "england" },
+        { lng: "ch", txt: "Chinese", icon: "china" }
         // { lng: "rus", txt: "Russian",icon:'russia' },
         // { lng: "kor", txt: "Korean",icon:'korea' },
       ]
@@ -80,65 +86,75 @@ export default {
   },
   created() {
     //this.$store.dispatch("getToken");
-
   },
   computed: {
-    ...mapState(["showLoading","address","contractInstance","contractAddress", "allBetList"]),
+    ...mapState([
+      "showLoading",
+      "address",
+      "contractInstance",
+      "contractAddress",
+      "allBetList"
+    ])
   },
   async mounted() {
     noDebug();
     this.limit = this.$store.state.limit;
-    if(isMobile() && window.iTron){
-        require("~/static/js/mTronWeb");
+    if (isMobile() && window.iTron) {
+      require("~/static/js/mTronWeb");
     }
     let isLoadTronWeb = await this.isHasTronWeb();
     if (isLoadTronWeb) {
       await this.timeout(500);
       //if (!this.checkLogin()) return;
       this.checkEnv();
-      if(window.tronWeb){
-          if(window.tronWeb.defaultAddress){
-              this.$store.commit("SET_ADDRESS", window.tronWeb.defaultAddress);
-          }
-          if(this.address.base58){
-              const vip = await getVipInfo(this.address.base58);
-              this.$store.commit('SET_VIP_LEVEL',vip.level);
-              const balance = await getBalance(this.address.hex);
-              this.$store.commit("SET_BALANCE", window.tronWeb.fromSun(balance));
-          }
-          const contractInstance = await window.tronWeb
-              .contract()
-              .at(contractAddress);
-          const diceContractInstance = await window.tronWeb
-              .contract()
-              .at(diceAddress);
-          const diceBalance = this.address.hex ? (await diceContractInstance.getBalanceOf(this.address.hex.replace('/^41/','0x')).call()).toString():0;
-          this.$store.commit("SET_DICE_BALANCE",window.tronWeb.fromSun(diceBalance));
-          this.$store.commit("SET_CONTRACT_INSTANCE", contractInstance);
-          this.$store.commit("SET_DICE_CONTRACT_INSTANCE", diceContractInstance);
-          this.watchMinStage();
-          this.addInviteUser();
+      if (window.tronWeb) {
+        if (window.tronWeb.defaultAddress) {
+          this.$store.commit("SET_ADDRESS", window.tronWeb.defaultAddress);
+        }
+        if (this.address.base58) {
+          const vip = await getVipInfo(this.address.base58);
+          this.$store.commit("SET_VIP_LEVEL", vip.level);
+          const balance = await getBalance(this.address.hex);
+          this.$store.commit("SET_BALANCE", window.tronWeb.fromSun(balance));
+        }
+        const contractInstance = await window.tronWeb
+          .contract()
+          .at(contractAddress);
+        const diceContractInstance = await window.tronWeb
+          .contract()
+          .at(diceAddress);
+        const diceBalance = this.address.hex
+          ? (await diceContractInstance
+              .getBalanceOf(this.address.hex.replace("/^41/", "0x"))
+              .call()).toString()
+          : 0;
+        this.$store.commit(
+          "SET_DICE_BALANCE",
+          window.tronWeb.fromSun(diceBalance)
+        );
+        this.$store.commit("SET_CONTRACT_INSTANCE", contractInstance);
+        this.$store.commit("SET_DICE_CONTRACT_INSTANCE", diceContractInstance);
+        this.watchMinStage();
+        this.addInviteUser();
       }
-
     } else {
       //this.checkLogin();
     }
   },
   methods: {
-    async watchMinStage(){
+    async watchMinStage() {
       const payInTotal = await this.contractInstance.payInTotal().call();
       const o = getMinStage(payInTotal.toString());
-      console.log(payInTotal.toString())
-      this.$store.commit('SET_MIN_STAGE',o);
-      setInterval(async _=>{
-          const payInTotal = await this.contractInstance.payInTotal().call();
-          const o = getMinStage(payInTotal.toString());
-          this.$store.commit('SET_MIN_STAGE',o);
-      },5000)
+      this.$store.commit("SET_MIN_STAGE", o);
+      setInterval(async _ => {
+        const payInTotal = await this.contractInstance.payInTotal().call();
+        const o = getMinStage(payInTotal.toString());
+        this.$store.commit("SET_MIN_STAGE", o);
+      }, 5000);
     },
     // 添加邀请人
     addInviteUser() {
-      let queryArr = /\?from=(\S+)/.exec(location.search)
+      let queryArr = /\?from=(\S+)/.exec(location.search);
       if (queryArr) {
         addInviteUser({
           dappId: 1,
@@ -146,10 +162,9 @@ export default {
           inviterAddress: queryArr[1],
           inviteeAddress: this.address.base58
         }).then(res => {
-          console.log(res)
-        })
+          console.log(res);
+        });
       }
-      
     },
     isHasTronWeb() {
       this.isLoading = true;
@@ -181,7 +196,11 @@ export default {
       }
     },
     checkEnv() {
-      const server =  window.tronWeb?((typeof window.tronWeb.eventServer).toUpperCase() === 'OBJECT'?window.tronWeb.eventServer.host:window.tronWeb.eventServer):'https://api.shasta.trongrid.io';
+      const server = window.tronWeb
+        ? (typeof window.tronWeb.eventServer).toUpperCase() === "OBJECT"
+          ? window.tronWeb.eventServer.host
+          : window.tronWeb.eventServer
+        : "https://api.shasta.trongrid.io";
       if (server === "https://api.shasta.trongrid.io") {
         contractAddress = "TZGe3dYuVoTfsGYiFVbCSJWwFeUE2LVqKp";
         activityAddress = "TAxMGX9RvKGdZ4w8YBbeLhAhaL75qGBz2n";
@@ -189,7 +208,7 @@ export default {
       } else {
         contractAddress = "TPUZherbdW4CQi9t4RbzvJmsoSzgTgBQRQ";
         activityAddress = "";
-        diceAddress="";
+        diceAddress = "";
       }
       this.$store.commit("SET_CONTRACT_ADDRESS", contractAddress);
       this.$store.commit("SET_ACTIVITY_ADDRESS", activityAddress);
@@ -227,12 +246,12 @@ export default {
   flex-direction: column;
   color: #AF1A1A;
   a {
-    color: #b3a6ff;
+    color: #bc0e05;
   }
   .main {
-    padding-top:1.3rem;
+    padding-top: 1.3rem;
     position: relative;
-    z-index:1;
+    z-index: 1;
     width: 11rem;
     flex: 1;
     margin: auto;
@@ -240,7 +259,7 @@ export default {
     flex-direction: column;
     justify-content: space-between;
     & > .cell {
-      &:first-child{}
+      &:first-child {}
       &:nth-child(2) {
         display: flex;
         flex-direction: row;
@@ -261,7 +280,7 @@ export default {
         }
         .col.col-2 {
           flex-direction: column;
-          border-radius: .1rem;
+          border-radius: 0.1rem;
         }
       }
       &:nth-child(3) {
@@ -281,49 +300,49 @@ export default {
   top: 175px;
   left: 50%;
   transform: translateX(-50%);
-  background: url('../../assets/images/bg_adspace.png') no-repeat center;
+  background: url("../../assets/images/bg_adspace.png") no-repeat center;
   z-index: 100;
   .t-shadow {
-    text-shadow: 0 0 5px hsla(0,0%,100%,.8);
-  } 
+    text-shadow: 0 0 5px hsla(0, 0%, 100%, 0.8);
+  }
 }
-@media screen and (max-width:1100px){
-  .logo{
-    .border{
-      background-position:center .8rem;
-      background-size:auto;
+@media screen and (max-width: 1100px) {
+  .logo {
+    .border {
+      background-position: center 0.8rem;
+      background-size: auto;
     }
-    &:after{
-      background-size:56% auto;
+    &:after {
+      background-size: 56% auto;
     }
-    &:before{
-      background-position:left 1.5rem;
-      background-size:120% auto;
+    &:before {
+      background-position: left 1.5rem;
+      background-size: 120% auto;
     }
   }
-  .container{
+  .container {
     overflow-x: hidden;
-    .main{
-      padding:2rem .32rem 0;
+    .main {
+      padding: 2rem 0.32rem 0;
       width: 100%;
-      z-index:1001;
-      .cell{
-        &:nth-child(2){
+      z-index: 1001;
+      .cell {
+        &:nth-child(2) {
           flex-direction: column;
-          .col{
+          .col {
             width: 100%;
           }
-          .col-1{
-            height:5.8rem;
-            padding:.2rem 0;
-            order:2;
-            margin-top: .35rem;
+          .col-1 {
+            height: 5.8rem;
+            padding: 0.2rem 0;
+            order: 2;
+            margin-top: 0.35rem;
           }
-          .col-2{
-            height:6rem;
-            padding:.2rem 0;
-            order:1;
-            margin-top:0;
+          .col-2 {
+            height: 6rem;
+            padding: 0.2rem 0;
+            order: 1;
+            margin-top: 0;
           }
         }
       }

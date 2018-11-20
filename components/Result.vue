@@ -323,8 +323,9 @@ export default {
 .result {
   font-size: 0.24rem;
   height: 5.3rem;
-
-
+  display: flex;
+  align-items: center;
+  justify-content: center;
   & > .wrap {
     width: 10.68rem;
     height: 4.97rem;

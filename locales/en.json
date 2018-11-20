@@ -26,6 +26,7 @@
       "Title": "Bet",
       "Left": "Your Wallet Balance"
     },
+    "MinTitle":"Min",
     "WinTitle": "Win",
     "WinRate": "Win Chance",
     "PayOut": "Payout",

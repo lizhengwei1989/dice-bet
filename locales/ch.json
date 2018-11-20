@@ -26,6 +26,7 @@
       "Title": "投注",
       "Left": "钱包余额"
     },
+    "MinTitle":"挖矿",
     "WinTitle": "赢取",
     "WinRate": "中奖概率",
     "PayOut": "赔率",

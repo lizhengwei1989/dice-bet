@@ -1,0 +1,196 @@
+html {
+  font-size: 100px;
+}
+body {
+  font-size: 0.24rem;
+}
+.el-dialog {
+  border: 0.16rem solid #bc0e05;
+  background: #fffade;
+  box-shadow: 0 4px 24px 0 rgba(52, 7, 7, 0.5),
+    0 4px 10px 0 rgba(7, 52, 22, 0.2) inset;
+  border-radius: 0.1rem;
+}
+
+.el-dialog a {
+  text-decoration: underline;
+}
+.el-dialog__header {
+  text-align: center;
+  padding: 0.2rem 0;
+}
+.el-dialog__header .el-dialog__title {
+  font-size: 0.22rem;
+  color: #bc0e05;
+  /* text-shadow: 0rem 0rem 0.4rem #bc0e05; */
+}
+.el-dialog__header .el-dialog__headerbtn {
+  display: none;
+}
+.el-dialog__body {
+  padding: 0 0.5rem;
+}
+.el-dialog--center .el-dialog__body {
+  padding: 0 0.5rem;
+}
+.el-dialog__body .close {
+  width: 0.2rem;
+  height: 0.2rem;
+  position: absolute;
+  right: 0.2rem;
+  top: 0.2rem;
+  z-index: 10;
+}
+.el-dialog__body .close .icon-close {
+  font-size: 0.3rem;
+  color: #d81734;
+  cursor: pointer;
+}
+.el-dialog__body > p {
+  color: #c53028;
+  padding: 0.06rem 0;
+  position: relative;
+}
+.el-dialog__footer {
+  display: flex;
+  justify-content: center;
+  padding: 0.2rem 0;
+}
+.el-button {
+  width: 1.74rem;
+  height: 0.5rem;
+  background: #c53028;
+  box-shadow: 0 4px 9px 0 rgba(117, 4, 0, 0.2);
+  border-radius: 0.25rem;
+  border: none;
+  padding: 0;
+  font-size: 0.24rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.el-button:hover,
+.el-button:active {
+  background-color: #f5a623;
+}
+.el-button.how {
+  width: auto;
+  height: auto;
+  background: transparent;
+  border: none;
+  font-size: 0.16rem;
+  color: #b3a6ff;
+  transition: opacity 0.2s ease-in-out;
+  padding: 0;
+}
+.el-button.how:hover {
+  opacity: 0.5;
+}
+
+.el-slider {
+  width: 100%;
+}
+.el-slider__runway {
+  height: 0.24rem;
+  background-color: #e2bf81;
+  border-radius: 50px;
+  position: relative;
+  z-index: 1;
+}
+.el-slider__bar {
+  background-image: linear-gradient(-180deg, #f0544c 3%, #ab0900 100%);
+  border-radius: 50px;
+  height: 0.24rem;
+}
+
+.el-slider__button-wrapper {
+  height: 0.24rem;
+  width: 0.24rem;
+  background-color: #ffffff;
+  /*box-shadow: 0px 0px 8px 0px*/
+  /*rgba(9, 8, 58, 0.45);*/
+  border-radius: 100%;
+  top: -0rem;
+}
+.el-slider__button-wrapper::before {
+  position: absolute;
+  content: attr(data-before);
+  width: 0.46rem;
+  height: 0.42rem;
+  left: -0.1rem;
+  top: -0.4rem;
+  color: #c53028;
+  background-color: transparent;
+  background-image: url("../../assets/images/bubble.png");
+  background-repeat: no-repeat;
+  background-size: 100% auto;
+  text-align: center;
+  font-size: 0.16rem;
+  line-height: 0.3rem;
+}
+.el-slider__button {
+  background-color: transparent;
+  border: none;
+}
+.el-tooltip__popper.is-dark {
+  /*width: 110px;*/
+  /*height: 62px;*/
+  /*background-color: transparent;*/
+  /*text-align: center;*/
+  /*font-size: 30px;*/
+  /*line-height:30px;*/
+}
+
+@media screen and (max-width: 1100px) {
+  .el-slider__button-wrapper::before {
+    width: 0.76rem;
+    height: 0.58rem;
+    left: -0.28rem;
+    top: -0.62rem;
+    color: #c53028;
+    font-size: 0.32rem;
+    line-height: 0.46rem;
+  }
+}
+
+.spin i {
+  height: 0.2rem;
+  width: 0.2rem;
+  border-radius: 100%;
+  background: #bc0e05;
+  display: block;
+  margin: 1rem auto;
+  animation: spin 2s ease infinite;
+}
+.spin i:before,
+.spin i:after {
+  content: "";
+  display: block;
+  position: absolute;
+  height: inherit;
+  width: inherit;
+  background: inherit;
+  border-radius: inherit;
+  animation: spin 2s ease infinite;
+}
+.spin i:before {
+  left: -0.2rem;
+}
+.spin i:after {
+  left: 0.2rem;
+}
+
+@keyframes spin {
+  0% {
+    top: 0;
+    transform: rotate(0deg);
+  }
+  50% {
+    top: -0.2rem;
+    transform: rotate(-180deg);
+  }
+  100% {
+    top: 0;
+    transform: rotate(-360deg);
+  }
+}

@@ -38,7 +38,7 @@
                 </th> -->
             </tr>
             </thead>
-            <tbody :style="'height:'+(dbToken==0?'2.4':'2.9')+'rem'">
+            <tbody>
                 <tr v-for="(item,index) of ranks" v-if="ranks.length > 0">
                     <td>
                         <span v-if="index<3"><img :src="require('../assets/images/rank/rank'+(index+1)+'.png')" /></span>
@@ -390,7 +390,7 @@ export default {
     }
     tbody {
       display: block;
-      height: 3.4rem;
+      height: 2.8rem;
       overflow: auto;
       border-radius: 0.1rem;
       &::-webkit-scrollbar {

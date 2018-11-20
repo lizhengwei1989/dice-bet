@@ -11,90 +11,94 @@
         <span>BET</span>
       </div>
     </div>
-    <div class="bet">
-      <div class="input-group">
-        <div class="input" :data-before="$t('Play.Bet.Title')" :data-after="unit">
-          <input type="text" :value="stake" @input="handleInput" @blur="handleBlur" name="" id="" />
+    <div class="row-2">
+      <div class="txt">{{$t('select.t2')}}</div>
+      <div class="bar">
+        <div><span>{{$t('Resource.BandWidth')}}</span><span>{{address.base58?bindWidth:'-'}}</span></div>
+        <div><span>{{$t('Resource.Energy')}}</span><span>{{address.base58?energy:'-'}}</span></div>
+      </div>
+    </div>
+    <div class="row-3">
+      <div class="available">
+        {{$t('Play.Bet.Left')}}
+      </div>
+      <div class="balance-trx">
+        <span ref="balance">{{balance}}</span> TRX
+      </div>
+      <span>&nbsp;/&nbsp;</span>
+      <div class="balance-dice">
+        <span ref="diceBalance">{{diceBalance}}</span> BET
+      </div>
+    </div>
+    <div class="row-4">
+      <div class="input bet" :data-after="unit" :data-before="$t('Play.Bet.Title')">
+        <input type="text" :value="stake" @input="handleInput" @blur="handleBlur" />
+      </div>
+      <div class="input percentage" ref="percentage">
+        <span @click="handlePercentage('half',0)">1/2</span>
+        <span @click="handlePercentage('double',1)">2X</span>
+        <span @click="handlePercentage('all',2)">MAX</span>
+      </div>
+    </div>
+    <div class="row-5">
+      <div class="input" :data-before="$t('Play.WinTitle')" :data-after="unit">
+        <input type="text" :value="Math.ceil(stake * odds * 1000)/1000" readonly />
+      </div>
+      <div class="input" :data-before="$t('Play.MinTitle')" data-after="BET">
+        <input type="text" :value="stake/minStage.rate" readonly />
+      </div>
+    </div>
+    <div class="row-6">
+      <el-slider  :show-tooltip="false" v-model="number"></el-slider>
+      <div class="line">
+        <div class="cell" data-after="1"></div>
+        <div class="cell" style="display: none" data-after="25"></div>
+        <div class="cell" data-after="50"></div>
+        <div class="cell" style="display: none" data-after="75"></div>
+        <div class="cell" data-after="100"></div>
+        <div class="win" ref="win">{{random}}</div>
+        <div class="lose" ref="lose">{{random}}</div>
+      </div>
+    </div>
+    <div class="row-7">
+      <div class="cell">
+        <div class="t">
+          {{$t('Play.Less')}}
         </div>
-        <div class="percentage" ref="percentage">
-          <span @click="handlePercentage('half',0)">1/2</span>
-          <span @click="handlePercentage('double',1)">2X</span>
-          <span @click="handlePercentage('all',2)">MAX</span>
+        <div class="c">
+          <{{number}}
         </div>
       </div>
-      <div class="desc">
-        <div class="available">
-          {{$t('Play.Bet.Left')}}
+      <div class="cell">
+        <div class="t">
+          {{$t('Play.PayOut')}}
         </div>
-        <div class="balance-trx">
-          <span ref="balance">{{balance}}</span> TRX
+        <div class="c">
+          {{odds}}X
         </div>
-        <span>&nbsp;/&nbsp;</span>
-        <div class="balance-dice">
-          <span ref="diceBalance">{{diceBalance}}</span> BET
+      </div>
+      <div class="cell">
+        <div class="t">
+          {{$t('Play.WinRate')}}
+        </div>
+        <div class="c">
+          {{number-1}}%
         </div>
       </div>
     </div>
-    <div class="win">
-      <div class="input-group">
-        <div class="input" :data-before="$t('Play.WinTitle')" :data-after="unit">
-          <input type="text" name="" :value="Math.ceil(stake * odds * 1000)/1000" readonly />
-        </div>
-      </div>
-    </div>
-    <div class="show">
-      <div class="row-1">
-        <div class="cell">
-          <div class="t">
-            {{$t('Play.Less')}}
-          </div>
-          <div class="c">
-            <{{number}}
-          </div>
-        </div>
-        <div class="cell">
-          <div class="t">
-            {{$t('Play.PayOut')}}
-          </div>
-          <div class="c">
-            {{odds}}X
-          </div>
-        </div>
-        <div class="cell">
-          <div class="t">
-            {{$t('Play.WinRate')}}
-          </div>
-          <div class="c">
-            {{number-1}}%
-          </div>
-        </div>
-      </div>
-      <div class="row-2">
-        <el-slider  :show-tooltip="false" v-model="number"></el-slider>
-        <div class="line">
-          <div class="cell" data-after="1"></div>
-          <div class="cell" style="display: none" data-after="25"></div>
-          <div class="cell" data-after="50"></div>
-          <div class="cell" style="display: none" data-after="75"></div>
-          <div class="cell" data-after="100"></div>
-          <div class="win" ref="win">{{random}}</div>
-          <div class="lose" ref="lose">{{random}}</div>
-        </div>
-      </div>
-      <div class="row-3">
-        <div class="gap" ref="gap">{{gap}}</div>
-        <button class="roll" @click="roll" :disabled="disabled">
-          {{r?r:$t('Play.Roll')}}
-        </button>
-        <div class="auto-bet">
-          <el-switch v-model="isAuto" active-color="#C53028" @change="handleAutoBet">
-          </el-switch>
-          <span>{{$t('AutoBet.txt')}}</span>
-          <el-tooltip placement="right">
-            <div slot="content" v-html="$t('AutoBet.explain')"></div>
-            <i class="el-icon-question el-tooltip"></i>
-          </el-tooltip>
-        </div>
+    <div class="row-8">
+      <div class="gap" ref="gap">{{gap}}</div>
+      <button class="roll" @click="roll" :disabled="disabled">
+        {{r?r:$t('Play.Roll')}}
+      </button>
+      <div class="auto-bet">
+        <el-switch v-model="isAuto" active-color="#C53028" @change="handleAutoBet">
+        </el-switch>
+        <span>{{$t('AutoBet.txt')}}</span>
+        <el-tooltip placement="right">
+          <div slot="content" v-html="$t('AutoBet.explain')"></div>
+          <i class="el-icon-question el-tooltip"></i>
+        </el-tooltip>
       </div>
     </div>
   </div>
@@ -190,7 +194,10 @@ export default {
       "stake",
       "limit",
       "diceContractInstance",
-      "diceBalance"
+      "diceBalance",
+      "bindWidth",
+      "energy",
+      "minStage"
     ])
   },
   mounted() {
@@ -224,9 +231,6 @@ export default {
           if(dbToken == this.dbToken){
               return false;
           }else{
-              //let balance;
-              //balance = dbToken == 0 ? await getBalance(this.address.hex):(await this.diceContractInstance.getBalanceOf(this.address.hex.replace('/^41/','0x')).call()).toString();
-              //this.$store.commit('SET_BALANCE',window.tronWeb.fromSun(balance));
               const tabs = this.$refs.select.getElementsByClassName('tab');
               for(let i=0;i<tabs.length;i++){
                   tabs[i].classList.remove('focus');
@@ -438,6 +442,7 @@ export default {
   align-items: center;
   padding: 0.2rem 0.25rem 0;
   z-index:0;
+  font-size: 14px;
   .light{
     position: absolute;
     width: 5.3rem;
@@ -452,6 +457,50 @@ export default {
   }
   .light2{
     background-image: url('../assets/images/new/light2.png');
+  }
+  .input{
+    height: .4rem;
+    position: relative;
+    background:#ffffff;
+    border:1px solid #310000;
+    border-radius:2px;
+    font-size: 16px;
+    padding:0 .1rem;
+    input{
+      width: 100%;
+      height: 100%;
+      border:none;
+      background:none;
+      padding-right:.36rem;
+      outline: none;
+      text-align: right;
+      font-size: 16px;
+      color: #b71c19;
+    }
+    &:before{
+      width: .57rem;
+      height: 100%;
+      padding-left: .2rem;
+      content: attr(data-before);
+      position: absolute;
+      z-index:0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-repeat:no-repeat;
+      background-position:left center;
+    }
+    &:after{
+      position: absolute;
+      top:0;
+      right:.1rem;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      z-index:1;
+      content: attr(data-after);
+      color: #b71c19;
+    }
   }
   .row-1{
     height: .5rem;
@@ -469,281 +518,284 @@ export default {
       box-shadow:0 2px 4px 0 rgba(117,4,0,0.20);
       border-radius:6px;
       margin:0 .15rem;
+      color: #fff;
+      img{
+        width: .22rem;
+        height: .22rem;
+      }
+      span{
+        margin-left: .04rem;
+      }
+    }
+    .tab.focus{
+      background-color: #bc0e05;
     }
   }
-  /*.input-group {
-    height: 0.5rem;
-    border-radius: 0.06rem;
-    border: 1px solid #C53028;
-    .input {
+  .row-2{
+    width: 100%;
+    height: .5rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    .txt{
+      color: #310000;
+    }
+    .bar{
+      font-size: 12px;
+      margin-left: .08rem;
       flex:1;
-      position: relative;
-      padding-right: .5rem;
-      border-radius:.06rem 0 0 .06rem;
-      input {
-        width: 100%;
-        height: 100%;
-        background-color: transparent;
-        border: none;
-        outline: none;
-        font-size: 0.22rem;
-        text-align: right;
-      }
-      &:before{
-        content:attr(data-before);
-        position: absolute;
-        height: 100%;
-        display: flex;
-        align-items: center;
-        padding-left: .1rem;
-        font-size: .18rem;
-      }
-      &:after {
-        content:attr(data-after);
-        position: absolute;
-        width: 0.5rem;
-        height: 100%;
-        right: 0;
-        top: 0;
-        font-size: .18rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-    }
-  }
-  .bet {
-    display: flex;
-    flex-direction: column;
-    .input-group {
+      background:#ffe7c7;
+      border:1px solid #310000;
+      border-radius:2px;
+      height:.2rem;
       display: flex;
-      background-color: #fff;
-      .input {
-        background-color: #fff;
-        background-repeat: no-repeat;
-        background-position: 0.12rem center;
-        background-size: auto 70%;
-        border-right: 1px solid #C53028;
-        &:before {
-          color: #C53028;
-        }
-        &:after {
-          color: #C53028;
-        }
-        input{
-          color: #C53028;
-        }
-      }
-      .percentage {
-        width: 1.94rem;
-        display: flex;
-        padding: 0 0.14rem;
-        align-items: center;
-        justify-content: space-between;
-        font-size: 0.14rem;
-        color: #C53028;;
-        span {
-          cursor: pointer;
-          border:1px solid #C53028;
-          width: .44rem;
-          height: .26rem;
-          border-radius:.02rem;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-        span.green{
-          background-color: #C53028;
-          color: #fff;
-        }
-      }
-    }
-    .desc {
-      height: 0.6rem;
-      display: flex;
+      flex-direction: row;
       align-items: center;
-      font-size: 0.14rem;
-      color: #C53028;
-      .available{
-        color: #9A6666;
-        margin-right: .1rem;
-      }
-      .balance-trx,.balance-dice{
-        font-size: .16rem;
-        font-weight: bold;
-      }
-    }
-  }
-  .win {
-    display: flex;
-    width: 100%;
-    .input-group {
-      width: 100%;
-      border:none;
-      .input {
-        height: 100%;
-        background-color: #F5A623;
-        color: #fff;
-        border-radius:.06rem;
-        input{
-          color: #fff;
-        }
-      }
-    }
-  }
-  .show {
-    width: 100%;
-    flex:1;
-    display: flex;
-    flex-direction: column;
-    margin: 0.17rem -0.25rem 0;
-    .row-1 {
-      height: 1.1rem;
-      display: flex;
-      box-shadow: inset 0 4px 10px 0 rgba(7,52,22,0.20);
-      border-radius: .1rem;
-      background-color: #C53028;;
-      .cell {
-        display: flex;
-        flex: 1;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        color: #DDFFDC;
-        .t {
-          font-size: 0.18rem;
-        }
-        .c {
-          font-size: 0.32rem;
-        }
-      }
-    }
-    .row-2{
-      margin-top: .2rem;
+      & > div{
         flex:1;
         display: flex;
-        position: relative;
+        padding:0 .1rem;
+        height: .12rem;
         align-items: center;
-        .line {
-          position: absolute;
-          height: .2rem;
-          width: 4.48rem;
-          top:.54rem;
-          .win,.lose{
-            position: absolute;
-            width: .54rem;
-            height: .24rem;
-            line-height: .24rem;
-            background-repeat: no-repeat;
-            background-position: -0.02rem center;
-            background-size:auto 110%;
-            border-radius: .11rem;
-            padding-left:.22rem;
-            top: .06rem;
-            margin-top: 0;
-            margin-left:-.24rem;
-            display: none;
-            text-align: center;
-          }
-          .win{
-            background-image: url('../assets/images/win.png');
-            left: calc(25% - .15rem);
-            background-color: #64e1f6;
-          }
-          .lose{
-            background-image: url('../assets/images/lose.png');
-            background-color: #fc495b;
-            left: calc(75% - .15rem);
-          }
-          .cell {
-            position: absolute;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: .3rem;
-            font-size: .16rem;
-            &:nth-child(1) {
-              left: -.05rem;
-            }
-            &:nth-child(2) {
-              left: calc(25% - 0.15rem);
-            }
-            &:nth-child(3) {
-              left: calc(50% - 0.15rem);
-            }
-            &:nth-child(4) {
-              left: calc(75% - 0.15rem);
-            }
-            &:nth-child(5) {
-              left: calc(100% - 0.2rem);
-            }
-            &:before {
-              font-size: .12rem;
-              color: #979797;
-              content: "";
-            }
-            &:after {
-              font-size: .13rem;
-              color: #666;
-              margin-top: .04rem;
-              content: attr(data-after);
-            }
-          }
+        &:last-child{
+          border-left:1px solid #8f6300;
+        }
+        span{
+          color: #310000;
         }
       }
-    .row-3 {
-      position: relative;
-      margin-bottom: .1rem;
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      .gap{
-        position: absolute;
-        z-index:-1;
-        width: 1.8rem;
-        height: .5rem;
-        text-align:center;
-        font-size: .3rem;
-        font-weight: bold;
-        line-height:.5rem;
-        top:50%;
-        left:50%;
-        margin-left:-.9rem;
-        margin-top:-.25rem;
-        opacity: 0;
-        color: #C53028;
-      }
-      .gap.animate{
-        animation: show 1s ease-in-out;
-      }
-      @keyframes show {
-          50%{
-            top:0;
-            opacity: 1;
-          }
-          100%{
-            top:-50%;
-            opacity: 0;
-          }
-      }
-      button {
-        width: 1.8rem;
-        height: 0.5rem;
-        background-image: linear-gradient(-180deg, #FAD961 0%, #F76B1C 100%);
-        box-shadow: 0 4px 9px 0 rgba(117,4,0,0.20);
-        border-radius: 25px;
-        cursor: pointer;
-        font-size: .24rem;
-        border:none;
-        color: #fff;
-      }
-      .auto-bet{
-        position: absolute;
-        right:0;
+
+    }
+  }
+  .row-3{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    color: #b71c19;
+    .available{
+      margin-right: .1rem;
+    }
+  }
+  .row-4{
+    height: .52rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    .bet{
+      flex:1;
+      &:before{
+        background-image: url("../assets/images/icons/icon-input-trx.png");
       }
     }
-  }*/
+    .percentage{
+      margin-left: .06rem;
+      width: 1.7rem;
+      color: #C53028;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      &:before{
+        display: none;
+      }
+      span {
+        cursor: pointer;
+        border:1px solid #C53028;
+        width: .44rem;
+        height: .26rem;
+        border-radius:.02rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      span.green{
+        background-color: #C53028;
+        color: #fff;
+      }
+    }
+  }
+  .row-5{
+    height: .52rem;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    &>div{
+      &:first-child{
+        &:before{
+          background-image: url("../assets/images/icons/icon-input-win.png");
+        }
+      }
+      &:last-child{
+        &:before{
+          background-image: url("../assets/images/icons/icon-input-min.png");
+        }
+        margin-left: .06rem;
+      }
+
+    }
+  }
+  .row-6{
+    width: 100%;
+    display: flex;
+    height: 1.2rem;
+    position: relative;
+    align-items: center;
+    .line {
+      position: absolute;
+      height: .2rem;
+      width: 4.48rem;
+      top:.72rem;
+      .win,.lose{
+        position: absolute;
+        width: .54rem;
+        height: .24rem;
+        color: #fff;
+        line-height: .24rem;
+        background-repeat: no-repeat;
+        background-position: -0.02rem center;
+        background-size:auto 110%;
+        border-radius: .11rem;
+        padding-left:.22rem;
+        top: .06rem;
+        margin-top: 0;
+        margin-left:-.24rem;
+        display: none;
+        text-align: center;
+      }
+      .win{
+        background-image: url('../assets/images/win.png');
+        left: calc(25% - .15rem);
+        background-color: #64e1f6;
+      }
+      .lose{
+        background-image: url('../assets/images/lose.png');
+        background-color: #fc495b;
+        left: calc(75% - .15rem);
+      }
+      .cell {
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: .3rem;
+        font-size: .16rem;
+        &:nth-child(1) {
+          left: -.05rem;
+        }
+        &:nth-child(2) {
+          left: calc(25% - 0.15rem);
+        }
+        &:nth-child(3) {
+          left: calc(50% - 0.15rem);
+        }
+        &:nth-child(4) {
+          left: calc(75% - 0.15rem);
+        }
+        &:nth-child(5) {
+          left: calc(100% - 0.2rem);
+        }
+        &:before {
+          font-size: .12rem;
+          color: #979797;
+          content: "";
+        }
+        &:after {
+          font-size: .13rem;
+          color: #666;
+          margin-top: .04rem;
+          content: attr(data-after);
+        }
+      }
+    }
+  }
+  .row-7{
+    position: relative;
+    z-index: -2;
+    width: 100%;
+    height: .4rem;
+    display: flex;
+    background:#ffe7c7;
+    border:1px solid #310000;
+    border-radius:2px;
+    align-items: center;
+    .cell {
+      height: .2rem;
+      display: flex;
+      flex: 1;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      color: #310000;
+      border-left:1px solid #c53028;
+      &:first-child{
+        border:none
+      }
+      .t {
+        font-size: .12rem;
+      }
+      .c {
+        font-size:22px;
+        color:#b71c19;
+        margin-left: .04rem;
+      }
+    }
+  }
+  .row-8{
+    width: 100%;
+    position: relative;
+    margin-bottom: .1rem;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .gap{
+      position: absolute;
+      z-index:-1;
+      width: 1.8rem;
+      height: .5rem;
+      text-align:center;
+      font-size: .3rem;
+      font-weight: bold;
+      line-height:.5rem;
+      top:50%;
+      left:50%;
+      margin-left:-.9rem;
+      margin-top:-.25rem;
+      opacity: 0;
+      color: #C53028;
+    }
+    .gap.animate{
+      animation: show 1s ease-in-out;
+    }
+    @keyframes show {
+      50%{
+        top:0;
+        opacity: 1;
+      }
+      100%{
+        top:-50%;
+        opacity: 0;
+      }
+    }
+    button {
+      width: 1.8rem;
+      height: 0.5rem;
+      background-image: linear-gradient(-180deg, #FAD961 0%, #F76B1C 100%);
+      box-shadow: 0 4px 9px 0 rgba(117,4,0,0.20);
+      border-radius: 25px;
+      cursor: pointer;
+      font-size: .24rem;
+      border:none;
+      color: #fff;
+    }
+    .auto-bet{
+      position: absolute;
+      right:0;
+    }
+  }
 }
 @media screen and (max-width:1100px){
   .play{
@@ -803,7 +855,6 @@ export default {
             font-size: .24rem;
           }
         }
-
         .input{
           position: relative;
           left:.01rem;
