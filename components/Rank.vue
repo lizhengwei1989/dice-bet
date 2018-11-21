@@ -11,7 +11,7 @@
           </el-col>
           <el-col :span="18">
               <div class="dice_progress_bar">
-                <span class="dice_progress_bar_active" :style="'width:'+Math.ceil((minStage.left/minStage.diceCount)*100)/100+'%'"></span>
+                <span class="dice_progress_bar_active" :style="'width:'+(minStage.left/minStage.diceCount)*100+'%'"></span>
                 <span class="dice_progress_text">{{$t('select.number')}} {{minStage.stage}}/7 {{$t('select.stage')}}</span>
                 <span class="dice_progress_right">{{minStage.left}}/{{minStage.diceCount}}</span>
               </div>
@@ -318,33 +318,32 @@ export default {
   }
 }
 .rank {
-  width: 4.98rem;
-  height: 4.98rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  box-shadow: inset 0 .04rem .1rem 0 rgba(7,52,22,0.20);
-  .title {
-    height: 0.7rem;
-    line-height: 0.72rem;
-    font-size: 0.2rem;
-    padding: 0 0.2rem;
-    color: #c53028;
-    text-shadow: 0rem 0rem 0.2rem #c53028;
-    font-weight: bold;
-    .grey {
-      color: grey;
+    width: 100%;
+    height: 100%;
+    padding: 0.25rem 0.2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: inset 0 .04rem .1rem 0 rgba(7,52,22,0.20);
+    .title {
+        height: 0.7rem;
+        line-height: 0.72rem;
+        font-size: 0.2rem;
+        padding: 0 0.2rem;
+        color: #c53028;
+        text-shadow: 0rem 0rem 0.2rem #c53028;
+        font-weight: bold;
+        .grey {
+          color: grey;
+        }
+        .dateTime {
+          .right {
+            transform: rotate(180deg);
+            display: inline-block;
+          }
+        }
     }
-
-    .dateTime {
-      .right {
-        transform: rotate(180deg);
-        display: inline-block;
-      }
-    }
-  }
-  table {
+    table {
     padding: 0 0.2rem;
     tr {
       margin-top: 0.08rem;
@@ -482,7 +481,7 @@ export default {
       }
     }
   }
-  .last {
+    .last {
     width: 4.58rem;
     flex: 1;
     display: flex;
@@ -535,9 +534,38 @@ export default {
 }
 @media screen and (max-width: 1100px) {
   .rank {
-    width: 6.66rem;
+    width: 100%;
+    padding:.2rem .3rem;
     height: 100%;
     font-size: 0.24rem !important;
+    .dice_progress{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        &>div{
+            &:first-child{
+                font-size: 12px;
+                width: 30%;
+            }
+            &:last-child{
+                margin-left: 2%;
+                width: 68%;
+                .dice_progress_bar{
+                    background: #ffe7c7;
+                    border: 1px solid #310000;
+                    border-radius: 2px;
+                    height: .5rem;
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    .dice_progress_text{
+                        display: flex;
+                        align-items: center;
+                    }
+                }
+            }
+        }
+    }
     table {
       tr {
         height: 0.52rem;

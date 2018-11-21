@@ -1,5 +1,5 @@
 <template>
-  <div class="my-nav" :style="'z-index:'+(dialogLogin?'10000':'3000')">
+  <div class="my-nav">
       <span class="menu iconfont icon-menu" @click="showMenus"></span>
       <!--<a class="logo" href="javascript:window.location.reload();">-->
         <!--<img :src="require('../assets/images/logo.png')">-->
@@ -20,7 +20,9 @@
         <a class="hover-style" href="javascript:;" @click="()=>{if(this.address.base58){vipDialog.visible = true}else{this.$store.commit('SET_DIALOG_LOGIN',true)}}">{{$t('Nav.Vip')}}</a>
 
         <!-- 幸运抽奖触发 -->
-        <a class="lucky" href="javascript:;" @click="()=>{if(this.address.base58){luckyDialog.visible = true}else{this.$store.commit('SET_DIALOG_LOGIN',true)}}">{{$t('Nav.LuckyDraw')}}</a>
+
+        <a class="hover-style" style="display: none" href="javascript:;" @click="()=>{if(this.address.base58){luckyDialog.visible = true}else{this.$store.commit('SET_DIALOG_LOGIN',true)}}">{{$t('Nav.LuckyDraw')}}</a>
+
         <!-- 幸运抽奖组件 -->
 
         <a :href="$t('WhitepaperUrl')" target="_blank" class="whitepaper hover-style">
@@ -76,7 +78,8 @@
         <el-dialog
                 :title="$t('LoginTipTitle')"
                 :visible.sync="dialogLogin"
-                width="3.8rem"
+                width="5rem"
+                top="20vh"
                 custom-class="how-dialog">
           <p v-html="$t('LoginTipContent')"></p>
           <span slot="footer" class="dialog-footer">
@@ -234,7 +237,6 @@ export default {
 <style scoped lang="scss">
 .my-nav {
   position: relative;
-  z-index:9999;
   height: 0.8rem;
   width: 100%;
   padding:0 0.4rem;
@@ -243,7 +245,7 @@ export default {
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  border-bottom:.2rem solid transparent;
+  border-bottom:1px solid #FFE76F;
   /*&:after{
     position: absolute;
     width: 100%;
@@ -275,26 +277,6 @@ export default {
       color: #FFEAC7;
       font-size: .16rem;
       margin-left:.4rem;
-      &:nth-child(5){
-        position: relative;
-        padding:0 .2rem 0 .36rem;
-        height: .31rem;
-        line-height: .31rem;
-        background-color: #F5A623;
-        border-radius: .08rem;
-        &:before{
-          content: '';
-          position: absolute;
-          left:0.15rem;
-          width: .3rem;
-          height: .3rem;
-          background-image: url('../assets/images/icons/icon-prize.png');
-          background-position:left center;
-          background-repeat:no-repeat;
-          background-size:auto 60%;
-
-        }
-      }
       &:nth-child(6),&:nth-child(7),&:nth-child(8){
         display: none;
       }
@@ -393,7 +375,7 @@ export default {
         right: 0;
         top: .3rem;
         width: .6rem;
-        background:#a8abe4;
+        background:#B55B5B;
         padding:0.01rem;
         border-radius:.08rem;
         // &:after{
@@ -416,7 +398,7 @@ export default {
           cursor: pointer;
           color: #131258;
           &:hover {
-            background-color: #9599e1;
+            background-color: #9E3131;
           }
           &:first-child {
             border-radius: .08rem .08rem 0 0;
@@ -504,21 +486,7 @@ export default {
             order:5;
           }
           &:nth-child(5){
-            margin-top: .2rem;
             order:1;
-            width: auto;
-            height: .6rem;
-            font-size: .3rem;
-            line-height: .6rem;
-            padding-left:.6rem;
-            padding-right:.2rem;
-
-            &:before{
-              width: .4rem;
-              height: .4rem;
-              background-size:auto 100%;
-              top: .1rem;
-            }
           }
           &:nth-child(6){
             order:6;

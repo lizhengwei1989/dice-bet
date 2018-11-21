@@ -31,7 +31,7 @@
           </tr>
           </thead>
           <tbody v-if="all.length!=0">
-            <tr v-for="item of all" :class="item.output ? 'win':'lose'">
+            <tr v-for="item of all" :class="item.output ? 'win':'lose'" align="middle">
               <td>{{item.time}}</td>
               <td>{{item.player | hiddenAddress}}</td>
               <td>{{item.input}} {{item.token==0?'TRX':'BET'}}</td>
@@ -81,7 +81,7 @@
           </tr>
           </thead>
           <tbody>
-          <tr v-for="item of my" :class="item.output ? 'win':'lose'">
+          <tr v-for="item of my" align="middle" :class="item.output ? 'win':'lose'">
             <td>{{item.time}}</td>
             <td>{{item.player | hiddenAddress}}</td>
             <td>{{item.input}} {{item.token==0?'TRX':'BET'}}</td>
@@ -215,29 +215,31 @@ export default {
           });
           let a = [],
             b = [];
-          logs.forEach(v => {
-            const player = window.tronWeb.address.fromHex(
-              v.result["_addr"].replace(/^0x/, "41")
-            );
-            const select = v.result["_point"];
-            const result = v.result["_random"];
-            const input = window.tronWeb.fromSun(v.result["_amount"]);
-            const output = v.result["_W"]
-              ? window.tronWeb.fromSun(v.result["_W"])
-              : "";
-            const time = formatTime(v.timestamp);
-            const token = v.token ? v.token : 0;
-            const transactionId = v.transaction;
-            a.push({
-              select,
-              result,
-              player,
-              input,
-              output,
-              time,
-              token,
-              transactionId
-            });
+          logs.forEach((v,i) => {
+            if(i<20){
+                const player = window.tronWeb.address.fromHex(
+                    v.result["_addr"].replace(/^0x/, "41")
+                );
+                const select = v.result["_point"];
+                const result = v.result["_random"];
+                const input = window.tronWeb.fromSun(v.result["_amount"]);
+                const output = v.result["_W"]
+                    ? window.tronWeb.fromSun(v.result["_W"])
+                    : "";
+                const time = formatTime(v.timestamp);
+                const token = v.token ? v.token : 0;
+                const transactionId = v.transaction;
+                a.push({
+                    select,
+                    result,
+                    player,
+                    input,
+                    output,
+                    time,
+                    token,
+                    transactionId
+                });
+            }
           });
           this.all = a;
           this.$store.commit("SET_ALLBETLIST", a);
@@ -326,6 +328,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
+
   & > .wrap {
     width: 10.68rem;
     height: 4.97rem;
@@ -501,16 +504,30 @@ export default {
 }
 @media screen and (max-width: 1100px) {
   .result {
+    padding:.2rem .25rem;
     .wrap {
       width: 6.5rem;
       height: 4.94rem;
       .tab {
+        height: 1rem;
         a {
+          height: .5rem;
           font-size: 0.24rem;
+          line-height:.5rem;
         }
       }
       .output {
         table {
+          tr{
+            th,td{
+              &:first-child{
+                width:1.5rem;
+              }
+            }
+          }
+          tbody{
+            height:3.3rem;
+          }
           tr {
             th,
             td {
@@ -519,6 +536,14 @@ export default {
               &:nth-child(4) {
                 display: none;
               }
+            }
+            td.result{
+              width: .54rem !important;
+              height: .38rem !important;
+              font-size: 14px !important;
+            }
+            td.prize{
+              font-size: 14px !important;
             }
           }
         }

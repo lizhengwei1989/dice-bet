@@ -4,19 +4,20 @@
   "Player": "投注者",
   "TotalMount": "总投注额",
   "Prize": "奖励",
-  "extract":"提现",
+  "extract":"去提现",
   "OtherPrize": {
     "Txt1": "下注可获得：",
     "Txt2": "现在投注可获得投注货币"
   },
   "Resource":{
     "BandWidth":"带宽：",
-    "Energy":"能量："
+    "Energy":"能量：",
+    "Explain":"<h6>在波场区块链中，每次玩游戏调用智能合约需消耗能量(Energy)资源：</h6><p>--正常情况下，BetDice帮助玩家承担所有的能量消耗。</p><p>--异常情况如同一时间用户访问量过大等，提供的能量可能不足，此时则需要消耗玩家的能量。<p>"
   },
   "Nav": {
-    "Invite":"邀请",
-    "Rule":"规则",
-    "Vip":"Vip",
+    "Invite":"邀请奖励",
+    "Rule":"怎么玩",
+    "Vip":"VIP",
     "LuckyDraw":"幸运抽奖",
     "HongLi": "红利",
     "Whitepaper": "白皮书"
@@ -57,7 +58,7 @@
   },
   "Confirm": "确定",
   "LoginTipTitle": "Please log in to your TRON Chrome Wallet.",
-  "LoginTipContent": "If you have not downloaded the wallet, please visit <a href='https://goo.gl/Yb4NRU' target='_blank'>https://goo.gl/Yb4NRU</a> and download the Chrome extensions.",
+  "LoginTipContent": "如果您没有安装TRON钱包，请您点击以下链接下载（两款钱包均支持DiceBet），如您已登录钱包，请尝试刷新页面 <br>TRON Link: <a href=\"https://goo.gl/Yb4NRU\" targrt=\"_blank\"> https://goo.gl/Yb4NRU</a> <br>TRON Pay: <a href=\"https://dwz.cn/FyIuFVay\" target=\"_blank\">https://dwz.cn/FyIuFVay</a>",
   "Login": "login",
   "BalanceNotEnough": {
     "Title": "Insufficient wallet balance",
@@ -87,10 +88,13 @@
       "amount": "累计投注额",
       "prize": "奖励"
     },
+    "Reward":"所得奖励",
     "remainingBet": "只需投注 {trx} TRX 即可成为VIP",
-    "copyRight": "邀请奖励 每天00:00 （UTC）更新。"
+    "copyRight": "邀请奖励 每天00:00 （UTC）更新。",
+    "Tip":"VIP返现奖励即将开放，这期间所得奖励均会记入合约，不会遗失。"
   },
   "Invite": {
+    "previousUrl":"波场区块链骰子游戏DiceBet已经上线，投注即可得BET通证，领取高额利润分红，走过路过不要错过！",
     "button": "Invite",
     "title": "邀请好友",
     "desc": "邀请好友即可获得他们 0.4% 的投注额！快复制您的专属链接发出邀请吧！",
@@ -114,7 +118,7 @@
   },
   "PrizeRule": {
     "title": "奖励规则",
-    "header": "trondice.org为回馈支持者，推出每日投注排行榜功能，并对榜单上1-30名的玩家分别给予数额不等的TRX回赠。",
+    "header": "为回馈支持者，推出每日投注排行榜功能，并对榜单上1-30名的玩家分别给予数额不等的TRX回赠。",
     "content": {
       "p1": "每日榜单第1名：奖励10000TRX",
       "p2": "每日榜单第2名：奖励5000TRX",
@@ -124,7 +128,7 @@
     },
     "footer": "奖金将在每日榜单公布后3天内，发放至您的地址。",
     "footer2": "每日排行结果将于第二天零点公布。",
-    "copyright": "* 本活动最终解释权归trondice.org所有"
+    "copyright": "* 本活动最终解释权归我们所有"
   },
   "NoData":"暂无数据",
   "NoDataForLogin":"暂无数据。请登录钱包查看",
@@ -141,6 +145,8 @@
     "stage": "轮"
   },
   "AutoBet":{
-     "txt":"自动投注"
-  }
+      "txt":"自动投注",
+      "explain":"<h6>自动投注可以连续不断自动下注：</h6><p>-输入下注数量，点击开始</p><p>-我们将进行循环投注，一次完成后立即开始第二次投注</p><p>-请将我们加入钱包白名单</p>"
+  },
+  "Notice":"自动投注&挖矿功能即将开放！"
 }

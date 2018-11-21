@@ -336,17 +336,24 @@ export default {
             width: 6rem;
             .el-dialog__body{
                 padding:0;
+                .table,.desc,.rule{
+                    margin:auto;
+                }
+                .rule{
+                    width: 5rem;
+                }
             }
-            .table{
+            table{
                 width: 5rem;
-                table{
-                    tr{
-                        th{
-                            height: .6rem;
-                        }
-                        td{
-                            height: .64rem;
-                        }
+                tbody{
+                    height: 3.3rem;
+                }
+                tr{
+                    th{
+                        height: .6rem;
+                    }
+                    td{
+                        height: .64rem;
                     }
                 }
             }

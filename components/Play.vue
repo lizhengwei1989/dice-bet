@@ -12,7 +12,13 @@
       </div>
     </div>
     <div class="row-2">
-      <div class="txt">{{$t('select.t2')}}</div>
+      <div class="txt" style="color:#af1a1a">
+          {{$t('select.t2')}}
+          <el-tooltip placement="right">
+            <div slot="content" v-html="$t('Resource.Explain')"></div>
+            <i class="el-icon-question el-tooltip"></i>
+          </el-tooltip>
+      </div>
       <div class="bar">
         <div><span>{{$t('Resource.BandWidth')}}</span><span>{{address.base58?bindWidth:'-'}}</span></div>
         <div><span>{{$t('Resource.Energy')}}</span><span>{{address.base58?energy:'-'}}</span></div>
@@ -44,7 +50,7 @@
       <div class="input" :data-before="$t('Play.WinTitle')" :data-after="unit">
         <input type="text" :value="Math.ceil(stake * odds * 1000)/1000" readonly />
       </div>
-      <div class="input" :data-before="$t('Play.MinTitle')" data-after="BET">
+      <div class="input" v-show="dbToken==0" :data-before="$t('Play.MinTitle')" data-after="BET">
         <input type="text" :value="stake/minStage.rate" readonly />
       </div>
     </div>
@@ -88,10 +94,10 @@
     </div>
     <div class="row-8">
       <div class="gap" ref="gap">{{gap}}</div>
-      <button class="roll" @click="roll" :disabled="disabled">
+      <a href="javascript:;" class="roll" @click="roll" :disabled="disabled">
         {{r?r:$t('Play.Roll')}}
-      </button>
-      <div class="auto-bet">
+      </a>
+      <div class="auto-bet" style="display: none">
         <el-switch v-model="isAuto" active-color="#C53028" @change="handleAutoBet">
         </el-switch>
         <span>{{$t('AutoBet.txt')}}</span>
@@ -112,6 +118,7 @@ export default {
   name: "Play",
   data() {
     return {
+      isClick:false,
       number: 50,
       disabled: false,
       odds: 2,
@@ -211,6 +218,7 @@ export default {
     const tip = document.querySelector(".el-slider__button-wrapper");
     tip.setAttribute("data-before", this.number);
     this.odds = Math.floor(odds * 10000) / 10000;
+    this.watchResource(this.address);
   },
   methods: {
     async getResource(address) {
@@ -224,7 +232,6 @@ export default {
       this.$store.commit("SET_ENERGY", energy);
     },
     watchResource(address) {
-      this.getResource(address);
       setInterval(async _ => {
         this.getResource(address);
       }, 3000);
@@ -252,6 +259,8 @@ export default {
         this.disabled = false;
         if (this.isAuto) {
           this.roll();
+        }else{
+          //this.disabled = true;
         }
       }, 3000);
       //添加交易
@@ -303,7 +312,9 @@ export default {
       this.$store.commit("SET_STAKE", v);
     },
     handleAutoBet() {
-      if (this.isAuto) this.roll();
+      if (this.isAuto){
+        this.roll();
+      }
     },
     async roll() {
       if (!this.address.base58) {
@@ -448,22 +459,24 @@ export default {
 }
 .play {
   position: relative;
-  width: 4.98rem;
-  height: 4.98rem;
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 0.2rem 0.25rem 0;
+  padding: 0.25rem 0.4rem;
   z-index: 0;
   font-size: 14px;
   .light {
     position: absolute;
-    width: 5.3rem;
-    height: 5.3rem;
-    left: -0.14rem;
-    top: -0.14rem;
-    background-repeat: no-repeat;
+    left:0;
+    top:0;
+    width: 100%;
+    height: 100%;
+    background-position:center center;
+    background-size: 97% 98%;
     z-index: -1;
+    background-repeat: no-repeat;
   }
   .light1 {
     background-image: url("../assets/images/new/light1.png");
@@ -635,6 +648,7 @@ export default {
     align-items: center;
     flex-direction: row;
     & > div {
+      flex:1;
       &:first-child {
         &:before {
           background-image: url("../assets/images/icons/icon-input-win.png");
@@ -642,6 +656,7 @@ export default {
       }
       &:last-child {
         &:before {
+          padding-left:.4rem;
           background-image: url("../assets/images/icons/icon-input-min.png");
         }
         margin-left: 0.06rem;
@@ -657,7 +672,7 @@ export default {
     .line {
       position: absolute;
       height: 0.2rem;
-      width: 4.48rem;
+      width: 100%;
       top: 0.72rem;
       .win,
       .lose {
@@ -705,6 +720,7 @@ export default {
         }
         &:nth-child(4) {
           left: calc(75% - 0.15rem);
+          display: none;
         }
         &:nth-child(5) {
           left: calc(100% - 0.2rem);
@@ -792,16 +808,17 @@ export default {
         opacity: 0;
       }
     }
-    button {
-      width: 1.8rem;
-      height: 0.5rem;
-      background-image: linear-gradient(-180deg, #fad961 0%, #f76b1c 100%);
-      box-shadow: 0 4px 9px 0 rgba(117, 4, 0, 0.2);
-      border-radius: 25px;
-      cursor: pointer;
-      font-size: 0.24rem;
-      border: none;
+    a.roll {
+      background-image:linear-gradient(-180deg, #faa961 1%, #f7541c 100%);
+      box-shadow:0 .04rem .09rem 0 rgba(117,4,0,0.20);
+      border-radius:.25rem;
+      width:1.56rem;
+      height:.50rem;
       color: #fff;
+      font-size: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     .auto-bet {
       position: absolute;
@@ -811,92 +828,34 @@ export default {
 }
 @media screen and (max-width: 1100px) {
   .play {
-    width: 6.66rem;
+    width: 100%;
     height: 100%;
-    .input-group {
-      height: 0.6rem;
-      .input {
-        padding-right: 0.6rem;
-        height: 0.56rem;
-        input {
-          font-size: 0.24rem;
-        }
-        &:before {
-          font-size: 0.24rem;
-        }
-        &:after {
-          font-size: 0.24rem;
-        }
-      }
-      .percentage {
-        height: 0.58rem;
-      }
-      & > div {
-        height: 0.48rem;
-      }
-    }
-    .win {
-      .input-group {
-        .input {
-          &:after {
-            width: 0.66rem;
-          }
-        }
-      }
-    }
-    .bet {
-      width: 100%;
-      .desc {
-        height: 0.8rem;
-        padding: 0.1rem 0;
-        flex-wrap: wrap;
-        .available {
-          width: 100%;
-          font-size: 0.24rem;
-        }
-        .balance-trx,
-        .balance-dice {
-          font-size: 0.24rem;
-        }
-      }
-      .input-group {
-        .percentage {
-          width: 2.8rem;
-          span {
-            width: 0.62rem;
-            height: 0.34rem;
-            font-size: 0.24rem;
-          }
-        }
-        .input {
-          position: relative;
-          left: 0.01rem;
-          &:after {
-            width: 0.66rem;
-          }
-        }
-      }
-    }
+    padding:.5rem 0.4rem;
     .light {
-      width: 104%;
-      height: 105%;
-      background-size: 100% 100%;
+      left:0;
+      top:0;
+      width: 100%;
+      height: 100%;
+      background-position:center center;
+      background-size: 97% 98%;
     }
-
+    .row-1 {
+      height: .7rem;
+      .tab {
+        width: 1.2rem !important;
+        height: 0.5rem !important;
+      }
+    }
     .row-2 {
       height: 0.8rem;
       .bar {
         height: 0.5rem;
       }
     }
-    .row-1 {
-      .tab {
-        width: 1.2rem !important;
-        height: 0.5rem !important;
-      }
-    }
     .row-3 {
+      height: .48rem;
       font-size: 12px;
+      align-items: center;
     }
     .row-4 {
       height: 0.8rem;
@@ -906,6 +865,45 @@ export default {
           width: 0.7rem;
           height: 0.4rem;
         }
+      }
+    }
+    .row-5{
+      height: 0.8rem;
+    }
+    .row-6{
+      height: 1.6rem;
+      .line{
+        top:1rem;
+        .cell{
+          &:nth-child(3){
+            display: none;
+          }
+        }
+        .lose,.win{
+          width: .8rem;
+          height: .3rem;
+        }
+      }
+    }
+    .row-7{
+      font-size: 12px;
+      height: 1rem;
+      padding:.1rem 0;
+      .cell{
+        flex-direction: column;
+      }
+    }
+    .row-8{
+      flex-direction: column;
+      .auto-bet{
+        position: relative;
+        margin-top: .14rem;
+      }
+      button{
+        font-size: 18px;
+        width: 2.34rem;
+        height: .75rem;
+        border-radius:.75rem;
       }
     }
     .input {

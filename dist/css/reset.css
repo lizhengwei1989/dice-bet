@@ -140,7 +140,10 @@ body {
   /*font-size: 30px;*/
   /*line-height:30px;*/
 }
-
+.el-switch__core{
+  background:#ffe7c7;
+  box-shadow:inset 0 2px 8px 0 rgba(8,8,8,0.50);
+}
 @media screen and (max-width: 1100px) {
   .el-slider__button-wrapper::before {
     width: 0.76rem;
@@ -150,6 +153,20 @@ body {
     color: #c53028;
     font-size: 0.32rem;
     line-height: 0.46rem;
+  }
+  .el-slider__runway{
+    height: .3rem;
+  }
+  .el-slider__bar{
+    height: 100%;
+  }
+  .el-slider__button-wrapper{
+    width: .3rem;
+    height: 100%;
+    border-radius:100%;
+  }
+  .el-slider__button-wrapper:before{
+    left: -.25rem;
   }
 }
 

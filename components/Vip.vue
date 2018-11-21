@@ -13,7 +13,8 @@
       <div class="card">
         <div class="level">VIP {{vipInfo.level}}</div>
         <div class="prize">
-          所得奖励：{{prize/1000000}} TRX
+          <!--{{$t("vip.Reward")}}：{{prize/1000000}} TRX-->
+          {{$t('vip.Tip')}}
         </div>
         <div class="level-process">
           <div class="process">
@@ -24,7 +25,7 @@
             <span>{{emainingText}} {{vipInfo.level+1}}</span>
           </div>
         </div>
-        <button @click="extract" :loading="extractLoading">去提现</button>
+        <button @click="extract" disabled="disabled" :loading="extractLoading">{{$t('extract')}}</button>
       </div>
       <el-row class="table">
         <template>
@@ -248,11 +249,11 @@ export default {
         text-shadow: 2px 2px 4px rgba(0,0,0m,.2);
       }
       .prize{
-        height: .4rem;
-        line-height: .4rem;
-        font-size: .22rem;
+        width: 80%;
+        font-size: .14rem;
         color: #8F6300;
         text-shadow: 0 2px 4px rgba(0,0,0,0.10);
+        padding:.1rem 0;
       }
       .level-process{
         display: flex;
@@ -325,6 +326,10 @@ export default {
         margin-top: .2rem;
         outline: none;
       }
+      button[disabled="disabled"]{
+        background: grey;
+        color: #fff;
+      }
     }
 
   }
@@ -396,10 +401,12 @@ export default {
     .card {
       height: 2.4rem !important;
       .level-process{
+        width: 4.6rem !important;
         margin-top:0.1rem;
         .desc{
           margin-top:0.1rem;
           font-size: .2rem !important;
+          flex-wrap: wrap;
         }
       }
       .message {

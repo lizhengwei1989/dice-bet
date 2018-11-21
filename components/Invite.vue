@@ -1,5 +1,4 @@
 <template>
-
   <el-dialog
     :title="$t('Invite.title')"
     :visible.sync="inviteDialog.visible"
@@ -64,7 +63,7 @@ export default {
       },
       prize: 0,
       tableLoading: true,
-      inviteUrl:  window.location.origin+'?from='+this.$store.state.address.base58
+      inviteUrl:  this.$t('Invite.previousUrl')+window.location.origin+'?from='+this.$store.state.address.base58
     };
   },
 
@@ -186,7 +185,6 @@ export default {
     text-align: left;
   }
   .invite-url {
-    height: 1.61rem;
     background: #FFEAC7;
     border-radius: 0.08rem;
     padding: 0.23rem;
@@ -196,7 +194,6 @@ export default {
     .url {
       font-weight: normal;
       font-stretch: normal;
-      height: 0.595rem;
       letter-spacing: -0.4px;
       word-break: break-all;
       text-align: left;
@@ -206,11 +203,7 @@ export default {
     .copyContent {
       font-size: .14rem;
       color: #8F6300;
-      position: absolute;
-      bottom: 0.15rem;
-      left: 0;
-      right: 0;
-      margin:0.2rem auto;
+      margin:0.2rem auto 0;
       padding: 0.1rem 0.15rem;
       width: 2.23rem;
       height: 0.41rem;

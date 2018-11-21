@@ -1,7 +1,10 @@
 <template>
   <div class="total-wrap" style="position: relative;overflow-x:hidden">
-    <marquee scrollamount="3" class="marquee-box">
-      <span v-if="v.output && v.output > 1000" v-for="(v, i) in allBetList" :key="i">
+    <Notice :text="$t('Notice')"></Notice>
+    <div class="container">
+      <my-nav :languageGroup="languageGroup" />
+      <marquee scrollamount="3" class="marquee-box">
+      <div v-if="v.output && v.output > 1000" v-for="(v, i) in allBetList" :key="i">
         <span>🚀 {{$t('marquee.congratulation')}} 🚀 </span>
         <!-- 地址 -->
         <span>{{v.player | hiddenAddress}}</span>
@@ -10,10 +13,8 @@
         <span class="t-shadow">{{v.output}} TRX,</span>
         <span>{{$t('marquee.odds')}}</span>
         <span class="t-shadow">x{{(v.output/v.input).toFixed(4)}}</span>!
-      </span>
-    </marquee>
-    <div class="container">
-      <my-nav :languageGroup="languageGroup" />
+      </div>
+      </marquee>
       <Loading :isLoading="showLoading"/>
       <div class="main">
         <div class="">
@@ -40,6 +41,7 @@
 
 <script>
 import { mapState } from "vuex";
+import Notice from "~/components/Notice.vue";
 import MyNav from "~/components/MyNav.vue";
 import Select from "~/components/Select.vue";
 import Rank from "~/components/Rank.vue";
@@ -67,7 +69,8 @@ export default {
     Select,
     Rank,
     Play,
-    Result
+    Result,
+    Notice
   },
   async asyncData() {
     return {};
@@ -202,13 +205,13 @@ export default {
           : window.tronWeb.eventServer
         : "https://api.shasta.trongrid.io";
       if (server === "https://api.shasta.trongrid.io") {
-        contractAddress = "TZGe3dYuVoTfsGYiFVbCSJWwFeUE2LVqKp";
-        activityAddress = "TAxMGX9RvKGdZ4w8YBbeLhAhaL75qGBz2n";
-        diceAddress = "THZP41aUockHon7n8vmSjcr55z1q9Ye7Gx";
+        contractAddress = "TKHdYEou725e1njDNZpSrRYMb8DQGH26w1";
+        activityAddress = "TJ89ztqRk7rm7LbJyMRfb641XJ5awa5kfK";
+        diceAddress = "TX4Xu12uWrt2MDv6oaomVdT9KjqkJcoxWH";
       } else {
-        contractAddress = "TPUZherbdW4CQi9t4RbzvJmsoSzgTgBQRQ";
-        activityAddress = "";
-        diceAddress = "";
+        contractAddress = "TP82MkFYwLXzM5WowhJ4FfMHSP8RPzrhSC";
+        activityAddress = "TCNHfRz4rD7vqj46LXtda2MbsbjVhABeap";
+        diceAddress = "THSR8wyPYxyRLffV8tG1CmCKiApTm79mPK";
       }
       this.$store.commit("SET_CONTRACT_ADDRESS", contractAddress);
       this.$store.commit("SET_ACTIVITY_ADDRESS", activityAddress);
@@ -227,21 +230,9 @@ export default {
 .total-wrap {
   background-image: url("../../assets/images/new/bg.png");
   background-position: center top;
-  background-repeat: no-repeat;
   background-color: #7e0909;
-
-  &:before {
-    content: "";
-    position: absolute;
-    background-image: url("../../assets/images/new/logo.png");
-    background-repeat: no-repeat;
-    background-size: 100%;
-    left: 50%;
-    top: 0;
-    margin-left: -0.71rem;
-    width: 1.42rem;
-    height: 1.18rem;
-  }
+  background-size:100% auto;
+  background-repeat:no-repeat;
 }
 .container {
   position: relative;
@@ -249,11 +240,23 @@ export default {
   display: flex;
   flex-direction: column;
   color: #af1a1a;
+  &:before {
+    content: "";
+    position: absolute;
+    background-image: url("../../assets/images/new/logo.png");
+    background-repeat: no-repeat;
+    background-size: 100%;
+    left: 50%;
+    margin-left: -0.71rem;
+    width: 1.42rem;
+    height: 1.18rem;
+    z-index:1;
+  }
   a {
     color: #bc0e05;
   }
   .main {
-    padding-top: 1.3rem;
+    padding-top: 1rem;
     position: relative;
     z-index: 1;
     width: 11rem;
@@ -285,7 +288,6 @@ export default {
         }
         .col.col-2 {
           flex-direction: column;
-          border-radius: 0.1rem;
         }
       }
       &:nth-child(3) {
@@ -308,6 +310,10 @@ export default {
   background: url("../../assets/images/new/scroll.png") no-repeat center;
   z-index: 100;
   background-size: 100% 100%;
+  &>div{
+    display: inline-block;
+    margin-left: .6rem;
+  }
   .t-shadow {
     text-shadow: 0 0 5px hsla(0, 0%, 100%, 0.8);
   }
@@ -340,16 +346,19 @@ export default {
           }
           .col-1 {
             height: 5.8rem;
-            padding: 0.2rem 0;
             order: 2;
             margin-top: 0.35rem;
           }
           .col-2 {
-            height: 7rem;
-            padding: 0.2rem 0;
+            height: 9rem;
             order: 1;
             margin-top: 0;
           }
+        }
+        &:nth-child(3) {
+          background-image: url("../../assets/images/new/cell-bg.png");
+          background-size: 100% 100%;
+          margin-top: 0.35rem;
         }
       }
     }
@@ -359,7 +368,6 @@ export default {
     width: 100%;
     height: 40px;
     line-height: 40px;
-    top: 9%;
     font-size: 16px;
     top: 1.2rem;
   }

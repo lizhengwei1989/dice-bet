@@ -40,7 +40,7 @@ export const state = () => ({
       rate:1, //dice 和 trx 兑换比例
       left:0, //剩余进阶 的 dice
       stage:1, //阶段数
-      diceCount: 500000000
+      diceCount: 1000000000
   },
   allBetList: [],
   vipLevel:0
