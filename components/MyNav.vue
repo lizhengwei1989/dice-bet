@@ -223,11 +223,11 @@ export default {
         if(nav.className.match(/show/g)){
             nav.classList.remove('show');
             setTimeout(()=>{
-                p.style.zIndex = '1001';
+                p.style.zIndex = '1002';
             },300);
         }else{
             nav.classList.add('show');
-            p.style.zIndex = '10000';
+            p.style.zIndex = '1002';
         }
     }
   }
@@ -532,7 +532,7 @@ export default {
         }
       }
       .nav.show{
-        height: 8rem;
+        height: 7rem;
       }
       .language{
         display: none !important;

@@ -94,7 +94,7 @@
     "Tip":"VIP rewards will be opened. Rewards will be written in the smart contract and it won't be lost."
   },
   "Invite": {
-    "previousUrl":"Inviter bonus：TRON blockchain dice game--DiceBet have already launched, betting is mining ,get BET token, get enormous profit divisions. Past but not miss！",
+    "previousUrl":"TRON blockchain dice game--DiceBet have already launched, betting is mining ,get BET token, get enormous profit divisions. Past but not miss！",
     "button": "Invite",
     "title": "Refer a friend",
     "desc": "Refer a friend and get 0.4% of their betting! Copy your exclusive link and send out your invitation!",
@@ -151,5 +151,8 @@
     "txt":"Auto Bet",
     "explain":"<h6>Automated Betting can bet continuously：</h6><p>-Enter your betting amount, and click BET</p><p>-We will bet for you continuously , one round after another.</p><p>-Please join us into the White List of your wallet.</p>"
   },
-  "Notice":"Betting & Mining automatically will start soon! "
+  "Notice":"Betting & Mining automatically will start soon! ",
+  "ToolTip":{
+    "NotWithdraw":"Due to the price of energy and bandwidth is too high, the withdrawl will be opened later. Rewards will be written in the smart contract and it won't be lost."
+  }
 }

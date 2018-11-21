@@ -203,7 +203,7 @@ export default {
         ? (typeof window.tronWeb.eventServer).toUpperCase() === "OBJECT"
           ? window.tronWeb.eventServer.host
           : window.tronWeb.eventServer
-        : "https://api.shasta.trongrid.io";
+        : "3333";
       if (server === "https://api.shasta.trongrid.io") {
         contractAddress = "TKHdYEou725e1njDNZpSrRYMb8DQGH26w1";
         activityAddress = "TJ89ztqRk7rm7LbJyMRfb641XJ5awa5kfK";
@@ -338,14 +338,14 @@ export default {
       padding: 1.2rem 0.32rem 0;
       width: 100%;
       z-index: 1001;
-      .cell {
+      & > .cell {
         &:nth-child(2) {
           flex-direction: column;
           .col {
             width: 100%;
           }
           .col-1 {
-            height: 5.8rem;
+            height: 7.2rem;
             order: 2;
             margin-top: 0.35rem;
           }

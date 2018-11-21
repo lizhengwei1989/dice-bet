@@ -20,7 +20,8 @@
         text-align: center;
         -webkit-animation: AnimationName 5s ease infinite;
         -moz-animation: GradientAnimation 5s ease infinite;
-        animation: GradientAnimation 5s ease infinite
+        animation: GradientAnimation 5s ease infinite;
+        font-size: 16px;
     }
     @keyframes GradientAnimation {
         0%,100% {

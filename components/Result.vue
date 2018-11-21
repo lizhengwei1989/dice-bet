@@ -31,7 +31,7 @@
           </tr>
           </thead>
           <tbody v-if="all.length!=0">
-            <tr v-for="item of all" :class="item.output ? 'win':'lose'" align="middle">
+            <tr v-for="item of all" :class="item.output ? 'win':'lose'">
               <td>{{item.time}}</td>
               <td>{{item.player | hiddenAddress}}</td>
               <td>{{item.input}} {{item.token==0?'TRX':'BET'}}</td>
@@ -41,7 +41,7 @@
             </tr>
           </tbody>
           <tbody v-else>
-            <tr v-if="!address.base58">
+            <tr v-if="!address.base58 && !tronWeb">
               <td style="text-align: center;color:#C53028" colspan="6">
                 {{$t('NoDataForLogin')}}
               </td>
@@ -81,7 +81,7 @@
           </tr>
           </thead>
           <tbody>
-          <tr v-for="item of my" align="middle" :class="item.output ? 'win':'lose'">
+          <tr v-for="item of my" :class="item.output ? 'win':'lose'">
             <td>{{item.time}}</td>
             <td>{{item.player | hiddenAddress}}</td>
             <td>{{item.input}} {{item.token==0?'TRX':'BET'}}</td>
@@ -103,6 +103,7 @@ export default {
   name: "Result",
   data() {
     return {
+      tronWeb:'',
       myLen: 0,
       all: [],
       my: [],
@@ -145,7 +146,9 @@ export default {
       }
     }
   },
-  mounted() {},
+  mounted() {
+      this.tronWeb = window.tronWeb;
+  },
   methods: {
     tab(index) {
       const tables = this.$refs.output.getElementsByTagName("table");

@@ -23,7 +23,11 @@
       <p>{{$t('Invite.result.number')}}：<span>{{page.total}}</span></p>
       <p>
         <b>{{$t('Invite.result.prize')}}：<span>{{prize/1000000}} TRX </span></b>
-        <el-button @click="extract">{{$t('extract')}}</el-button> </p>
+        <el-tooltip placement="right">
+          <div slot="content" v-html="$t('ToolTip.NotWithdraw')"></div>
+          <el-button @click="extract" class="disabled" >{{$t('extract')}}</el-button>
+        </el-tooltip>
+      </p>
     </el-row>
     <el-row>
       {{$t('vip.copyRight')}}
@@ -121,12 +125,11 @@ export default {
       });
     },
     async extract() {
+      return;
       if (this.prize == 0) {
         return;
       }
-
       this.extractLoading = true;
-
       const txId = await this.contractInstance.withDraw(1).send();
       let checkBalance = setInterval(async () => {
         const res = await tronWeb.getEventByTransacionID(txId);
@@ -318,6 +321,14 @@ export default {
           box-shadow: none;
           font-size: .14rem;
         }
+        .el-button.disabled{
+          background-color: grey;
+          color: #fff;
+          cursor::not-allowed;
+          &:hover{
+            color: #fff !important;
+          }
+        }
       }
     }
 
@@ -328,7 +339,7 @@ export default {
     .el-dialog {
       width: 7rem;
       .invite-url{
-        height: 2rem;
+        height: auto;
       }
       .center{
         font-size: .24rem;

@@ -222,14 +222,16 @@ export default {
   },
   methods: {
     async getResource(address) {
-      let resource, energy, bindWidth;
-      resource = await window.tronWeb.trx.getAccountResources(address.base58);
-      energy = resource.EnergyUsed
-        ? resource.EnergyLimit - resource.EnergyUsed
-        : 0;
-      bindWidth = await window.tronWeb.trx.getBandwidth(this.address.base58);
-      this.$store.commit("SET_BAND_WIDTH", bindWidth);
-      this.$store.commit("SET_ENERGY", energy);
+      if(address.base58){
+          let resource, energy, bindWidth;
+          resource = await window.tronWeb.trx.getAccountResources(address.base58);
+          energy = resource.EnergyUsed
+              ? resource.EnergyLimit - resource.EnergyUsed
+              : 0;
+          bindWidth = await window.tronWeb.trx.getBandwidth(this.address.base58);
+          this.$store.commit("SET_BAND_WIDTH", bindWidth);
+          this.$store.commit("SET_ENERGY", energy);
+      }
     },
     watchResource(address) {
       setInterval(async _ => {
@@ -506,13 +508,13 @@ export default {
     &:before {
       width: 0.57rem;
       height: 100%;
-      padding-left: 0.2rem;
+      padding-left: 0.24rem;
       content: attr(data-before);
       position: absolute;
       z-index: 0;
       display: flex;
       align-items: center;
-      justify-content: center;
+      justify-content:flex-start;
       background-repeat: no-repeat;
       background-position: left center;
     }
@@ -601,6 +603,10 @@ export default {
     .available {
       margin-right: 0.1rem;
     }
+    .balance-trx,.balance-dice{
+      font-weight: bold;
+      color: #498701;
+    }
   }
   .row-4 {
     height: 0.52rem;
@@ -656,7 +662,6 @@ export default {
       }
       &:last-child {
         &:before {
-          padding-left:.4rem;
           background-image: url("../assets/images/icons/icon-input-min.png");
         }
         margin-left: 0.06rem;
@@ -723,7 +728,7 @@ export default {
           display: none;
         }
         &:nth-child(5) {
-          left: calc(100% - 0.2rem);
+          left: calc(100% - 0.3rem);
         }
         &:before {
           font-size: 0.12rem;
@@ -874,11 +879,7 @@ export default {
       height: 1.6rem;
       .line{
         top:1rem;
-        .cell{
-          &:nth-child(3){
-            display: none;
-          }
-        }
+        .cell{}
         .lose,.win{
           width: .8rem;
           height: .3rem;
@@ -899,10 +900,10 @@ export default {
         position: relative;
         margin-top: .14rem;
       }
-      button{
+      a.roll{
         font-size: 18px;
-        width: 2.34rem;
-        height: .75rem;
+        width: 2.8rem;
+        height: .8rem;
         border-radius:.75rem;
       }
     }
@@ -915,7 +916,7 @@ export default {
       }
       &:before {
         width: 1rem;
-        padding-left: 0.3rem;
+        padding-left: 0.4rem;
         background-size: auto 60%;
       }
     }

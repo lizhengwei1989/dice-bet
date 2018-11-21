@@ -482,7 +482,7 @@ export default {
     }
   }
     .last {
-    width: 4.58rem;
+    width: 4.5rem;
     flex: 1;
     display: flex;
     flex-direction: row;
@@ -567,6 +567,9 @@ export default {
         }
     }
     table {
+      tbody{
+          height: 3.6rem;
+      }
       tr {
         height: 0.52rem;
         td {
@@ -592,15 +595,15 @@ export default {
       font-size: 0.28rem;
     }
     .last {
-      width: 6.26rem;
-      & > div {
-        height: 0.52rem;
-      }
-      .cell {
-        &:nth-child(2),
-        &:nth-child(3) {
-          width: 1.86rem;
+        width: 5.86rem;
+        margin-bottom:.1rem;
+        & > div {
+            height: 0.52rem;
         }
+        .cell {
+            &:nth-child(2), &:nth-child(3) {
+                width: 1.86rem;
+            }
       }
     }
   }

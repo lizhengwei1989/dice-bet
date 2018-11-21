@@ -25,7 +25,10 @@
             <span>{{emainingText}} {{vipInfo.level+1}}</span>
           </div>
         </div>
-        <button @click="extract" disabled="disabled" :loading="extractLoading">{{$t('extract')}}</button>
+        <el-tooltip placement="right">
+          <div slot="content" v-html="$t('ToolTip.NotWithdraw')"></div>
+          <el-button @click="extract" class="disabled"  :loading="extractLoading">{{$t('extract')}}</el-button>
+        </el-tooltip>
       </div>
       <el-row class="table">
         <template>
@@ -144,6 +147,8 @@ export default {
       this.prize = banlance;
     },
     async extract() {
+      return;
+
       if (this.prize == 0) {
         return;
       }
@@ -316,7 +321,6 @@ export default {
       button{
         width: .9rem;
         height: .3rem;
-        cursor: pointer;
         background-image: linear-gradient(-180deg, #F9D255 0%, #FFC049 100%);
         box-shadow: 0 2px 4px 0 rgba(0,0,0,0.10);
         border-radius: .06rem;
@@ -326,9 +330,10 @@ export default {
         margin-top: .2rem;
         outline: none;
       }
-      button[disabled="disabled"]{
+      button.disabled{
         background: grey;
         color: #fff;
+        cursor: not-allowed;
       }
     }
 
@@ -387,19 +392,19 @@ export default {
   .vipDialog {
     .el-dialog {
       width: 6.6rem;
-      height: 11rem;
+      height: 12rem;
     }
     .el-dialog--center .el-dialog__body .el-dialog__body-wrap{
       &:before{
         left:-1.72rem;
-        top:-6.6rem;
+        top:-5.6rem;
       }
     }
     .el-table__body{
       width: 100% !important;
     }
     .card {
-      height: 2.4rem !important;
+      height: 3.4rem !important;
       .level-process{
         width: 4.6rem !important;
         margin-top:0.1rem;
@@ -426,7 +431,7 @@ export default {
         }
       }
       button{
-        margin-top: .2rem !important;
+        margin-top: .7rem !important;
         width: 1.35rem !important;
         height: .48rem !important;
         border:none !important;
