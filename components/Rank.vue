@@ -151,7 +151,7 @@ export default {
       this.getData(this.date);
       setInterval(_ => {
         this.getData();
-      }, 5000);
+      }, 15000);
     }
   },
   methods: {

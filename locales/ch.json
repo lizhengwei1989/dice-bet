@@ -57,14 +57,12 @@
     "p7": "仍然还有疑问？欢迎加入我们的<a href='https://t.me/TRONDice'>电报组</a>，我们非常乐意为您提供帮助！"
   },
   "Confirm": "确定",
-  "LoginTipTitle": "Please log in to your TRON Chrome Wallet.",
+  "LoginTipTitle": "请登录您的波场插件钱包",
   "LoginTipContent": "如果您没有安装TRON钱包，请您点击以下链接下载（两款钱包均支持DiceBet），如您已登录钱包，请尝试刷新页面 <br>TRON Link: <a href=\"https://goo.gl/Yb4NRU\" targrt=\"_blank\"> https://goo.gl/Yb4NRU</a> <br>TRON Pay: <a href=\"https://dwz.cn/FyIuFVay\" target=\"_blank\">https://dwz.cn/FyIuFVay</a>",
-  "Login": "login",
+  "Login": "登录",
   "BalanceNotEnough": {
-    "Title": "Insufficient wallet balance",
-    "Content": "Please check your betting amount or withdraw the funds in the prize pool to your wallet."
+    "Title": "钱包余额不足"
   },
-  "PleaseInput": "Please enter the betting amount !",
   "LuckyDraw": {
     "title": "幸运抽奖",
     "number": "幸运号码",
