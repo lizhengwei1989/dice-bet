@@ -154,5 +154,13 @@
   "Notice":"Betting & Mining automatically will start soon! ",
   "ToolTip":{
     "NotWithdraw":"Due to the price of energy and bandwidth is too high, the withdrawl will be opened later. Rewards will be written in the smart contract and it won't be lost."
+  },
+  "Collect":{
+    "Title":"BET Funds Raised (In progess)",
+    "CollectAddress":"The Address recieving Funds Raised:",
+    "Q":"Any questions, please contact",
+    "Desc":"Planning Funds Raised Amount: 4,000,000,000 BET",
+    "Price":"Price of Funds Raised: 1 TRX = 100 BET",
+    "Warning":"* The first-time for participating in funds raised should not be less than 100,000 TRX."
   }
 }

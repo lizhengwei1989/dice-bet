@@ -1,6 +1,6 @@
 <template>
   <div class="total-wrap" style="position: relative;overflow-x:hidden">
-    <Notice :text="$t('Notice')"></Notice>
+    <Notice :text="$t('Collect.Title')"></Notice>
     <div class="container">
       <my-nav :languageGroup="languageGroup" />
       <marquee scrollamount="3" class="marquee-box">
