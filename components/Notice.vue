@@ -16,7 +16,7 @@
             </div>
             <div class="process-wrap">
                 <div class="process">
-                    <div class="bar" :data-before="data|numString(' TRX')" :style="'width:'+(data/4000000000)*100+'%'"></div>
+                    <div class="bar" :data-before="data|numString(' TRX')" :style="'width:'+(data/40000000)*100+'%'"></div>
                     <div class="line">
                         <div class="c"></div>
                         <div class="c"></div>
@@ -50,7 +50,7 @@
         data(){
             return {
                 dialog:false,
-                data:"2372007400"
+                data:"23720074"
             }
         }
     }
@@ -105,14 +105,14 @@
                         left: 0px;
                         top: 100%;
                         height: 20px;
-                        content:'1 TRX'
+                        content:'0 TRX'
                     }
                     &:after{
                         position: absolute;
                         right: 0px;
                         top: 100%;
                         height: 20px;
-                        content:'4,000,000,000 TRX'
+                        content:'40,000,000 TRX'
                     }
                     .process{
                         background:#ffe7c7;
