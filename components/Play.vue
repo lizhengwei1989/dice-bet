@@ -55,7 +55,7 @@
       </div>
     </div>
     <div class="row-6">
-      <el-slider  :show-tooltip="false" v-model="number"></el-slider>
+      <el-slider :show-tooltip="false" v-model="number"></el-slider>
       <div class="line">
         <div class="cell" data-after="1"></div>
         <div class="cell" style="display: none" data-after="25"></div>
@@ -97,7 +97,7 @@
       <a href="javascript:;" class="roll" @click="roll" :disabled="disabled">
         {{r?r:$t('Play.Roll')}}
       </a>
-      <div class="auto-bet" style="display: none">
+      <div class="auto-bet">
         <el-switch v-model="isAuto" active-color="#C53028" @change="handleAutoBet">
         </el-switch>
         <span>{{$t('AutoBet.txt')}}</span>
@@ -184,6 +184,9 @@ export default {
       v = Math.max(v, this.limit[this.dbToken].min);
       this.$store.commit("SET_STAKE", v);
       animate(this.$refs["diceBalance"], Number(n).toFixed(3), o);
+    },
+    address(n){
+      this.watchResource(n);
     }
   },
   computed: {
@@ -218,7 +221,7 @@ export default {
     const tip = document.querySelector(".el-slider__button-wrapper");
     tip.setAttribute("data-before", this.number);
     this.odds = Math.floor(odds * 10000) / 10000;
-    this.watchResource(this.address);
+
   },
   methods: {
     async getResource(address) {
@@ -411,11 +414,7 @@ export default {
       let gap;
       const dom = this.$refs["gap"];
       const balance = await getBalance(this.address.hex);
-      const diceBalance = this.address.hex
-        ? (await this.diceContractInstance
-            .getBalanceOf(this.address.hex.replace("/^41/", "0x"))
-            .call()).toString()
-        : 0;
+      const diceBalance = this.address.hex ? (await this.diceContractInstance.getBalanceOf(this.address.hex.replace("/^41/", "0x")).call()).toString() : 0;
       if (this.dbToken == 0) {
         gap = window.tronWeb.fromSun(balance) - this.balance;
       } else {
@@ -429,10 +428,7 @@ export default {
       });
 
       this.$store.commit("SET_BALANCE", window.tronWeb.fromSun(balance));
-      this.$store.commit(
-        "SET_DICE_BALANCE",
-        window.tronWeb.fromSun(diceBalance)
-      );
+      this.$store.commit("SET_DICE_BALANCE",window.tronWeb.fromSun(diceBalance));
     },
     animate(ref, newVal, oldVal) {
       const dom = this.$refs[ref];

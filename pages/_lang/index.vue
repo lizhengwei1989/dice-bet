@@ -115,28 +115,17 @@ export default {
           this.$store.commit("SET_ADDRESS", window.tronWeb.defaultAddress);
         }
         if (this.address.base58) {
+          const contractInstance = await window.tronWeb.contract().at(contractAddress);
+          const diceContractInstance = await window.tronWeb.contract().at(diceAddress);
+          const balance = await getBalance(this.address.hex);
+          const diceBalance = this.address.hex ? (await diceContractInstance.getBalanceOf(this.address.hex.replace("/^41/", "0x")).call()).toString() : 0;
           const vip = await getVipInfo(this.address.base58);
           this.$store.commit("SET_VIP_LEVEL", vip.level);
-          const balance = await getBalance(this.address.hex);
           this.$store.commit("SET_BALANCE", window.tronWeb.fromSun(balance));
+          this.$store.commit("SET_DICE_BALANCE", window.tronWeb.fromSun(diceBalance));
+          this.$store.commit("SET_CONTRACT_INSTANCE", contractInstance);
+          this.$store.commit("SET_DICE_CONTRACT_INSTANCE", diceContractInstance);
         }
-        const contractInstance = await window.tronWeb
-          .contract()
-          .at(contractAddress);
-        const diceContractInstance = await window.tronWeb
-          .contract()
-          .at(diceAddress);
-        const diceBalance = this.address.hex
-          ? (await diceContractInstance
-              .getBalanceOf(this.address.hex.replace("/^41/", "0x"))
-              .call()).toString()
-          : 0;
-        this.$store.commit(
-          "SET_DICE_BALANCE",
-          window.tronWeb.fromSun(diceBalance)
-        );
-        this.$store.commit("SET_CONTRACT_INSTANCE", contractInstance);
-        this.$store.commit("SET_DICE_CONTRACT_INSTANCE", diceContractInstance);
         this.watchMinStage();
         this.addInviteUser();
       }

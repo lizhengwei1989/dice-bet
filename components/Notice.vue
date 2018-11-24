@@ -72,7 +72,7 @@
         font-size: 16px;
         .collectDialog{
             .el-dialog{
-                width: 30%;
+                width: 700px;
                 display: flex;
                 flex-direction: column;
                 align-items: center;
