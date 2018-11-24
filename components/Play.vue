@@ -97,15 +97,15 @@
       <a href="javascript:;" class="roll" @click="roll" :disabled="disabled">
         {{r?r:$t('Play.Roll')}}
       </a>
-      <div class="auto-bet" style="display:block">
-        <el-switch v-model="isAuto" active-color="#C53028" @change="handleAutoBet">
-        </el-switch>
-        <span>{{$t('AutoBet.txt')}}</span>
-        <el-tooltip placement="right">
-          <div slot="content" v-html="$t('AutoBet.explain')"></div>
-          <i class="el-icon-question el-tooltip"></i>
-        </el-tooltip>
-      </div>
+      <!--<div class="auto-bet">-->
+        <!--<el-switch v-model="isAuto" active-color="#C53028" @change="handleAutoBet">-->
+        <!--</el-switch>-->
+        <!--<span>{{$t('AutoBet.txt')}}</span>-->
+        <!--<el-tooltip placement="right">-->
+          <!--<div slot="content" v-html="$t('AutoBet.explain')"></div>-->
+          <!--<i class="el-icon-question el-tooltip"></i>-->
+        <!--</el-tooltip>-->
+      <!--</div>-->
     </div>
   </div>
 </template>

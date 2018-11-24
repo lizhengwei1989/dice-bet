@@ -161,6 +161,7 @@
     "Q":"Any questions, please contact",
     "Desc":"Planning Funds Raised Amount: 4,000,000,000 BET",
     "Price":"Price of Funds Raised: 1 TRX = 100 BET",
-    "Warning":"* The first-time for participating in funds raised should not be less than 100,000 TRX."
+    "Warning":"* The first-time for participating in funds raised should not be less than 100,000 TRX.",
+    "Warning2":"* We don't accept the address from the exchange, as you cannot receive the tokens eventually."
   }
 }

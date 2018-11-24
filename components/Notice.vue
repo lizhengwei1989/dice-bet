@@ -27,9 +27,12 @@
                     </div>
                 </div>
             </div>
-            <div class="r">{{$t("Collect.CollectAddress")}}TRVedyDR5EcpfmmUCmyGAHVQp7UoSQn8y3</div>
+            <div class="r">{{$t("Collect.CollectAddress")}}<br>TRVedyDR5EcpfmmUCmyGAHVQp7UoSQn8y3</div>
             <div class="r">
                 {{$t('Collect.Warning')}}
+            </div>
+            <div class="r">
+                {{$t('Collect.Warning2')}}
             </div>
             <div class="r">
                 <span>{{$t("Collect.Q")}}</span>
