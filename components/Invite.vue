@@ -39,7 +39,8 @@
 </template>
 <script>
 import Clipboard from "clipboard";
-import { getInviteList } from "~/api/vip";
+import { mapState } from "vuex";
+import { getInviteList,getInviteBalance } from "~/api/vip";
 import moment from "moment";
 
 export default {
@@ -87,6 +88,7 @@ export default {
     //   let finalUrl = `${this.url}?from=${address.base58}`;
     //   return finalUrl;
     // },
+    ...mapState(['address','contractAddress']),
     postData() {
       this.page.start = (this.page.current - 1) * this.page.limit;
       let data = {
@@ -102,9 +104,15 @@ export default {
   },
   methods: {
     async getBalance() {
-      let banlance = await this.contractInstance.getInvitationBalance().call();
-      banlance = banlance.toString();
-      this.prize = banlance;
+      //let banlance = await this.contractInstance.getInvitationBalance().call();
+      //banlance = banlance.toString();
+      const params = {
+          dappId:1,
+          contractAddress:this.contractAddress,
+          userAddress:this.address.base58
+      }
+      let inviteBalance = await getInviteBalance(params);
+      this.prize = inviteBalance;
     },
     copy() {
       let clipboard = new Clipboard(".copyContent");

@@ -97,7 +97,7 @@
       <a href="javascript:;" class="roll" @click="roll" :disabled="disabled">
         {{r?r:$t('Play.Roll')}}
       </a>
-      <div class="auto-bet">
+      <div class="auto-bet" style="display:block">
         <el-switch v-model="isAuto" active-color="#C53028" @change="handleAutoBet">
         </el-switch>
         <span>{{$t('AutoBet.txt')}}</span>

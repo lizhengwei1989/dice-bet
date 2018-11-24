@@ -89,3 +89,31 @@ export function getVipInfo(param) {
   
     )
   }
+
+  export function getInviteBalance(params) {
+    return new Promise(
+        function (resolve, reject) {
+            request({
+                url: `${url}/common/user/queryInviteReturnTotalAmount`,
+                method: 'get',
+                params:params
+            }).then(response => {
+                if(response.code === 0){
+                    resolve(response.data)
+                }else{
+                    Message({
+                        type: 'warning',
+                        message:response.message
+                    })
+                }
+            }).catch(err => {
+                Message({
+                    type: 'warning',
+                    message:err.message
+                })
+                reject(err)
+            })
+        }
+
+    )
+}
