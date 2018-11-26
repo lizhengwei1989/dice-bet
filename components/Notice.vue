@@ -4,10 +4,14 @@
         <el-dialog
                 :title="$t('Collect.Title')"
                 :visible.sync="dialog"
-                :modal-append-to-body='false'
-                center class="collectDialog"
+                :close-on-click-modal="true"
+                :modal-append-to-body="false"
+                class="collectDialog"
                 top="10vh"
         >
+            <div class="close">
+                <i class="iconfont icon-close" @click="(e)=>{ e.stopPropagation();this.dialog = false}"></i>
+            </div>
             <div class="desc">
                 {{$t('Collect.Desc')}}
             </div>
@@ -27,12 +31,23 @@
                     </div>
                 </div>
             </div>
-            <div class="r">{{$t("Collect.CollectAddress")}}<br>TRVedyDR5EcpfmmUCmyGAHVQp7UoSQn8y3</div>
+            <div class="r">
+                <p><span>{{$t("Collect.CollectAddress")}}</span><button @click="handleCopy" class="copyContent" :data-clipboard-text="receivingAddress">{{$t('Collect.Copy')}}</button></p>
+                <p>
+                    {{receivingAddress}}
+                </p>
+            </div>
             <div class="r">
                 {{$t('Collect.Warning')}}
             </div>
             <div class="r">
                 {{$t('Collect.Warning2')}}
+            </div>
+            <div class="r">
+                {{$t('Collect.Warning3')}}
+            </div>
+            <div class="r">
+                {{$t('Collect.Warning4')}}
             </div>
             <div class="r">
                 <span>{{$t("Collect.Q")}}</span>
@@ -47,13 +62,33 @@
 </template>
 
 <script>
+    import Clipboard from "clipboard";
     export default {
         props:['text'],
         name: "Notice",
         data(){
             return {
                 dialog:false,
-                data:"24720075"
+                data:"24820086",
+                receivingAddress:"TRVedyDR5EcpfmmUCmyGAHVQp7UoSQn8y3"
+            }
+        },
+        methods:{
+            handleCopy(){
+                let clipboard = new Clipboard(".copyContent");
+                clipboard.on("success", e => {
+                    this.$message({
+                        showClose: true,
+                        message: "Copy success",
+                        type: "success"
+                    });
+                    clipboard.destroy();
+                });
+                clipboard.on("error", e => {
+                    this.$message.success("该浏览器不支持自动复制");
+                    // 释放内存
+                    clipboard.destroy();
+                });
             }
         }
     }
@@ -164,11 +199,43 @@
                     }
                 }
                 .r{
+                    text-align: left;
+                    line-height:40px;
                     font-size:18px;
                     color:#310000;
                     display: flex;
-                    align-items: center;
+                    flex-direction: column;
+                    align-items: flex-start;
                     justify-content: flex-start;
+                    p{
+                        display: flex;
+                        align-items: center;
+                    }
+                    &:nth-child(5){
+                        button{
+                            margin-left: 20px;
+                            height:24px;
+                            width:52px;
+                            cursor: pointer;
+                            border:1px solid #bc0e05;
+                            color: #bc0e05;
+                            border-radius:4px;
+                            background: transparent;
+                            &:hover{
+                                background: #bc0e05;
+                                border-color:#bc0e05;
+                                color: #fff;
+                            }
+                        }
+                    }
+                    &:nth-child(5),&:nth-child(6),&:nth-child(7),&:nth-child(8),&:nth-child(9){
+                        font-size: 14px;
+                    }
+                    &:last-child{
+                        flex-direction: row;
+                        align-items: center;
+                        font-size: 14px;
+                    }
                     a{
                         margin-left: 20px;
                         display: flex;
@@ -193,7 +260,7 @@
                 .el-dialog{
                     width: 320px;
                     .r{
-                        font-size: 12px;
+                        font-size: 12px !important;
                         line-height:20px;
                     }
                 }
